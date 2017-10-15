@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3893E7CF1F93B88C00B7A339 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7CE1F93B88C00B7A339 /* AppDelegate.swift */; };
-		3893E7D11F93B88C00B7A339 /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7D01F93B88C00B7A339 /* FirstViewController.swift */; };
-		3893E7D31F93B88C00B7A339 /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7D21F93B88C00B7A339 /* SecondViewController.swift */; };
 		3893E7D61F93B88C00B7A339 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3893E7D41F93B88C00B7A339 /* Main.storyboard */; };
 		3893E7D81F93B88C00B7A339 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3893E7D71F93B88C00B7A339 /* Assets.xcassets */; };
 		3893E7DB1F93B88C00B7A339 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3893E7D91F93B88C00B7A339 /* LaunchScreen.storyboard */; };
@@ -20,12 +18,11 @@
 		10935A59AB3D9E4B9ECF50F3 /* Pods_TNChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TNChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3893E7CB1F93B88C00B7A339 /* TNChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TNChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3893E7CE1F93B88C00B7A339 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3893E7D01F93B88C00B7A339 /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		3893E7D21F93B88C00B7A339 /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		3893E7D51F93B88C00B7A339 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3893E7D71F93B88C00B7A339 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3893E7DA1F93B88C00B7A339 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		3893E7DC1F93B88C00B7A339 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3893E7E31F93BFAB00B7A339 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		3893E7E41F93BFAB00B7A339 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		80D1193768274921627D133F /* Pods-TNChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TNChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TNChat/Pods-TNChat.debug.xcconfig"; sourceTree = "<group>"; };
 		F9F4C11A3D43F6B115816ED9 /* Pods-TNChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TNChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-TNChat/Pods-TNChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -73,14 +70,21 @@
 			isa = PBXGroup;
 			children = (
 				3893E7CE1F93B88C00B7A339 /* AppDelegate.swift */,
-				3893E7D01F93B88C00B7A339 /* FirstViewController.swift */,
-				3893E7D21F93B88C00B7A339 /* SecondViewController.swift */,
 				3893E7D41F93B88C00B7A339 /* Main.storyboard */,
 				3893E7D71F93B88C00B7A339 /* Assets.xcassets */,
 				3893E7D91F93B88C00B7A339 /* LaunchScreen.storyboard */,
-				3893E7DC1F93B88C00B7A339 /* Info.plist */,
+				3893E7E21F93BFAA00B7A339 /* Plists */,
 			);
 			path = TNChat;
+			sourceTree = "<group>";
+		};
+		3893E7E21F93BFAA00B7A339 /* Plists */ = {
+			isa = PBXGroup;
+			children = (
+				3893E7E31F93BFAB00B7A339 /* GoogleService-Info.plist */,
+				3893E7E41F93BFAB00B7A339 /* Info.plist */,
+			);
+			path = Plists;
 			sourceTree = "<group>";
 		};
 		8B432C0047D960FDDA97B960 /* Frameworks */ = {
@@ -232,9 +236,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3893E7D31F93B88C00B7A339 /* SecondViewController.swift in Sources */,
 				3893E7CF1F93B88C00B7A339 /* AppDelegate.swift in Sources */,
-				3893E7D11F93B88C00B7A339 /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,7 +378,7 @@
 				DEVELOPMENT_TEAM = DWW2N9PN49;
 				INFOPLIST_FILE = TNChat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tawanicolas.TNChat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tawanicolas.tnchat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -392,7 +394,7 @@
 				DEVELOPMENT_TEAM = DWW2N9PN49;
 				INFOPLIST_FILE = TNChat/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tawanicolas.TNChat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tawanicolas.tnchat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
