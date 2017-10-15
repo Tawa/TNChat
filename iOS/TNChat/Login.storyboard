@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TRY-Dx-EyX">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="jif-i4-0XX">
+            <objects>
+                <navigationController id="TRY-Dx-EyX" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="vav-EA-5X1">
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="89g-O1-tLT" kind="relationship" relationship="rootViewController" id="WqB-hB-Maq"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zDz-7i-Ygt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-264" y="-277"/>
+        </scene>
+        <!--Phone Number View Controller-->
+        <scene sceneID="5zu-ll-qXl">
+            <objects>
+                <viewController id="89g-O1-tLT" customClass="PhoneNumberViewController" customModule="TNChat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5Jz-mU-4Jw">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your phone number:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kUs-dG-duB">
+                                <rect key="frame" x="16" y="80" width="288" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.9882352941176471" green="0.46666666666666667" blue="0.32549019607843138" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N8I-YS-5Qa" customClass="LoadingButton" customModule="TNChat" customModuleProvider="target">
+                                <rect key="frame" x="266" y="165" width="38" height="30"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" red="0.40000000000000002" green="0.84313725490196079" blue="0.81960784313725488" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginAction:" destination="89g-O1-tLT" eventType="touchUpInside" id="yZM-Fd-Jnj"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="+1" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Uh-AZ-etz">
+                                <rect key="frame" x="16" y="117" width="288" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="9Zw-XA-3gs"/>
+                                </constraints>
+                                <color key="textColor" red="0.9882352941176471" green="0.46666666666666667" blue="0.32549019607843138" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94901960784313721" green="0.93725490196078431" blue="0.91764705882352937" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="0Uh-AZ-etz" firstAttribute="top" secondItem="kUs-dG-duB" secondAttribute="bottom" constant="16" id="HMc-4h-ljl"/>
+                            <constraint firstItem="kUs-dG-duB" firstAttribute="leading" secondItem="uUA-75-v2x" secondAttribute="leading" constant="16" id="TVw-Sc-FUo"/>
+                            <constraint firstItem="kUs-dG-duB" firstAttribute="top" secondItem="uUA-75-v2x" secondAttribute="top" constant="16" id="chm-eV-eXM"/>
+                            <constraint firstItem="uUA-75-v2x" firstAttribute="trailing" secondItem="0Uh-AZ-etz" secondAttribute="trailing" constant="16" id="dsi-R5-tR0"/>
+                            <constraint firstItem="uUA-75-v2x" firstAttribute="trailing" secondItem="kUs-dG-duB" secondAttribute="trailing" constant="16" id="eSl-37-PiI"/>
+                            <constraint firstItem="N8I-YS-5Qa" firstAttribute="top" secondItem="0Uh-AZ-etz" secondAttribute="bottom" constant="16" id="hn0-W0-b9S"/>
+                            <constraint firstItem="uUA-75-v2x" firstAttribute="trailing" secondItem="N8I-YS-5Qa" secondAttribute="trailing" constant="16" id="kgn-Bf-B5B"/>
+                            <constraint firstItem="0Uh-AZ-etz" firstAttribute="leading" secondItem="uUA-75-v2x" secondAttribute="leading" constant="16" id="pCw-6X-SMR"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="uUA-75-v2x"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="czZ-UR-HII"/>
+                    <connections>
+                        <outlet property="phoneNumberTextField" destination="0Uh-AZ-etz" id="gdA-fh-Ysd"/>
+                        <segue destination="tjX-So-58l" kind="show" identifier="showVerification" id="Ika-AP-Eko"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AEy-4T-2iq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="585" y="-278"/>
+        </scene>
+        <!--Code Verification View Controller-->
+        <scene sceneID="kh8-Np-iWY">
+            <objects>
+                <viewController id="tjX-So-58l" customClass="CodeVerificationViewController" customModule="TNChat" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="deW-0W-Rju">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GTC-uJ-rLX" customClass="LoadingButton" customModule="TNChat" customModuleProvider="target">
+                                <rect key="frame" x="264" y="165" width="40" height="30"/>
+                                <state key="normal" title="Verify">
+                                    <color key="titleColor" red="0.40000000000000002" green="0.84313725490000002" blue="0.81960784310000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="verifyAction:" destination="tjX-So-58l" eventType="touchUpInside" id="hD1-GR-vRp"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="1KG-qf-ea9">
+                                <rect key="frame" x="16" y="117" width="288" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="32" id="nzE-Qs-qoV"/>
+                                </constraints>
+                                <color key="textColor" red="0.98823529409999999" green="0.46666666670000001" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter verification code received via SMS:" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C3D-z6-0UT">
+                                <rect key="frame" x="16" y="80" width="288" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.98823529409999999" green="0.46666666670000001" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94901960784313721" green="0.93725490196078431" blue="0.91764705882352937" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="yEH-Dw-Rni" firstAttribute="trailing" secondItem="GTC-uJ-rLX" secondAttribute="trailing" constant="16" id="1vV-fn-YSd"/>
+                            <constraint firstItem="yEH-Dw-Rni" firstAttribute="trailing" secondItem="C3D-z6-0UT" secondAttribute="trailing" constant="16" id="7yb-lX-BYx"/>
+                            <constraint firstItem="GTC-uJ-rLX" firstAttribute="top" secondItem="1KG-qf-ea9" secondAttribute="bottom" constant="16" id="Z6j-af-XMQ"/>
+                            <constraint firstItem="yEH-Dw-Rni" firstAttribute="trailing" secondItem="1KG-qf-ea9" secondAttribute="trailing" constant="16" id="cgA-w8-a4j"/>
+                            <constraint firstItem="1KG-qf-ea9" firstAttribute="top" secondItem="C3D-z6-0UT" secondAttribute="bottom" constant="16" id="gNl-dJ-qln"/>
+                            <constraint firstItem="1KG-qf-ea9" firstAttribute="leading" secondItem="deW-0W-Rju" secondAttribute="leading" constant="16" id="gR7-2W-ASs"/>
+                            <constraint firstItem="C3D-z6-0UT" firstAttribute="leading" secondItem="deW-0W-Rju" secondAttribute="leading" constant="16" id="iAx-47-V1E"/>
+                            <constraint firstItem="C3D-z6-0UT" firstAttribute="top" secondItem="yEH-Dw-Rni" secondAttribute="top" constant="16" id="yl7-gm-BFv"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="yEH-Dw-Rni"/>
+                    </view>
+                    <connections>
+                        <outlet property="verificationCodeTextField" destination="1KG-qf-ea9" id="9yI-RZ-V3w"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TSt-ea-Zgs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1428" y="-278"/>
+        </scene>
+    </scenes>
+    <color key="tintColor" red="0.40000000000000002" green="0.84313725490196079" blue="0.81960784313725488" alpha="1" colorSpace="calibratedRGB"/>
+</document>
