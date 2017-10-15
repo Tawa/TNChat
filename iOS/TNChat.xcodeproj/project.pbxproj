@@ -21,6 +21,8 @@
 		3893E7F71F93C85F00B7A339 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7F61F93C85F00B7A339 /* ViewExtension.swift */; };
 		3893E7F91F93C8D800B7A339 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7F81F93C8D800B7A339 /* TabBarViewController.swift */; };
 		3893E7FC1F93C90400B7A339 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7FB1F93C90400B7A339 /* Constants.swift */; };
+		389A55C71F93CEF0007289E1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55C61F93CEF0007289E1 /* SettingsViewController.swift */; };
+		389A55C91F93CF05007289E1 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55C81F93CF05007289E1 /* ChatsViewController.swift */; };
 		C28BFE9A70A7C8598AB607F4 /* Pods_TNChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10935A59AB3D9E4B9ECF50F3 /* Pods_TNChat.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +43,9 @@
 		3893E7F61F93C85F00B7A339 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		3893E7F81F93C8D800B7A339 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		3893E7FB1F93C90400B7A339 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		389A55C61F93CEF0007289E1 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		389A55C81F93CF05007289E1 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
+		389A55CA1F93D0B6007289E1 /* TNChat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TNChat.entitlements; sourceTree = "<group>"; };
 		80D1193768274921627D133F /* Pods-TNChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TNChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TNChat/Pods-TNChat.debug.xcconfig"; sourceTree = "<group>"; };
 		F9F4C11A3D43F6B115816ED9 /* Pods-TNChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TNChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-TNChat/Pods-TNChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -87,6 +92,7 @@
 		3893E7CD1F93B88C00B7A339 /* TNChat */ = {
 			isa = PBXGroup;
 			children = (
+				389A55CA1F93D0B6007289E1 /* TNChat.entitlements */,
 				3893E7CE1F93B88C00B7A339 /* AppDelegate.swift */,
 				3893E7FA1F93C8EF00B7A339 /* Data */,
 				3893E7E71F93C4F900B7A339 /* Extensions */,
@@ -140,6 +146,8 @@
 			children = (
 				3893E7F11F93C78500B7A339 /* Login */,
 				3893E7F81F93C8D800B7A339 /* TabBarViewController.swift */,
+				389A55C61F93CEF0007289E1 /* SettingsViewController.swift */,
+				389A55C81F93CF05007289E1 /* ChatsViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -205,6 +213,11 @@
 					3893E7CA1F93B88C00B7A339 = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -315,12 +328,14 @@
 			files = (
 				3893E7F71F93C85F00B7A339 /* ViewExtension.swift in Sources */,
 				3893E7F31F93C7AE00B7A339 /* PhoneNumberViewController.swift in Sources */,
+				389A55C91F93CF05007289E1 /* ChatsViewController.swift in Sources */,
 				3893E7EF1F93C75D00B7A339 /* LoadingButton.swift in Sources */,
 				3893E7CF1F93B88C00B7A339 /* AppDelegate.swift in Sources */,
 				3893E7F91F93C8D800B7A339 /* TabBarViewController.swift in Sources */,
 				3893E7E91F93C50D00B7A339 /* ColorExtension.swift in Sources */,
 				3893E7F51F93C7BA00B7A339 /* CodeVerificationViewController.swift in Sources */,
 				3893E7FC1F93C90400B7A339 /* Constants.swift in Sources */,
+				389A55C71F93CEF0007289E1 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,6 +473,7 @@
 			baseConfigurationReference = 80D1193768274921627D133F /* Pods-TNChat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TNChat/TNChat.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DWW2N9PN49;
 				INFOPLIST_FILE = "$(SRCROOT)/TNChat/Plists/Info.plist";
@@ -475,6 +491,7 @@
 			baseConfigurationReference = F9F4C11A3D43F6B115816ED9 /* Pods-TNChat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TNChat/TNChat.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DWW2N9PN49;
 				INFOPLIST_FILE = "$(SRCROOT)/TNChat/Plists/Info.plist";
