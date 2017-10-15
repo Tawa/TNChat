@@ -26,7 +26,7 @@ exports.sendPushNotification = functions.database.ref('chats/{chatID}/messages/{
 		if (nameSnap.exists()) {
 			title = nameSnap.val();
 		}
-		var payload = {
+		const payload = {
 			notification: {
 				title: title,
 				body: message.message,
@@ -34,7 +34,11 @@ exports.sendPushNotification = functions.database.ref('chats/{chatID}/messages/{
 			}
 		};
 
-		admin.messaging().sendToTopic(topic, payload)
+		const options = {
+		    content_available: true
+		};
+
+		admin.messaging().sendToTopic(topic, payload, options)
 			.then(function(response) {
 			console.log("Message sent: ", response);
 		})
