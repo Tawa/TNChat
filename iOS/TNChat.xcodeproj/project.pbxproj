@@ -23,6 +23,9 @@
 		3893E7FC1F93C90400B7A339 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7FB1F93C90400B7A339 /* Constants.swift */; };
 		389A55C71F93CEF0007289E1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55C61F93CEF0007289E1 /* SettingsViewController.swift */; };
 		389A55C91F93CF05007289E1 /* ChatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55C81F93CF05007289E1 /* ChatsViewController.swift */; };
+		389A55CD1F93D9B6007289E1 /* ContactsDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 389A55CB1F93D9B6007289E1 /* ContactsDataModel.xcdatamodeld */; };
+		389A55D11F93DA0A007289E1 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55D01F93DA0A007289E1 /* ContactsManager.swift */; };
+		389A55D31F93DA93007289E1 /* CurrentUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55D21F93DA93007289E1 /* CurrentUserManager.swift */; };
 		C28BFE9A70A7C8598AB607F4 /* Pods_TNChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10935A59AB3D9E4B9ECF50F3 /* Pods_TNChat.framework */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +49,9 @@
 		389A55C61F93CEF0007289E1 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		389A55C81F93CF05007289E1 /* ChatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsViewController.swift; sourceTree = "<group>"; };
 		389A55CA1F93D0B6007289E1 /* TNChat.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TNChat.entitlements; sourceTree = "<group>"; };
+		389A55CC1F93D9B6007289E1 /* Contacts.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Contacts.xcdatamodel; sourceTree = "<group>"; };
+		389A55D01F93DA0A007289E1 /* ContactsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
+		389A55D21F93DA93007289E1 /* CurrentUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUserManager.swift; sourceTree = "<group>"; };
 		80D1193768274921627D133F /* Pods-TNChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TNChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TNChat/Pods-TNChat.debug.xcconfig"; sourceTree = "<group>"; };
 		F9F4C11A3D43F6B115816ED9 /* Pods-TNChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TNChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-TNChat/Pods-TNChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -94,8 +100,10 @@
 			children = (
 				389A55CA1F93D0B6007289E1 /* TNChat.entitlements */,
 				3893E7CE1F93B88C00B7A339 /* AppDelegate.swift */,
+				389A55CB1F93D9B6007289E1 /* ContactsDataModel.xcdatamodeld */,
 				3893E7FA1F93C8EF00B7A339 /* Data */,
 				3893E7E71F93C4F900B7A339 /* Extensions */,
+				389A55CE1F93D9DD007289E1 /* Managers */,
 				3893E7EC1F93C74400B7A339 /* Views */,
 				3893E7F01F93C76F00B7A339 /* ViewControllers */,
 				3893E7D41F93B88C00B7A339 /* Main.storyboard */,
@@ -167,6 +175,15 @@
 				3893E7FB1F93C90400B7A339 /* Constants.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		389A55CE1F93D9DD007289E1 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				389A55D01F93DA0A007289E1 /* ContactsManager.swift */,
+				389A55D21F93DA93007289E1 /* CurrentUserManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		8B432C0047D960FDDA97B960 /* Frameworks */ = {
@@ -327,6 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3893E7F71F93C85F00B7A339 /* ViewExtension.swift in Sources */,
+				389A55D31F93DA93007289E1 /* CurrentUserManager.swift in Sources */,
 				3893E7F31F93C7AE00B7A339 /* PhoneNumberViewController.swift in Sources */,
 				389A55C91F93CF05007289E1 /* ChatsViewController.swift in Sources */,
 				3893E7EF1F93C75D00B7A339 /* LoadingButton.swift in Sources */,
@@ -334,7 +352,9 @@
 				3893E7F91F93C8D800B7A339 /* TabBarViewController.swift in Sources */,
 				3893E7E91F93C50D00B7A339 /* ColorExtension.swift in Sources */,
 				3893E7F51F93C7BA00B7A339 /* CodeVerificationViewController.swift in Sources */,
+				389A55CD1F93D9B6007289E1 /* ContactsDataModel.xcdatamodeld in Sources */,
 				3893E7FC1F93C90400B7A339 /* Constants.swift in Sources */,
+				389A55D11F93DA0A007289E1 /* ContactsManager.swift in Sources */,
 				389A55C71F93CEF0007289E1 /* SettingsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -526,6 +546,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		389A55CB1F93D9B6007289E1 /* ContactsDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				389A55CC1F93D9B6007289E1 /* Contacts.xcdatamodel */,
+			);
+			currentVersion = 389A55CC1F93D9B6007289E1 /* Contacts.xcdatamodel */;
+			name = ContactsDataModel.xcdatamodeld;
+			path = Data/ContactsDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 3893E7C31F93B88C00B7A339 /* Project object */;
 }
