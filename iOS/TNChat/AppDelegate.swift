@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import UserNotifications
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -18,8 +19,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		
 		FirebaseApp.configure()
 		
+		askForPushNotificationsPermissions()
+		
 		return true
 	}
 
 }
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+	func askForPushNotificationsPermissions() {
+		let center = UNUserNotificationCenter.current()
+		center.delegate = self
+		center.requestAuthorization(options:[.badge, .alert, .sound]) { (granted, error) in
+			if granted {
+				DispatchQueue.main.async {
+					UIApplication.shared.registerForRemoteNotifications()
+				}
+			}
+		}
+	}
+	
+	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+		Auth.auth().setAPNSToken(deviceToken, type: .prod)
+		Auth.auth().setAPNSToken(deviceToken, type: .sandbox)
+	}
+}

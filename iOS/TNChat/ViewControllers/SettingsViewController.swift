@@ -20,6 +20,7 @@ class SettingsViewController: UITableViewController {
 		alert.addAction(UIAlertAction(title: "Sign Out", style: .destructive, handler: { (_) in
 			do {
 				try Auth.auth().signOut()
+				CurrentUserManager.shared.userId = nil
 				self.tabBarController?.performSegue(withIdentifier: SegueIdentifiers.showLogin, sender: self)
 			} catch {
 				let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)

@@ -29,6 +29,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSContactsUsageDescription</key>
+	<string>TNChat needs your contacts list in order to identify your friends who use it!</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

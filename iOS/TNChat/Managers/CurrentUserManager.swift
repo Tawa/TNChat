@@ -14,14 +14,16 @@ class CurrentUserManager: NSObject {
 	
 	var userId: String? {
 		set {
-			if let oldValue = userId {
-				Messaging.messaging().unsubscribe(fromTopic: oldValue)
+			if  let oldValue = userId,
+				let oldNumber = Int(oldValue) {
+				Messaging.messaging().unsubscribe(fromTopic: String(oldNumber))
 			}
 			
 			UserDefaults.standard.setValue(newValue, forKey: "userId")
 			
-			if let userId = newValue {
-				Messaging.messaging().subscribe(toTopic: userId)
+			if  let userId = newValue,
+				let newNumber = Int(userId) {
+				Messaging.messaging().subscribe(toTopic: String(newNumber))
 			}
 		}
 		get {

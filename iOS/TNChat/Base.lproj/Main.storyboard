@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -37,6 +38,58 @@
             </objects>
             <point key="canvasLocation" x="-1" y="579"/>
         </scene>
+        <!--New Chat-->
+        <scene sceneID="FsE-jh-VQq">
+            <objects>
+                <tableViewController id="MBa-kX-Mth" customClass="ContactsViewController" customModule="TNChat" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="WjF-FP-YIA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="lJ5-1Q-sY5">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="lJ5-1Q-sY5" id="c5x-7Z-3yw">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="MBa-kX-Mth" id="mrP-mf-IPs"/>
+                            <outlet property="delegate" destination="MBa-kX-Mth" id="BJm-cl-uTO"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="New Chat" id="ny2-CE-7b1">
+                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="7TX-g3-FFf">
+                            <connections>
+                                <action selector="dismiss:" destination="MBa-kX-Mth" id="VHD-mo-bAS"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qw8-M2-3cp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2854" y="-1102"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="hqF-zC-l5i">
+            <objects>
+                <navigationController id="dg2-fP-r3E" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="gu2-LV-9Ws">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.94901960780000005" green="0.93725490199999995" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="MBa-kX-Mth" kind="relationship" relationship="rootViewController" id="qDV-oO-dJl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0K2-lC-e5z" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1924" y="-1102"/>
+        </scene>
         <!--Chats-->
         <scene sceneID="9ZW-cH-EqH">
             <objects>
@@ -46,13 +99,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.93725490196078431" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="kJw-3U-Lvn">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="conversationCell" id="kJw-3U-Lvn">
                                 <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kJw-3U-Lvn" id="yOh-KK-xAL">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="D6w-0x-Yus" kind="show" identifier="showConversation" id="2Hr-to-FQP"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -60,11 +116,32 @@
                             <outlet property="delegate" destination="YN5-NH-uOT" id="9vo-uM-10l"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Chats" id="BSC-2M-74p"/>
+                    <navigationItem key="navigationItem" title="Chats" id="BSC-2M-74p">
+                        <barButtonItem key="rightBarButtonItem" systemItem="compose" id="cwH-q9-EIs">
+                            <connections>
+                                <segue destination="dg2-fP-r3E" kind="presentation" id="Dre-JA-q8n"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6W0-ZT-44S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1924" y="-332"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="qsh-4g-zbh">
+            <objects>
+                <viewController id="D6w-0x-Yus" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8pA-t3-VeA">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <viewLayoutGuide key="safeArea" id="azA-e4-VdY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fab-ft-Iyx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2854" y="-332"/>
         </scene>
         <!--Chats-->
         <scene sceneID="Bcx-0c-z15">
