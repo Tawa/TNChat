@@ -135,7 +135,7 @@
                     <navigationItem key="navigationItem" title="Chats" id="BSC-2M-74p">
                         <barButtonItem key="rightBarButtonItem" systemItem="compose" id="cwH-q9-EIs">
                             <connections>
-                                <segue destination="dg2-fP-r3E" kind="presentation" id="Dre-JA-q8n"/>
+                                <segue destination="dg2-fP-r3E" kind="presentation" identifier="showContactsList" id="Dre-JA-q8n"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -144,20 +144,59 @@
             </objects>
             <point key="canvasLocation" x="1924" y="-332"/>
         </scene>
-        <!--View Controller-->
+        <!--Conversation View Controller-->
         <scene sceneID="qsh-4g-zbh">
             <objects>
-                <viewController id="D6w-0x-Yus" sceneMemberID="viewController">
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fab-ft-Iyx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <viewController hidesBottomBarWhenPushed="YES" id="D6w-0x-Yus" customClass="ConversationViewController" customModule="TNChat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8pA-t3-VeA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WF7-6Z-igl">
+                                <rect key="frame" x="0.0" y="603" width="375" height="64"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6D6-Ac-KqZ">
+                                        <rect key="frame" x="8" y="8" width="291" height="48"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ew-fr-Hxw">
+                                        <rect key="frame" x="307" y="0.0" width="68" height="64"/>
+                                        <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
+                                        <state key="normal" title="Send">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.98823529409999999" green="0.46666666670000001" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="6D6-Ac-KqZ" firstAttribute="leading" secondItem="WF7-6Z-igl" secondAttribute="leading" constant="8" id="MlH-cg-DKz"/>
+                                    <constraint firstItem="4Ew-fr-Hxw" firstAttribute="leading" secondItem="6D6-Ac-KqZ" secondAttribute="trailing" constant="8" id="RGR-Yu-C7L"/>
+                                    <constraint firstAttribute="height" constant="64" id="m7j-uP-jKV"/>
+                                    <constraint firstAttribute="bottom" secondItem="4Ew-fr-Hxw" secondAttribute="bottom" id="qRz-e9-b6X"/>
+                                    <constraint firstItem="6D6-Ac-KqZ" firstAttribute="top" secondItem="WF7-6Z-igl" secondAttribute="top" constant="8" id="t7B-iu-zVm"/>
+                                    <constraint firstAttribute="trailing" secondItem="4Ew-fr-Hxw" secondAttribute="trailing" id="uh6-Ai-eel"/>
+                                    <constraint firstItem="4Ew-fr-Hxw" firstAttribute="top" secondItem="WF7-6Z-igl" secondAttribute="top" id="uqe-Zu-eSC"/>
+                                    <constraint firstAttribute="bottom" secondItem="6D6-Ac-KqZ" secondAttribute="bottom" constant="8" id="wac-zH-ggw"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.94901960780000005" green="0.93725490199999995" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="WF7-6Z-igl" firstAttribute="centerX" secondItem="azA-e4-VdY" secondAttribute="centerX" id="DP3-Ts-wPX"/>
+                            <constraint firstItem="WF7-6Z-igl" firstAttribute="width" secondItem="8pA-t3-VeA" secondAttribute="width" id="hae-TF-TgH"/>
+                            <constraint firstItem="WF7-6Z-igl" firstAttribute="bottom" secondItem="azA-e4-VdY" secondAttribute="bottom" id="tka-f2-BaM"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="azA-e4-VdY"/>
                     </view>
+                    <connections>
+                        <outlet property="inputViewContainer" destination="WF7-6Z-igl" id="S4D-fL-NUh"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fab-ft-Iyx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2854" y="-332"/>
+            <point key="canvasLocation" x="2853.5999999999999" y="-332.38380809595208"/>
         </scene>
         <!--Chats-->
         <scene sceneID="Bcx-0c-z15">

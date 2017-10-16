@@ -11,6 +11,7 @@ import UIKit
 class ContactsViewController: UITableViewController {
 	
 	var contacts = [Contact]()
+	var completion: ((Contact) -> Void)?
 	
 	@IBAction func dismiss(_ sender: Any) {
 		navigationController?.dismiss(animated: true)
@@ -27,20 +28,15 @@ class ContactsViewController: UITableViewController {
 		
 		ContactsManager.shared.loadContacts { (success) in
 			if success {
-				print("Success")
 				ContactsManager.shared.fetchContactsOnline({ (success) in
 					if success {
-						for contact in ContactsManager.shared.onlineContacts {
-							print("Found: \(contact.name ?? "")")
-						}
+						self.contacts.removeAll()
 						self.contacts.append(contentsOf: ContactsManager.shared.onlineContacts)
 						self.tableView.reloadData()
 					} else {
-						print("Done fetching")
 					}
 				})
 			} else {
-				print("Failed")
 			}
 		}
     }
@@ -65,5 +61,11 @@ class ContactsViewController: UITableViewController {
 		cell.textLabel?.text = contacts[indexPath.row].name
 		
 		return cell
+	}
+	
+	override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+		dismiss(animated: true) {
+			self.completion?(self.contacts[indexPath.row])
+		}
 	}
 }

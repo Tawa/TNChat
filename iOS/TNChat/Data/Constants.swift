@@ -11,4 +11,6 @@ import Foundation
 struct SegueIdentifiers {
 	static let showLogin = "showLogin"
 	static let showVerification = "showVerification"
+	static let showContactsList = "showContactsList"
+	static let showConversation = "showConversation"
 }

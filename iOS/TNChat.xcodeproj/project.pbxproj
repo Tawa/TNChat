@@ -29,6 +29,7 @@
 		389A55D51F93E7BB007289E1 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55D41F93E7BB007289E1 /* ContactsViewController.swift */; };
 		389A55D71F93F16A007289E1 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55D61F93F16A007289E1 /* StringExtension.swift */; };
 		389A55D91F93F6D8007289E1 /* CountryCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55D81F93F6D7007289E1 /* CountryCodeManager.swift */; };
+		38EE522B1F955B330069106B /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EE522A1F955B330069106B /* ConversationViewController.swift */; };
 		C28BFE9A70A7C8598AB607F4 /* Pods_TNChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10935A59AB3D9E4B9ECF50F3 /* Pods_TNChat.framework */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 		389A55D41F93E7BB007289E1 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		389A55D61F93F16A007289E1 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		389A55D81F93F6D7007289E1 /* CountryCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodeManager.swift; sourceTree = "<group>"; };
+		38EE522A1F955B330069106B /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		80D1193768274921627D133F /* Pods-TNChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TNChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TNChat/Pods-TNChat.debug.xcconfig"; sourceTree = "<group>"; };
 		F9F4C11A3D43F6B115816ED9 /* Pods-TNChat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TNChat.release.xcconfig"; path = "Pods/Target Support Files/Pods-TNChat/Pods-TNChat.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -164,6 +166,7 @@
 				389A55C61F93CEF0007289E1 /* SettingsViewController.swift */,
 				389A55C81F93CF05007289E1 /* ChatsViewController.swift */,
 				389A55D41F93E7BB007289E1 /* ContactsViewController.swift */,
+				38EE522A1F955B330069106B /* ConversationViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -362,6 +365,7 @@
 				3893E7CF1F93B88C00B7A339 /* AppDelegate.swift in Sources */,
 				3893E7F91F93C8D800B7A339 /* TabBarViewController.swift in Sources */,
 				3893E7E91F93C50D00B7A339 /* ColorExtension.swift in Sources */,
+				38EE522B1F955B330069106B /* ConversationViewController.swift in Sources */,
 				3893E7F51F93C7BA00B7A339 /* CodeVerificationViewController.swift in Sources */,
 				389A55CD1F93D9B6007289E1 /* ContactsDataModel.xcdatamodeld in Sources */,
 				3893E7FC1F93C90400B7A339 /* Constants.swift in Sources */,

@@ -38,9 +38,7 @@ class ContactsManager: NSObject {
 			} catch {
 				fatalError("Unresolved error \(error), \(error.localizedDescription)")
 			}
-			print("Phones saved")
 		} else {
-			print("Nothing changed")
 		}
 	}
 	
@@ -80,7 +78,6 @@ class ContactsManager: NSObject {
 	}
 	
 	func loadContacts(_ completion: @escaping (_ success: Bool) -> Void) {
-		print("Count = \(contactsCount())")
 		store.requestAccess(for: .contacts) { (success, error) in
 			if success {
 				let request = CNContactFetchRequest(keysToFetch:
@@ -128,12 +125,11 @@ class ContactsManager: NSObject {
 					contact.isUser = false
 				}
 				unprocessed.removeValue(forKey: number)
-				print("Left: \(unprocessed.count)")
 				if unprocessed.count == 0 {
 					self.onlineContacts.removeAll()
-					self.onlineContacts.append(contentsOf: Array(found.values))
+					self.onlineContacts.append(contentsOf: Array(found.values).filter { $0.number != currentUserId })
+					completion(true)
 				}
-				completion(true)
 			})
 		}
 		
