@@ -31,8 +31,8 @@ class CodeVerificationViewController: UIViewController {
 			} else {
 				if let user = Auth.auth().currentUser,
 					let number = user.phoneNumber {
-					CurrentUserManager.shared.userId = number
-					Database.database().reference().child("users").child(number).setValue(true)
+					CurrentUserManager.shared.userId = String(number.dropFirst())
+					Database.database().reference().child("users/"+number.dropFirst()).setValue(true)
 				}
 				self.dismiss(animated: true)
 			}

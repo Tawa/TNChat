@@ -13,32 +13,19 @@ extension String {
 		return CharacterSet(charactersIn: "+0123456789").inverted
 	}()
 	
-	func left(_ to: Int) -> String {
-		return "\(self[..<self.index(startIndex, offsetBy: to)])"
-	}
-	
-	func right(_ from: Int) -> String {
-		return "\(self[self.index(startIndex, offsetBy: self.count-from)...])"
-	}
-	
-	func mid(_ from: Int, amount: Int) -> String {
-		let x = "\(self[self.index(startIndex, offsetBy: from)...])"
-		return x.left(amount)
-	}
-
 	var internationalizeNumber: String? {
 		var number = self.components(separatedBy: String.phoneNumberSetInverted).joined()
 		
 		if number.hasPrefix("+") {
-			return number
+			return String(number.dropFirst())
 		}
 		
 		if number.count > 2 {
 			if number.hasPrefix("0") {
 				if number.hasPrefix("00") {
-					number = "+" + number.right(number.count-2)
+					number = "+" + String(number.dropFirst(2))
 				} else {
-					number = number.right(number.count-1)
+					number = String(number.dropFirst())
 				}
 			}
 		}
@@ -47,6 +34,6 @@ extension String {
 			number = CountryCodeManager.current + number
 		}
 		
-		return number
+		return String(number.dropFirst())
 	}
 }

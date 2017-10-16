@@ -9,9 +9,12 @@
 import UIKit
 import CoreData
 import Contacts
+import FirebaseDatabase
 
 class ContactsManager: NSObject {
 	static let shared = ContactsManager()
+	var contacts = [Contact]()
+	var onlineContacts = [Contact]()
 	
 	lazy var container: NSPersistentContainer = {
 		let container = NSPersistentContainer(name: "ContactsDataModel")
@@ -35,6 +38,9 @@ class ContactsManager: NSObject {
 			} catch {
 				fatalError("Unresolved error \(error), \(error.localizedDescription)")
 			}
+			print("Phones saved")
+		} else {
+			print("Nothing changed")
 		}
 	}
 	
@@ -47,8 +53,12 @@ class ContactsManager: NSObject {
 		request.predicate = NSPredicate(format: "number == %@", number)
 		var contact: Contact?
 		do {
-			contact = try context.fetch(request).first
+			let results = try context.fetch(request)
+			contact = results.first
 		} catch {
+		}
+		
+		if contact == nil {
 			contact = Contact(context: context)
 			contact?.number = number
 		}
@@ -56,25 +66,76 @@ class ContactsManager: NSObject {
 		return contact!
 	}
 	
+	func contactsCount() -> String {
+		let context = self.context
+		
+		let request: NSFetchRequest<Contact> = Contact.fetchRequest()
+		do {
+			let results = try context.fetch(request)
+			return "\(results.count)"
+		} catch {
+		}
+		
+		return "0"
+	}
+	
 	func loadContacts(_ completion: @escaping (_ success: Bool) -> Void) {
+		print("Count = \(contactsCount())")
 		store.requestAccess(for: .contacts) { (success, error) in
 			if success {
-				let request = CNContactFetchRequest(keysToFetch: [CNContactPhoneNumbersKey as NSString, CNContactFormatter.descriptorForRequiredKeys(for: .fullName)])
+				let request = CNContactFetchRequest(keysToFetch:
+					[CNContactPhoneNumbersKey as NSString,
+					 CNContactFormatter.descriptorForRequiredKeys(for: .fullName)])
 				do {
+					self.contacts.removeAll()
 					try self.store.enumerateContacts(with: request, usingBlock: { (contact, stop) in
 						for phone in contact.phoneNumbers {
 							if let phoneNumber = phone.value.stringValue.internationalizeNumber {
-								print("\(contact.givenName) \(contact.familyName) : \(phone.value.stringValue) : \(phoneNumber)")
+								let newContact = self.getContact(withPhoneNumber: phoneNumber)
+								let name = try? (contact.givenName + " " + contact.familyName).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+								newContact.name = name ?? "User"
+								self.contacts.append(newContact)
 							}
-//							let newContact = self.getContact(withPhoneNumber: phone.value.stringValue)
 						}
 					})
-//					self.saveContext()
+					self.saveContext()
 					completion(true)
 				} catch {
 					completion(false)
 				}
 			}
 		}
+	}
+	
+	func fetchContactsOnline(_ completion: @escaping(_ success: Bool) -> Void) {
+		var found = [String: Contact]()
+		var notFound = [String: Contact]()
+		var unprocessed = [String: Contact]()
+		
+		let currentUserId = CurrentUserManager.shared.userId ?? ""
+		
+		for contact in contacts {
+			let number = contact.number!
+			unprocessed[number] = contact
+			Database.database().reference().child("users/"+number).observeSingleEvent(of: .value, with: { (snapshot) in
+				if snapshot.exists() {
+					if number != currentUserId {
+						found[number] = contact
+						contact.isUser = true
+					}
+				} else {
+					notFound[number] = contact
+					contact.isUser = false
+				}
+				unprocessed.removeValue(forKey: number)
+				print("Left: \(unprocessed.count)")
+				if unprocessed.count == 0 {
+					self.onlineContacts.removeAll()
+					self.onlineContacts.append(contentsOf: Array(found.values))
+				}
+				completion(true)
+			})
+		}
+		
 	}
 }
