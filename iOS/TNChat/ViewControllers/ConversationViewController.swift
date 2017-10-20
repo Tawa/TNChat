@@ -18,6 +18,8 @@ class InputAccessoryView: UIView {
 		super.awakeFromNib()
 		autoresizingMask = .flexibleHeight
 		
+		textView.delegate = self
+		
 		textViewDidChange(textView)
 	}
 	
@@ -43,20 +45,32 @@ extension InputAccessoryView: UITextViewDelegate, UIScrollViewDelegate {
 	}
 }
 
-class ConversationViewController: UIInputViewController {
-
-	@IBOutlet weak var inputViewContainer: UIView!
-	var contact: Contact?
+class ConversationViewController: UIViewController {
 	
-	override var inputAccessoryView: UIView? {
-		get {
-			return inputViewContainer
-		}
+	var contact: Contact?
+	@IBOutlet weak var tableView: UITableView!
+	@IBOutlet var inputViewContainer: InputAccessoryView!
+	
+	override var inputAccessoryView: UIView! {
+		return inputViewContainer
 	}
 	override var canBecomeFirstResponder: Bool {
 		return true
 	}
-	@IBAction func sendAction(_ sender: Any) {
+	
+	override func viewDidLoad() {
+		super.viewDidLoad()
+		
+		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(_:)), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 	}
 	
+	@objc func keyboardDidChangeFrame(_ notification: Notification) {
+		
+		let frame = inputAccessoryView.convert(inputAccessoryView.frame, to: tableView)
+		let bottom = tableView.frame.height - frame.origin.y
+		tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottom, right: 0)
+	}
+	
+	@IBAction func sendAction(_ sender: Any) {
+	}
 }

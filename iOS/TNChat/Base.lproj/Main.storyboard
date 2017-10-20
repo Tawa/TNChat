@@ -156,11 +156,24 @@
                     <view key="view" contentMode="scaleToFill" id="8pA-t3-VeA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="p77-ft-GIV">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" red="0.94901960780000005" green="0.93725490199999995" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="p77-ft-GIV" firstAttribute="top" secondItem="azA-e4-VdY" secondAttribute="top" id="9fG-mu-c5M"/>
+                            <constraint firstItem="azA-e4-VdY" firstAttribute="trailing" secondItem="p77-ft-GIV" secondAttribute="trailing" id="T7d-Ne-Yus"/>
+                            <constraint firstItem="azA-e4-VdY" firstAttribute="bottom" secondItem="p77-ft-GIV" secondAttribute="bottom" id="Ufw-ys-HTN"/>
+                            <constraint firstItem="p77-ft-GIV" firstAttribute="leading" secondItem="azA-e4-VdY" secondAttribute="leading" id="kZI-4Q-VV6"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="azA-e4-VdY"/>
                     </view>
                     <connections>
-                        <outlet property="inputViewContainer" destination="WF7-6Z-igl" id="S4D-fL-NUh"/>
+                        <outlet property="inputViewContainer" destination="WF7-6Z-igl" id="u7U-34-YLi"/>
+                        <outlet property="tableView" destination="p77-ft-GIV" id="jLU-ZY-Dr0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fab-ft-Iyx" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -191,7 +204,6 @@
                     <constraints>
                         <constraint firstItem="6D6-Ac-KqZ" firstAttribute="leading" secondItem="WF7-6Z-igl" secondAttribute="leading" constant="16" id="MlH-cg-DKz"/>
                         <constraint firstItem="4Ew-fr-Hxw" firstAttribute="leading" secondItem="6D6-Ac-KqZ" secondAttribute="trailing" constant="8" id="RGR-Yu-C7L"/>
-                        <constraint firstAttribute="height" constant="64" id="m7j-uP-jKV"/>
                         <constraint firstAttribute="bottom" secondItem="4Ew-fr-Hxw" secondAttribute="bottom" id="qRz-e9-b6X"/>
                         <constraint firstItem="6D6-Ac-KqZ" firstAttribute="top" secondItem="WF7-6Z-igl" secondAttribute="top" constant="8" id="t7B-iu-zVm"/>
                         <constraint firstAttribute="trailing" secondItem="4Ew-fr-Hxw" secondAttribute="trailing" id="uh6-Ai-eel"/>
