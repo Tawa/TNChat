@@ -39,14 +39,15 @@ class ChatsViewController: UITableViewController {
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 		if segue.identifier == SegueIdentifiers.showContactsList {
-			if let vc = segue.destination as? ContactsViewController {
+			if  let nav = segue.destination as? UINavigationController,
+				let vc = nav.viewControllers.first as? ContactsViewController {
 				vc.completion = { contact in
 					self.performSegue(withIdentifier: SegueIdentifiers.showConversation, sender: contact)
 				}
 			}
-		} else if segue.identifier == SegueIdentifiers.showContactsList {
-			if let vc = segue.destination as? ConversationViewController {
-				vc.contact = sender as! Contact
+		} else if segue.identifier == SegueIdentifiers.showConversation {
+			if let vc = segue.destination as? ConversationViewController, let contact = sender as? Contact {
+				vc.contact = contact
 			}
 		}
 	}

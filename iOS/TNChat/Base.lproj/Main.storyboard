@@ -5,7 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -78,6 +78,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="New Chat" id="ny2-CE-7b1">
+                        <barButtonItem key="leftBarButtonItem" systemItem="refresh" id="gcc-2T-Whb">
+                            <connections>
+                                <action selector="reloadAction:" destination="MBa-kX-Mth" id="uui-kq-UvA"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="7TX-g3-FFf">
                             <connections>
                                 <action selector="dismiss:" destination="MBa-kX-Mth" id="VHD-mo-bAS"/>
@@ -147,54 +152,59 @@
         <!--Conversation View Controller-->
         <scene sceneID="qsh-4g-zbh">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fab-ft-Iyx" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController hidesBottomBarWhenPushed="YES" id="D6w-0x-Yus" customClass="ConversationViewController" customModule="TNChat" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8pA-t3-VeA">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WF7-6Z-igl">
-                                <rect key="frame" x="0.0" y="603" width="375" height="64"/>
-                                <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6D6-Ac-KqZ">
-                                        <rect key="frame" x="8" y="8" width="291" height="48"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                    </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ew-fr-Hxw">
-                                        <rect key="frame" x="307" y="0.0" width="68" height="64"/>
-                                        <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
-                                        <state key="normal" title="Send">
-                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.98823529409999999" green="0.46666666670000001" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <constraints>
-                                    <constraint firstItem="6D6-Ac-KqZ" firstAttribute="leading" secondItem="WF7-6Z-igl" secondAttribute="leading" constant="8" id="MlH-cg-DKz"/>
-                                    <constraint firstItem="4Ew-fr-Hxw" firstAttribute="leading" secondItem="6D6-Ac-KqZ" secondAttribute="trailing" constant="8" id="RGR-Yu-C7L"/>
-                                    <constraint firstAttribute="height" constant="64" id="m7j-uP-jKV"/>
-                                    <constraint firstAttribute="bottom" secondItem="4Ew-fr-Hxw" secondAttribute="bottom" id="qRz-e9-b6X"/>
-                                    <constraint firstItem="6D6-Ac-KqZ" firstAttribute="top" secondItem="WF7-6Z-igl" secondAttribute="top" constant="8" id="t7B-iu-zVm"/>
-                                    <constraint firstAttribute="trailing" secondItem="4Ew-fr-Hxw" secondAttribute="trailing" id="uh6-Ai-eel"/>
-                                    <constraint firstItem="4Ew-fr-Hxw" firstAttribute="top" secondItem="WF7-6Z-igl" secondAttribute="top" id="uqe-Zu-eSC"/>
-                                    <constraint firstAttribute="bottom" secondItem="6D6-Ac-KqZ" secondAttribute="bottom" constant="8" id="wac-zH-ggw"/>
-                                </constraints>
-                            </view>
-                        </subviews>
                         <color key="backgroundColor" red="0.94901960780000005" green="0.93725490199999995" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="WF7-6Z-igl" firstAttribute="centerX" secondItem="azA-e4-VdY" secondAttribute="centerX" id="DP3-Ts-wPX"/>
-                            <constraint firstItem="WF7-6Z-igl" firstAttribute="width" secondItem="8pA-t3-VeA" secondAttribute="width" id="hae-TF-TgH"/>
-                            <constraint firstItem="WF7-6Z-igl" firstAttribute="bottom" secondItem="azA-e4-VdY" secondAttribute="bottom" id="tka-f2-BaM"/>
-                        </constraints>
                         <viewLayoutGuide key="safeArea" id="azA-e4-VdY"/>
                     </view>
                     <connections>
                         <outlet property="inputViewContainer" destination="WF7-6Z-igl" id="S4D-fL-NUh"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fab-ft-Iyx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WF7-6Z-igl" customClass="InputAccessoryView" customModule="TNChat" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
+                    <subviews>
+                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6D6-Ac-KqZ">
+                            <rect key="frame" x="16" y="8" width="283" height="48"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="48" id="N93-Ui-BC0"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                        </textView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ew-fr-Hxw">
+                            <rect key="frame" x="307" y="0.0" width="68" height="64"/>
+                            <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
+                            <state key="normal" title="Send">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="sendAction:" destination="D6w-0x-Yus" eventType="touchUpInside" id="CvB-3o-26b"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.98823529409999999" green="0.46666666670000001" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstItem="6D6-Ac-KqZ" firstAttribute="leading" secondItem="WF7-6Z-igl" secondAttribute="leading" constant="16" id="MlH-cg-DKz"/>
+                        <constraint firstItem="4Ew-fr-Hxw" firstAttribute="leading" secondItem="6D6-Ac-KqZ" secondAttribute="trailing" constant="8" id="RGR-Yu-C7L"/>
+                        <constraint firstAttribute="height" constant="64" id="m7j-uP-jKV"/>
+                        <constraint firstAttribute="bottom" secondItem="4Ew-fr-Hxw" secondAttribute="bottom" id="qRz-e9-b6X"/>
+                        <constraint firstItem="6D6-Ac-KqZ" firstAttribute="top" secondItem="WF7-6Z-igl" secondAttribute="top" constant="8" id="t7B-iu-zVm"/>
+                        <constraint firstAttribute="trailing" secondItem="4Ew-fr-Hxw" secondAttribute="trailing" id="uh6-Ai-eel"/>
+                        <constraint firstItem="4Ew-fr-Hxw" firstAttribute="top" secondItem="WF7-6Z-igl" secondAttribute="top" id="uqe-Zu-eSC"/>
+                        <constraint firstAttribute="bottom" secondItem="6D6-Ac-KqZ" secondAttribute="bottom" constant="8" id="wac-zH-ggw"/>
+                    </constraints>
+                    <viewLayoutGuide key="safeArea" id="MtI-YB-MQE"/>
+                    <connections>
+                        <outlet property="sendButton" destination="4Ew-fr-Hxw" id="eCn-7j-PWh"/>
+                        <outlet property="textView" destination="6D6-Ac-KqZ" id="J50-LV-nYS"/>
+                        <outlet property="textViewHeightConstraint" destination="N93-Ui-BC0" id="s7j-6q-zWn"/>
+                    </connections>
+                </view>
             </objects>
             <point key="canvasLocation" x="2853.5999999999999" y="-332.38380809595208"/>
         </scene>
@@ -280,5 +290,5 @@
             <point key="canvasLocation" x="969" y="367"/>
         </scene>
     </scenes>
-    <color key="tintColor" red="0.40000000000000002" green="0.84313725490196079" blue="0.81960784313725488" alpha="1" colorSpace="calibratedRGB"/>
+    <color key="tintColor" red="0.0" green="0.69019607843137254" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

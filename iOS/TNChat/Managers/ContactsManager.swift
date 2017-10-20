@@ -64,6 +64,24 @@ class ContactsManager: NSObject {
 		return contact!
 	}
 	
+	func getOnlineContacts() -> [Contact] {
+		let context = self.context
+		
+		let request: NSFetchRequest<Contact> = Contact.fetchRequest()
+		let isUserPredicate = NSPredicate(format: "isUser == true")
+		let numberPredicate = NSPredicate(format: "number != %@", CurrentUserManager.shared.userId ?? "")
+		request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [isUserPredicate, numberPredicate])
+		do {
+			let results = try context.fetch(request)
+			return results
+		} catch {
+			
+		}
+		
+		return []
+		
+	}
+	
 	func contactsCount() -> String {
 		let context = self.context
 		
@@ -89,7 +107,7 @@ class ContactsManager: NSObject {
 						for phone in contact.phoneNumbers {
 							if let phoneNumber = phone.value.stringValue.internationalizeNumber {
 								let newContact = self.getContact(withPhoneNumber: phoneNumber)
-								let name = try? (contact.givenName + " " + contact.familyName).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+								let name = (contact.givenName + " " + contact.familyName).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
 								newContact.name = name ?? "User"
 								self.contacts.append(newContact)
 							}

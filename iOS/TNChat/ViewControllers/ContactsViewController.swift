@@ -10,8 +10,9 @@ import UIKit
 
 class ContactsViewController: UITableViewController {
 	
-	var contacts = [Contact]()
+	var contacts = ContactsManager.shared.getOnlineContacts()
 	var completion: ((Contact) -> Void)?
+	var isReloading = false
 	
 	@IBAction func dismiss(_ sender: Any) {
 		navigationController?.dismiss(animated: true)
@@ -19,28 +20,29 @@ class ContactsViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-		
-		ContactsManager.shared.loadContacts { (success) in
+    }
+	
+	@IBAction func reloadAction(_ sender: Any) {
+		if isReloading {
+			return
+		}
+		isReloading = true
+		ContactsManager.shared.loadContacts { [weak self] (success) in
+			self?.isReloading = false
 			if success {
 				ContactsManager.shared.fetchContactsOnline({ (success) in
 					if success {
-						self.contacts.removeAll()
-						self.contacts.append(contentsOf: ContactsManager.shared.onlineContacts)
-						self.tableView.reloadData()
+						self?.contacts.removeAll()
+						self?.contacts.append(contentsOf: ContactsManager.shared.onlineContacts)
+						self?.tableView.reloadData()
 					} else {
 					}
 				})
 			} else {
 			}
 		}
-    }
-
+	}
+	
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

@@ -11,7 +11,7 @@ import UIKit
 extension UIColor {
 	
 	static var backgroundColor: UIColor {
-		return UIColor(hex: 0xF2EFEA)
+		return UIColor(hex: 0x00F0BB)
 	}
 	
 	convenience init(red: Int, green: Int, blue: Int) {
