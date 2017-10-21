@@ -69,7 +69,7 @@ class ContactsManager: NSObject {
 		
 		let request: NSFetchRequest<Contact> = Contact.fetchRequest()
 		let isUserPredicate = NSPredicate(format: "isUser == true")
-		let numberPredicate = NSPredicate(format: "number != %@", CurrentUserManager.shared.userId ?? "")
+		let numberPredicate = NSPredicate(format: "number != %@", CurrentUserManager.shared.userID ?? "")
 		request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [isUserPredicate, numberPredicate])
 		do {
 			let results = try context.fetch(request)
@@ -108,7 +108,7 @@ class ContactsManager: NSObject {
 							if let phoneNumber = phone.value.stringValue.internationalizeNumber {
 								let newContact = self.getContact(withPhoneNumber: phoneNumber)
 								let name = (contact.givenName + " " + contact.familyName).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-								newContact.name = name ?? "User"
+								newContact.name = name
 								self.contacts.append(newContact)
 							}
 						}
@@ -127,7 +127,7 @@ class ContactsManager: NSObject {
 		var notFound = [String: Contact]()
 		var unprocessed = [String: Contact]()
 		
-		let currentUserId = CurrentUserManager.shared.userId ?? ""
+		let currentUserId = CurrentUserManager.shared.userID ?? ""
 		
 		for contact in contacts {
 			let number = contact.number!

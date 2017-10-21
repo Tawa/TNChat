@@ -36,4 +36,16 @@ extension String {
 		
 		return String(number.dropFirst())
 	}
+	
+	var isCurrentUserID: Bool {
+		return self == CurrentUserManager.shared.userID
+	}
+	
+	init(forUserID userID1: String, andUserId userID2: String) {
+		if userID1 > userID2 {
+			self = userID1 + "&" + userID2
+		} else {
+			self = userID2 + "&" + userID1
+		}
+	}
 }

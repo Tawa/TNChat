@@ -12,22 +12,22 @@ import FirebaseMessaging
 class CurrentUserManager: NSObject {
 	static let shared = CurrentUserManager()
 	
-	var userId: String? {
+	var userID: String? {
 		set {
-			if  let oldValue = userId,
+			if  let oldValue = userID,
 				let oldNumber = Int(oldValue) {
 				Messaging.messaging().unsubscribe(fromTopic: String(oldNumber))
 			}
 			
-			UserDefaults.standard.setValue(newValue, forKey: "userId")
+			UserDefaults.standard.setValue(newValue, forKey: "userID")
 			
-			if  let userId = newValue,
-				let newNumber = Int(userId) {
+			if  let userID = newValue,
+				let newNumber = Int(userID) {
 				Messaging.messaging().subscribe(toTopic: String(newNumber))
 			}
 		}
 		get {
-			return UserDefaults.standard.value(forKey: "userId") as? String
+			return UserDefaults.standard.value(forKey: "userID") as? String
 		}
 	}
 }

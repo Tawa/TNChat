@@ -6,7 +6,16 @@
 //  Copyright © 2017 Tawa Nicolas. All rights reserved.
 //
 
-import Foundation
+import UIKit
+
+enum NotificationName: String {
+	var notification: Notification.Name {
+		return Notification.Name(self.rawValue)
+	}
+	
+	case signedIn = "NotificationNameLoggedIn"
+	case signedOut = "NotificationNameLoggedOut"
+}
 
 struct SegueIdentifiers {
 	static let showLogin = "showLogin"

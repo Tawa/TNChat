@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		382F0E3B1F9AA869005B3F7E /* ConversationsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382F0E3A1F9AA869005B3F7E /* ConversationsManager.swift */; };
+		382F0E3E1F9AAAB1005B3F7E /* ChatDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 382F0E3C1F9AAAB1005B3F7E /* ChatDataModel.xcdatamodeld */; };
+		382F0E401F9B2091005B3F7E /* ChatDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 382F0E3F1F9B2091005B3F7E /* ChatDataManager.swift */; };
+		3867449C1F9B4C9A00C0445B /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3867449B1F9B4C9A00C0445B /* DateExtension.swift */; };
 		3893E7CF1F93B88C00B7A339 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7CE1F93B88C00B7A339 /* AppDelegate.swift */; };
 		3893E7D61F93B88C00B7A339 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3893E7D41F93B88C00B7A339 /* Main.storyboard */; };
 		3893E7D81F93B88C00B7A339 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3893E7D71F93B88C00B7A339 /* Assets.xcassets */; };
@@ -35,6 +39,10 @@
 
 /* Begin PBXFileReference section */
 		10935A59AB3D9E4B9ECF50F3 /* Pods_TNChat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TNChat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		382F0E3A1F9AA869005B3F7E /* ConversationsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationsManager.swift; sourceTree = "<group>"; };
+		382F0E3D1F9AAAB1005B3F7E /* ChatDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ChatDataModel.xcdatamodel; sourceTree = "<group>"; };
+		382F0E3F1F9B2091005B3F7E /* ChatDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatDataManager.swift; sourceTree = "<group>"; };
+		3867449B1F9B4C9A00C0445B /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		3893E7CB1F93B88C00B7A339 /* TNChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TNChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3893E7CE1F93B88C00B7A339 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3893E7D51F93B88C00B7A339 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -108,7 +116,6 @@
 			children = (
 				389A55CA1F93D0B6007289E1 /* TNChat.entitlements */,
 				3893E7CE1F93B88C00B7A339 /* AppDelegate.swift */,
-				389A55CB1F93D9B6007289E1 /* ContactsDataModel.xcdatamodeld */,
 				3893E7FA1F93C8EF00B7A339 /* Data */,
 				3893E7E71F93C4F900B7A339 /* Extensions */,
 				389A55CE1F93D9DD007289E1 /* Managers */,
@@ -138,6 +145,7 @@
 				3893E7E81F93C50D00B7A339 /* ColorExtension.swift */,
 				3893E7F61F93C85F00B7A339 /* ViewExtension.swift */,
 				389A55D61F93F16A007289E1 /* StringExtension.swift */,
+				3867449B1F9B4C9A00C0445B /* DateExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -183,6 +191,8 @@
 		3893E7FA1F93C8EF00B7A339 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				389A55CB1F93D9B6007289E1 /* ContactsDataModel.xcdatamodeld */,
+				382F0E3C1F9AAAB1005B3F7E /* ChatDataModel.xcdatamodeld */,
 				3893E7FB1F93C90400B7A339 /* Constants.swift */,
 			);
 			path = Data;
@@ -192,8 +202,10 @@
 			isa = PBXGroup;
 			children = (
 				389A55D01F93DA0A007289E1 /* ContactsManager.swift */,
-				389A55D21F93DA93007289E1 /* CurrentUserManager.swift */,
+				382F0E3A1F9AA869005B3F7E /* ConversationsManager.swift */,
 				389A55D81F93F6D7007289E1 /* CountryCodeManager.swift */,
+				389A55D21F93DA93007289E1 /* CurrentUserManager.swift */,
+				382F0E3F1F9B2091005B3F7E /* ChatDataManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -356,12 +368,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				3893E7F71F93C85F00B7A339 /* ViewExtension.swift in Sources */,
+				3867449C1F9B4C9A00C0445B /* DateExtension.swift in Sources */,
 				389A55D51F93E7BB007289E1 /* ContactsViewController.swift in Sources */,
+				382F0E3B1F9AA869005B3F7E /* ConversationsManager.swift in Sources */,
 				389A55D71F93F16A007289E1 /* StringExtension.swift in Sources */,
+				382F0E3E1F9AAAB1005B3F7E /* ChatDataModel.xcdatamodeld in Sources */,
 				389A55D31F93DA93007289E1 /* CurrentUserManager.swift in Sources */,
 				3893E7F31F93C7AE00B7A339 /* PhoneNumberViewController.swift in Sources */,
 				389A55C91F93CF05007289E1 /* ChatsViewController.swift in Sources */,
 				3893E7EF1F93C75D00B7A339 /* LoadingButton.swift in Sources */,
+				382F0E401F9B2091005B3F7E /* ChatDataManager.swift in Sources */,
 				3893E7CF1F93B88C00B7A339 /* AppDelegate.swift in Sources */,
 				3893E7F91F93C8D800B7A339 /* TabBarViewController.swift in Sources */,
 				3893E7E91F93C50D00B7A339 /* ColorExtension.swift in Sources */,
@@ -564,14 +580,23 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
+		382F0E3C1F9AAAB1005B3F7E /* ChatDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				382F0E3D1F9AAAB1005B3F7E /* ChatDataModel.xcdatamodel */,
+			);
+			currentVersion = 382F0E3D1F9AAAB1005B3F7E /* ChatDataModel.xcdatamodel */;
+			path = ChatDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
 		389A55CB1F93D9B6007289E1 /* ContactsDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				389A55CC1F93D9B6007289E1 /* Contacts.xcdatamodel */,
 			);
 			currentVersion = 389A55CC1F93D9B6007289E1 /* Contacts.xcdatamodel */;
-			name = ContactsDataModel.xcdatamodeld;
-			path = Data/ContactsDataModel.xcdatamodeld;
+			path = ContactsDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

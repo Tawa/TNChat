@@ -8,6 +8,12 @@
 
 import UIKit
 
+extension ChatConversation {
+	var isUpToDate: Bool {
+		return conversationTime <= updatedTime
+	}
+}
+
 class ChatsViewController: UITableViewController {
 
     override func viewDidLoad() {

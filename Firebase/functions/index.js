@@ -9,7 +9,7 @@ exports.sendPushNotification = functions.database.ref('chats/{chatID}/messages/{
 	};
 
 	const message = event.data.val();
-    const participants = chatID.split("&");
+    const participants = event.params.chatID.split("&");
 	const user1 = participants[0];
 	const user2 = participants[1];
 
@@ -17,11 +17,11 @@ exports.sendPushNotification = functions.database.ref('chats/{chatID}/messages/{
 	admin.database().ref("userData/" + user2 + "/" + user1 + "/message").set(message);
 
 	var topic = user1;
-	if (topic == message.user) {
+	if (topic == message.userID) {
 		topic = user2;
 	}
 
-	admin.database().ref("names/"+message.user).once('value').then(function(nameSnap) {
+	admin.database().ref("names/"+message.userID).once('value').then(function(nameSnap) {
 		var title = "You have a new message";
 		if (nameSnap.exists()) {
 			title = nameSnap.val();
@@ -30,7 +30,7 @@ exports.sendPushNotification = functions.database.ref('chats/{chatID}/messages/{
 			notification: {
 				title: title,
 				body: message.message,
-				sender: message.user
+				sender: message.userID
 			}
 		};
 
