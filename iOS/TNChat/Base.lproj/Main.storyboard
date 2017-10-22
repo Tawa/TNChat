@@ -301,7 +301,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                     <subviews>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6D6-Ac-KqZ">
-                            <rect key="frame" x="16" y="8" width="283" height="48"/>
+                            <rect key="frame" x="16" y="8" width="291" height="48"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="48" id="N93-Ui-BC0"/>
@@ -332,7 +332,7 @@
                     <color key="backgroundColor" red="0.98823529409999999" green="0.46666666670000001" blue="0.32549019610000002" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="6D6-Ac-KqZ" firstAttribute="leading" secondItem="WF7-6Z-igl" secondAttribute="leading" constant="16" id="MlH-cg-DKz"/>
-                        <constraint firstItem="4Ew-fr-Hxw" firstAttribute="leading" secondItem="6D6-Ac-KqZ" secondAttribute="trailing" constant="8" id="RGR-Yu-C7L"/>
+                        <constraint firstItem="4Ew-fr-Hxw" firstAttribute="leading" secondItem="6D6-Ac-KqZ" secondAttribute="trailing" id="RGR-Yu-C7L"/>
                         <constraint firstItem="MtI-YB-MQE" firstAttribute="bottom" secondItem="6D6-Ac-KqZ" secondAttribute="bottom" constant="8" id="Rgp-9e-jTp"/>
                         <constraint firstItem="6D6-Ac-KqZ" firstAttribute="top" secondItem="WF7-6Z-igl" secondAttribute="top" constant="8" id="t7B-iu-zVm"/>
                         <constraint firstItem="MtI-YB-MQE" firstAttribute="bottom" secondItem="4Ew-fr-Hxw" secondAttribute="bottom" id="tob-yW-s1N"/>
