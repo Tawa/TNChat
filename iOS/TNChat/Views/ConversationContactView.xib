@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ConversationContactView" customModule="TNChat" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ConversationContactView" customModule="TNChat" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="41"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1000" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aEe-du-Ufn">
+                    <rect key="frame" x="57" y="0.0" width="42" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mFt-P4-kRE">
+                    <rect key="frame" x="8" y="0.0" width="41" height="41"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" secondItem="mFt-P4-kRE" secondAttribute="height" multiplier="1:1" id="Tnv-gL-Ab3"/>
+                    </constraints>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kgo-I5-lp1">
+                    <rect key="frame" x="57" y="20.5" width="37.5" height="20.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="mFt-P4-kRE" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="5QJ-F2-TR4"/>
+                <constraint firstItem="aEe-du-Ufn" firstAttribute="leading" secondItem="mFt-P4-kRE" secondAttribute="trailing" constant="8" id="7lR-6I-cXi"/>
+                <constraint firstItem="Kgo-I5-lp1" firstAttribute="bottom" secondItem="mFt-P4-kRE" secondAttribute="bottom" id="9FH-0s-YZ0"/>
+                <constraint firstItem="mFt-P4-kRE" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="GUv-qZ-bZ0"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="aEe-du-Ufn" secondAttribute="trailing" constant="16" id="P0J-Jm-kUM"/>
+                <constraint firstAttribute="bottom" secondItem="mFt-P4-kRE" secondAttribute="bottom" id="R1m-m5-FHL"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Kgo-I5-lp1" secondAttribute="trailing" constant="16" id="VET-OQ-Lnq"/>
+                <constraint firstItem="Kgo-I5-lp1" firstAttribute="height" secondItem="aEe-du-Ufn" secondAttribute="height" id="Ytr-Ij-avr"/>
+                <constraint firstItem="aEe-du-Ufn" firstAttribute="top" secondItem="mFt-P4-kRE" secondAttribute="top" id="n7J-kW-qq5"/>
+                <constraint firstItem="Kgo-I5-lp1" firstAttribute="leading" secondItem="mFt-P4-kRE" secondAttribute="trailing" constant="8" id="tnJ-7p-sK0"/>
+                <constraint firstItem="Kgo-I5-lp1" firstAttribute="top" secondItem="aEe-du-Ufn" secondAttribute="bottom" id="zp0-fL-xU8"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="nameLabel" destination="aEe-du-Ufn" id="jUI-nf-Ka5"/>
+                <outlet property="pictureView" destination="mFt-P4-kRE" id="y0G-Rb-QIK"/>
+                <outlet property="statusLabel" destination="Kgo-I5-lp1" id="w3F-x7-g51"/>
+            </connections>
+            <point key="canvasLocation" x="34.5" y="-259.5"/>
+        </view>
+    </objects>
+</document>

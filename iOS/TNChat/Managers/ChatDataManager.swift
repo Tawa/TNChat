@@ -89,7 +89,6 @@ class ChatDataManager: NSObject {
 		} else {
 			request.predicate = NSPredicate(format: "conversation == %@", conversation)
 		}
-		print("Predicate = \(request.predicate!)")
 		
 		var messages = [ChatMessage]()
 		

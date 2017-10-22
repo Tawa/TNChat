@@ -139,11 +139,17 @@ class ChatCell: UITableViewCell {
 	}
 }
 
+protocol InputAccessoryViewDelegate: NSObjectProtocol {
+	func inputAccessoryView(textDidChange text: String)
+}
+
 class InputAccessoryView: UIView {
 	
 	@IBOutlet weak var textView: UITextView!
 	@IBOutlet weak var sendButton: UIButton!
 	@IBOutlet weak var textViewHeightConstraint: NSLayoutConstraint!
+	
+	weak var delegate: InputAccessoryViewDelegate?
 	
 	override func awakeFromNib() {
 		super.awakeFromNib()
@@ -169,6 +175,8 @@ extension InputAccessoryView: UITextViewDelegate, UIScrollViewDelegate {
 			invalidateIntrinsicContentSize()
 			textViewHeightConstraint.constant = constraintHeight
 		}
+		
+		delegate?.inputAccessoryView(textDidChange: textView.text)
 	}
 	
 	func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -192,12 +200,22 @@ class ConversationViewController: UIViewController {
 			}
 		}
 	}
+	
+	var friendID: String? {
+		return contact?.number
+	}
+	
+	var userID: String? {
+		return CurrentUserManager.shared.userID
+	}
+	
 	var chatID: String? {
-		if let contact = contact, let number = contact.number, let userID = CurrentUserManager.shared.userID {
-			return String(forUserID: number, andUserId: userID)
+		if let friendID = friendID, let userID = userID {
+			return String(forUserID: friendID, andUserId: userID)
 		}
 		return nil
 	}
+	
 	var conversation: ChatConversation?
 	
 	var didScrollToEnd = false
@@ -213,12 +231,27 @@ class ConversationViewController: UIViewController {
 	}
 	
 	var messagesQueryReference: DatabaseQuery!
-	var database: DatabaseReference?
+	var databaseReference: DatabaseReference?
+	var onlineReference: DatabaseReference?
+	var typingReference: DatabaseReference?
 	var messages = ConversationContainer()
 	let refresh = UIRefreshControl()
+	var contactView: ConversationContactView!
+	
+	var isTyping = false
+	var isOnline = false
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		inputViewContainer.delegate = self
+		
+		contactView = Bundle.main.loadNibNamed("ConversationContactView", owner: self, options: nil)!.first as! ConversationContactView
+		contactView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 44)
+		contactView.contact = contact
+		navigationItem.titleView = contactView
+		
+		navigationItem.backBarButtonItem?.title = ""
 		
 		tableView.register(UINib(nibName: "ChatDayHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "header")
 		tableView.estimatedSectionHeaderHeight = 44
@@ -226,6 +259,9 @@ class ConversationViewController: UIViewController {
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(_:)), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(_:)), name: Notification.Name.UIKeyboardDidChangeFrame, object: nil)
+		
+		NotificationCenter.default.addObserver(self, selector: #selector(removeObservers), name: Notification.Name.UIApplicationWillResignActive, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(addObservers), name: Notification.Name.UIApplicationDidBecomeActive, object: nil)
 		
 		refresh.addTarget(self, action: #selector(loadMore), for: .valueChanged)
 		tableView.addSubview(refresh)
@@ -236,8 +272,8 @@ class ConversationViewController: UIViewController {
 	}
 	
 	@objc func loadMore() {
-		if let contact = contact, let number = contact.number, let first = messages.first {
-			let chatMessages = ChatDataManager.shared.chatMessages(forConversationWithFriendID: number, beforeTimestamp: first.timestamp)
+		if let friendID = friendID, let first = messages.first {
+			let chatMessages = ChatDataManager.shared.chatMessages(forConversationWithFriendID: friendID, beforeTimestamp: first.timestamp)
 			for message in chatMessages {
 				let (indexPath, isNewSection) = self.messages.add(message: message)
 				if isNewSection {
@@ -261,19 +297,60 @@ class ConversationViewController: UIViewController {
 		}
 	}
 	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-
-		if database == nil {
+	func refreshContactView() {
+		if isTyping {
+			contactView.statusLabel.text = "Typing"
+		} else if isOnline {
+			contactView.statusLabel.text = "Online"
+		} else {
+			contactView.statusLabel.text = ""
+		}
+	}
+	
+	@objc func addObservers() {
+		if databaseReference == nil {
 			if let chatID = chatID {
-				database = Database.database().reference().child("chats/" + chatID + "/messages")
+				databaseReference = Database.database().reference().child("chats/" + chatID)
+				onlineReference = databaseReference?.child("online")
+				let isOnlineClosure = { (data: DataSnapshot) in
+					if data.key == self.friendID {
+						self.isOnline = true
+					}
+					self.refreshContactView()
+				}
+				let isOfflineClosure = { (data: DataSnapshot) in
+					if data.key == self.friendID {
+						self.isOnline = false
+					}
+					self.refreshContactView()
+				}
+				onlineReference?.observe(.childAdded, with: isOnlineClosure)
+				onlineReference?.observe(.childRemoved, with: isOfflineClosure)
+
+				typingReference = databaseReference?.child("typing")
+				let isTypingClosure = { (data: DataSnapshot) in
+					if data.key == self.friendID {
+						self.isTyping = true
+					}
+					self.refreshContactView()
+				}
+				let isNotTypingClosure = { (data: DataSnapshot) in
+					if data.key == self.friendID {
+						self.isTyping = false
+					}
+					self.refreshContactView()
+				}
+				typingReference?.observe(.childAdded, with: isTypingClosure)
+				typingReference?.observe(.childRemoved, with: isNotTypingClosure)
+
+
 				if let start = conversation?.updatedTime {
-					messagesQueryReference = database?.queryOrdered(byChild: "timestamp").queryStarting(atValue: start, childKey: "timestamp")
+					messagesQueryReference = databaseReference?.child("messages").queryOrdered(byChild: "timestamp").queryStarting(atValue: start, childKey: "timestamp")
 				} else {
-					messagesQueryReference = database?.queryOrdered(byChild: "timestamp")
+					messagesQueryReference = databaseReference?.child("messages").queryOrdered(byChild: "timestamp")
 				}
 				messagesQueryReference?.observe(.childAdded, with: { (data) in
-					let key = (self.contact?.number ?? "")+data.key
+					let key = (self.friendID ?? "")+data.key
 					if let data = data.value as? [String: Any],
 						let message = data["message"] as? String,
 						let userID = data["userID"] as? String,
@@ -295,8 +372,8 @@ class ConversationViewController: UIViewController {
 						}
 					}
 				})
-				database?.observe(.childChanged, with: { (data) in
-					let key = (self.contact?.number ?? "")+data.key
+				databaseReference?.observe(.childChanged, with: { (data) in
+					let key = (self.friendID ?? "")+data.key
 					if let data = data.value as? [String: Any],
 						let message = data["message"] as? String,
 						let userID = data["userID"] as? String,
@@ -310,13 +387,40 @@ class ConversationViewController: UIViewController {
 				})
 			}
 		}
+		
+		if let userID = userID {
+			onlineReference?.child(userID).setValue(true)
+		}
+	}
+	
+	@objc func removeObservers() {
+		messagesQueryReference?.removeAllObservers()
+		databaseReference?.removeAllObservers()
+		
+		if let userID = userID {
+			onlineReference?.child(userID).removeValue()
+			typingReference?.child(userID).removeValue()
+		}
+		
+		onlineReference?.removeAllObservers()
+		typingReference?.removeAllObservers()
+		
+		messagesQueryReference = nil
+		databaseReference = nil
+		onlineReference = nil
+		typingReference = nil
+	}
+	
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+		
+		addObservers()
 	}
 	
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
-
-		messagesQueryReference?.removeAllObservers()
-		database = nil
+		
+		removeObservers()
 	}
 	
 	@objc func keyboardDidChangeFrame(_ notification: Notification) {
@@ -359,7 +463,7 @@ class ConversationViewController: UIViewController {
 		let data: [String: Any] = ["message":inputViewContainer.textView.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines),
 		                           "userID":CurrentUserManager.shared.userID!,
 		                           "timestamp":ServerValue.timestamp()]
-		database?.childByAutoId().setValue(data)
+		databaseReference?.child("messages").childByAutoId().setValue(data)
 		
 		inputViewContainer.textView.text = ""
 		inputViewContainer.textViewDidChange(inputViewContainer.textView)
@@ -401,8 +505,7 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 		
 		return cell
 	}
-	
-	func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 		let message = messages.message(forIndexPath: indexPath)
 
 		if let conversation = conversation {
@@ -423,5 +526,17 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 			}
 		}
 		return nil
+	}
+}
+
+extension ConversationViewController: InputAccessoryViewDelegate {
+	func inputAccessoryView(textDidChange text: String) {
+		if let userID = userID {
+			if text.count > 0 {
+				typingReference?.child(userID).setValue(true)
+			} else {
+				typingReference?.child(userID).removeValue()
+			}
+		}
 	}
 }
