@@ -13,24 +13,30 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ChatDayHeader" customModule="TNChat" customModuleProvider="target"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="ChatDayHeader" customModule="TNChat" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="65"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="30"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8WI-RP-8jZ">
-                    <rect key="frame" x="161.5" y="4" width="53.5" height="57"/>
+                    <rect key="frame" x="145.5" y="4" width="84" height="22"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6t-ZH-XUK">
-                            <rect key="frame" x="8" y="4" width="37.5" height="49"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yesterday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6t-ZH-XUK">
+                            <rect key="frame" x="8" y="0.0" width="68" height="22"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="22" id="bBO-Ia-IWQ"/>
+                            </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="NO"/>
+                            </userDefinedRuntimeAttributes>
                         </label>
                     </subviews>
                     <color key="backgroundColor" red="0.40000000000000002" green="0.84313725490196079" blue="0.81960784313725488" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
-                        <constraint firstItem="R6t-ZH-XUK" firstAttribute="top" secondItem="8WI-RP-8jZ" secondAttribute="top" constant="4" id="4hG-Bg-Be1"/>
-                        <constraint firstAttribute="bottom" secondItem="R6t-ZH-XUK" secondAttribute="bottom" constant="4" id="h3H-an-dym"/>
+                        <constraint firstItem="R6t-ZH-XUK" firstAttribute="top" secondItem="8WI-RP-8jZ" secondAttribute="top" id="4hG-Bg-Be1"/>
+                        <constraint firstAttribute="bottom" secondItem="R6t-ZH-XUK" secondAttribute="bottom" id="h3H-an-dym"/>
                         <constraint firstAttribute="trailing" secondItem="R6t-ZH-XUK" secondAttribute="trailing" constant="8" id="rvN-fe-wCn"/>
                         <constraint firstItem="R6t-ZH-XUK" firstAttribute="leading" secondItem="8WI-RP-8jZ" secondAttribute="leading" constant="8" id="ziT-fl-Pok"/>
                     </constraints>
@@ -47,14 +53,13 @@
                 <constraint firstItem="8WI-RP-8jZ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="4" id="Pa6-cO-3f1"/>
                 <constraint firstItem="8WI-RP-8jZ" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="ZlF-8S-yJZ"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="8WI-RP-8jZ" secondAttribute="bottom" constant="4" id="sEq-YM-9fM"/>
-                <constraint firstItem="8WI-RP-8jZ" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="uiU-oO-pSB"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <connections>
                 <outlet property="label" destination="R6t-ZH-XUK" id="t7J-ye-PDx"/>
             </connections>
-            <point key="canvasLocation" x="-31.5" y="-290.5"/>
+            <point key="canvasLocation" x="-31.5" y="-301"/>
         </view>
     </objects>
 </document>

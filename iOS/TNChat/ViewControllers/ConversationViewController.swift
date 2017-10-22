@@ -67,29 +67,29 @@ class ConversationContainer: NSObject {
 		return days[day].count
 	}
 	
-	func add(message: ChatMessage) -> IndexPath {
+	func add(message: ChatMessage) -> (IndexPath, Bool) {
 		if days.count == 0 {
 			days.append(MessageContainer(withMessage: message))
-			return IndexPath(row: 0, section: 0)
+			return (IndexPath(row: 0, section: 0), true)
 		}
 
 		for i in 0...days.count {
 			if i == days.count {
 				days.append(MessageContainer(withMessage: message))
-				return IndexPath(row: 0, section: i)
+				return (IndexPath(row: 0, section: i), true)
 			}
 			let (result, index) = days[i].include(message: message)
 			print("Result = \(result)")
 			if result == .orderedSame {
-				return IndexPath(row: index, section: i)
+				return (IndexPath(row: index, section: i), true)
 			} else if result == .orderedAscending {
 				continue
 			} else {
 				days.insert(MessageContainer(withMessage: message), at: i)
-				return IndexPath(row: 0, section: i)
+				return (IndexPath(row: 0, section: i), true)
 			}
 		}
-		return IndexPath()
+		return (IndexPath(), false)
 	}
 	
 	func clear() {
@@ -181,8 +181,7 @@ class ConversationViewController: UIViewController {
 				messages.clear()
 				if let array = conversation?.messages?.array as? [ChatMessage] {
 					for message in array {
-						let indexPath = messages.add(message: message)
-						print("Message: \(message.message!) : \(indexPath)")
+						let _ = messages.add(message: message)
 					}
 				}
 			}
@@ -214,6 +213,8 @@ class ConversationViewController: UIViewController {
 		super.viewDidLoad()
 		
 		tableView.register(UINib(nibName: "ChatDayHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "header")
+		tableView.estimatedSectionHeaderHeight = 44
+		tableView.sectionHeaderHeight = UITableViewAutomaticDimension
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(_:)), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(_:)), name: Notification.Name.UIKeyboardDidChangeFrame, object: nil)
@@ -253,8 +254,12 @@ class ConversationViewController: UIViewController {
 						
 						if isNew {
 							self.conversation?.addToMessages(chatMessage)
-							let indexPath = self.messages.add(message: chatMessage)
-							self.tableView.insertRows(at: [indexPath], with: .fade)
+							let (indexPath, isNewSection) = self.messages.add(message: chatMessage)
+							if isNewSection {
+								self.tableView.insertSections([indexPath.section], with: .fade)
+							} else {
+								self.tableView.insertRows(at: [indexPath], with: .fade)
+							}
 							DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
 								self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
 							})
