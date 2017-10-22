@@ -79,9 +79,8 @@ class ConversationContainer: NSObject {
 				return (IndexPath(row: 0, section: i), true)
 			}
 			let (result, index) = days[i].include(message: message)
-			print("Result = \(result)")
 			if result == .orderedSame {
-				return (IndexPath(row: index, section: i), true)
+				return (IndexPath(row: index, section: i), false)
 			} else if result == .orderedAscending {
 				continue
 			} else {
@@ -224,17 +223,8 @@ class ConversationViewController: UIViewController {
 		NotificationCenter.default.removeObserver(self)
 	}
 	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		print("Will Appear")
-	
-		let lastRect = tableView.rectForRow(at: lastIndexPath)
-		print("Rect = \(lastRect)")
-	}
-	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		print("Did Appear")
 
 		if database == nil {
 			if let chatID = chatID {
@@ -284,14 +274,8 @@ class ConversationViewController: UIViewController {
 		}
 	}
 	
-	override func viewWillDisappear(_ animated: Bool) {
-		super.viewWillDisappear(animated)
-		print("Will Disappear")
-	}
-	
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
-		print("Did Disappear")
 
 		messagesQueryReference?.removeAllObservers()
 		database = nil

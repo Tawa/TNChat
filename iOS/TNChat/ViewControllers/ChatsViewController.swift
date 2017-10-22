@@ -14,6 +14,30 @@ extension ChatConversation {
 	}
 }
 
+class ConversationCell: UITableViewCell {
+	@IBOutlet weak var pictureView: UIImageView!
+	@IBOutlet weak var nameLabel: UILabel!
+	@IBOutlet weak var dateLabel: UILabel!
+	@IBOutlet weak var lastMessageLabel: UILabel!
+	
+	weak var conversation: ChatConversation? {
+		didSet {
+			if let conversation = conversation, let friendID = conversation.friendID {
+				let contact = ContactsManager.shared.getContact(withPhoneNumber: friendID)
+				nameLabel.text = contact.name ?? contact.number!
+				lastMessageLabel.text = conversation.message
+				let date = conversation.conversationTime.date
+				let formatter = DateFormatter()
+				formatter.dateStyle = .short
+				formatter.timeStyle = .short
+				formatter.doesRelativeDateFormatting = true
+				dateLabel.text = formatter.string(from: date)
+			}
+		}
+	}
+	
+}
+
 class ChatsViewController: UITableViewController {
 	
 	var conversations: [ChatConversation] {
@@ -48,23 +72,11 @@ class ChatsViewController: UITableViewController {
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 		let row = indexPath.row
 		
-		let cell = tableView.dequeueReusableCell(withIdentifier: "conversationCell")!
+		let cell = tableView.dequeueReusableCell(withIdentifier: "conversationCell") as! ConversationCell
 		
-		let conversation = conversations[row]
-		if let friendID = conversation.friendID {
-			let contact = ContactsManager.shared.getContact(withPhoneNumber: friendID)
-			cell.textLabel?.text = contact.name ?? "User"
-			cell.detailTextLabel?.text = conversation.message ?? "Message"
-		} else {
-			cell.textLabel?.text = "User"
-			cell.detailTextLabel?.text = "Message"
-		}
+		cell.conversation = conversations[row]
 		
 		return cell
-	}
-	
-	override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-		return 56
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
