@@ -71,6 +71,37 @@ class ChatDataManager: NSObject {
 		return (conversation!, isNew)
 	}
 	
+	func chatMessages(forConversationWithFriendID friendID: String, beforeTimestamp timestamp: Int64? = nil) -> [ChatMessage] {
+		let context = self.context
+		let (conversation, _) = self.conversation(withFriendID: friendID)
+		let request: NSFetchRequest<ChatMessage> = ChatMessage.fetchRequest()
+		request.fetchLimit = 20
+		request.sortDescriptors = [
+			NSSortDescriptor(key: "timestamp", ascending: false)
+		]
+		
+		if let timestamp = timestamp {
+			request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates:
+				[
+					NSPredicate(format: "timestamp < %ld", timestamp),
+					NSPredicate(format: "conversation == %@", conversation)
+				])
+		} else {
+			request.predicate = NSPredicate(format: "conversation == %@", conversation)
+		}
+		print("Predicate = \(request.predicate!)")
+		
+		var messages = [ChatMessage]()
+		
+		do {
+			let array = try context.fetch(request)
+			messages.append(contentsOf: array)
+		} catch {
+		}
+		
+		return messages
+	}
+	
 	func chatMessage(forUserID userID: String, date: Int, message: String, key: String) -> (ChatMessage, Bool) {
 		let context = self.context
 		

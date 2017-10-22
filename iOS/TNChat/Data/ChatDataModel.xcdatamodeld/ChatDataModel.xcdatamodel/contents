@@ -6,16 +6,17 @@
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="updatedTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="userID" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ChatMessage" syncable="YES"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="ChatMessage" inverseName="conversation" inverseEntity="ChatMessage" syncable="YES"/>
     </entity>
     <entity name="ChatMessage" representedClassName="ChatMessage" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="String" syncable="YES"/>
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="userID" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="conversation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ChatConversation" inverseName="messages" inverseEntity="ChatConversation" syncable="YES"/>
     </entity>
     <elements>
         <element name="ChatConversation" positionX="-63" positionY="-18" width="128" height="135"/>
-        <element name="ChatMessage" positionX="-54" positionY="45" width="128" height="105"/>
+        <element name="ChatMessage" positionX="-54" positionY="45" width="128" height="120"/>
     </elements>
 </model>

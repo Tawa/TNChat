@@ -63,6 +63,13 @@ class ConversationContainer: NSObject {
 		return days.count
 	}
 	
+	var first: ChatMessage? {
+		return days.first?.messages.first
+	}
+	var last: ChatMessage? {
+		return days.last?.messages.last
+	}
+	
 	func count(forDay day: Int) -> Int {
 		return days[day].count
 	}
@@ -177,11 +184,10 @@ class ConversationViewController: UIViewController {
 		didSet {
 			if let number = contact?.number {
 				conversation = ChatDataManager.shared.conversation(withFriendID: number).0
+				let chatMessages = ChatDataManager.shared.chatMessages(forConversationWithFriendID: number)
 				messages.clear()
-				if let array = conversation?.messages?.array as? [ChatMessage] {
-					for message in array {
-						let _ = messages.add(message: message)
-					}
+				for message in chatMessages {
+					let _ = messages.add(message: message)
 				}
 			}
 		}
@@ -193,6 +199,8 @@ class ConversationViewController: UIViewController {
 		return nil
 	}
 	var conversation: ChatConversation?
+	
+	var didScrollToEnd = false
 	
 	@IBOutlet weak var tableView: UITableView!
 	@IBOutlet var inputViewContainer: InputAccessoryView!
@@ -207,7 +215,8 @@ class ConversationViewController: UIViewController {
 	var messagesQueryReference: DatabaseQuery!
 	var database: DatabaseReference?
 	var messages = ConversationContainer()
-	
+	let refresh = UIRefreshControl()
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		
@@ -217,10 +226,39 @@ class ConversationViewController: UIViewController {
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(_:)), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(_:)), name: Notification.Name.UIKeyboardDidChangeFrame, object: nil)
+		
+		refresh.addTarget(self, action: #selector(loadMore), for: .valueChanged)
+		tableView.addSubview(refresh)
 	}
 	
 	deinit {
 		NotificationCenter.default.removeObserver(self)
+	}
+	
+	@objc func loadMore() {
+		if let contact = contact, let number = contact.number, let first = messages.first {
+			let chatMessages = ChatDataManager.shared.chatMessages(forConversationWithFriendID: number, beforeTimestamp: first.timestamp)
+			for message in chatMessages {
+				let (indexPath, isNewSection) = self.messages.add(message: message)
+				if isNewSection {
+					self.tableView.insertSections([indexPath.section], with: .fade)
+				} else {
+					self.tableView.insertRows(at: [indexPath], with: .fade)
+				}
+			}
+			refresh.endRefreshing()
+		} else {
+			refresh.endRefreshing()
+		}
+	}
+	
+	override func viewDidLayoutSubviews() {
+		super.viewDidLayoutSubviews()
+		
+		if !didScrollToEnd, let lastIndexPath = lastIndexPath {
+			didScrollToEnd = true
+			tableView.scrollToRow(at: lastIndexPath, at: .top, animated: false)
+		}
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -289,25 +327,32 @@ class ConversationViewController: UIViewController {
 		let tableFrame = tableView.convert(tableView.bounds, to: tableView.window)
 		let inputFrame = inputAccessoryView.convert(inputAccessoryView.bounds, to: inputAccessoryView.window)
 		
-		let bottom: CGFloat = (tableFrame.origin.y + tableFrame.height) - inputFrame.origin.y
+		let bottom: CGFloat = max(0, (tableFrame.origin.y + tableFrame.height) - inputFrame.origin.y)
+		
+		guard oldBottom != bottom, bottom < tableView.frame.height else { return }
+		
 		let oldOffset = tableView.contentOffset.y
 		
-		let animator = UIViewPropertyAnimator(duration: duration, curve: .easeOut) {
-			self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottom, right: 0)
-			let finalHeight = self.tableView.frame.height - self.tableView.contentInset.bottom
-			let contentHeight = self.tableView.contentSize.height
-			let deltaHeight = contentHeight - finalHeight
-			if oldBottom < bottom {
-				if finalHeight < contentHeight {
-					if deltaHeight < finalHeight {
-						self.tableView.contentOffset = CGPoint(x: 0, y: deltaHeight)
-					} else {
-						self.tableView.contentOffset = CGPoint(x: 0, y: oldOffset - (oldBottom - bottom))
-					}
+		self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottom, right: 0)
+		let finalHeight = self.tableView.frame.height - self.tableView.contentInset.bottom
+		let contentHeight = self.tableView.contentSize.height
+		let deltaHeight = contentHeight - finalHeight
+		var contentOffset: CGFloat? = nil
+		if oldBottom < bottom {
+			if finalHeight < contentHeight {
+				if deltaHeight < finalHeight {
+					contentOffset = deltaHeight
+				} else {
+					contentOffset = oldOffset - (oldBottom - bottom)
 				}
 			}
 		}
-		animator.startAnimation()
+		if let contentOffset = contentOffset, tableView.contentOffset.y != contentOffset {
+			let animator = UIViewPropertyAnimator(duration: duration, curve: .easeOut) {
+				self.tableView.contentOffset = CGPoint(x: 0, y: contentOffset)
+			}
+			animator.startAnimation()
+		}
 	}
 	
 	@IBAction func sendAction(_ sender: Any) {
@@ -369,7 +414,14 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 		}
 	}
 	
-	var lastIndexPath: IndexPath {
-		return IndexPath(row: tableView(tableView, numberOfRowsInSection: 0)-1, section: numberOfSections(in: tableView)-1)
+	var lastIndexPath: IndexPath? {
+		let section = numberOfSections(in: tableView)-1
+		if section >= 0 {
+			let row = tableView(tableView, numberOfRowsInSection: section)-1
+			if row > 0 {
+				return IndexPath(row: row, section: section)
+			}
+		}
+		return nil
 	}
 }

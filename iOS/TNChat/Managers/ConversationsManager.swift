@@ -29,6 +29,10 @@ class ConversationsManager: NSObject {
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(removeObservers), name: NotificationName.signedOut.notification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(removeObservers), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
+		
+		if CurrentUserManager.shared.userID != nil {
+			addObservers()
+		}
 	}
 	
 	@objc func addObservers() {

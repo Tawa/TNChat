@@ -34,6 +34,7 @@ class CodeVerificationViewController: UIViewController {
 					CurrentUserManager.shared.userID = String(number.dropFirst())
 					Database.database().reference().child("users/"+number.dropFirst()).setValue(true)
 				}
+				NotificationCenter.default.post(name: NotificationName.signedIn.notification, object: nil)
 				self.dismiss(animated: true)
 			}
 		}
