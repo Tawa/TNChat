@@ -308,9 +308,18 @@
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                    <integer key="value" value="8"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
                         </textView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ew-fr-Hxw">
-                            <rect key="frame" x="307" y="0.0" width="68" height="64"/>
+                            <rect key="frame" x="307" y="15" width="68" height="49"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="49" id="8E3-kP-dVP"/>
+                            </constraints>
                             <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
                             <state key="normal" title="Send">
                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -328,7 +337,6 @@
                         <constraint firstItem="6D6-Ac-KqZ" firstAttribute="top" secondItem="WF7-6Z-igl" secondAttribute="top" constant="8" id="t7B-iu-zVm"/>
                         <constraint firstItem="MtI-YB-MQE" firstAttribute="bottom" secondItem="4Ew-fr-Hxw" secondAttribute="bottom" id="tob-yW-s1N"/>
                         <constraint firstAttribute="trailing" secondItem="4Ew-fr-Hxw" secondAttribute="trailing" id="uh6-Ai-eel"/>
-                        <constraint firstItem="4Ew-fr-Hxw" firstAttribute="top" secondItem="WF7-6Z-igl" secondAttribute="top" id="uqe-Zu-eSC"/>
                     </constraints>
                     <viewLayoutGuide key="safeArea" id="MtI-YB-MQE"/>
                     <connections>
