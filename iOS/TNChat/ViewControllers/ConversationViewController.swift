@@ -9,6 +9,98 @@
 import UIKit
 import FirebaseDatabase
 
+extension ChatMessage {
+	var date: Date {
+		return timestamp.date
+	}
+}
+
+class MessageContainer: NSObject {
+	var date: Date
+	var messages = [ChatMessage]()
+	var count: Int {
+		return messages.count
+	}
+	
+	init(withDate date: Date) {
+		let calendar = Calendar.current
+		let components = calendar.dateComponents([.year, .month, .day], from: date)
+		self.date = calendar.date(from: components)!
+	}
+	
+	convenience init(withMessage message: ChatMessage) {
+		self.init(withDate: message.date)
+		
+		messages.append(message)
+	}
+	
+	func include(message: ChatMessage) -> (ComparisonResult, Int) {
+		let calendar = Calendar.current
+		if calendar.isDate(date, inSameDayAs: message.date) {
+			var newIndex: Int = 0
+			for i in 0...messages.count {
+				if i == messages.count {
+					newIndex = i
+					break
+				}
+				let oldMessage = messages[i]
+				newIndex = i
+				if oldMessage.timestamp > message.timestamp {
+					break
+				}
+			}
+			messages.insert(message, at: newIndex)
+			return (.orderedSame, newIndex)
+		} else {
+			return (date.compare(message.date), -1)
+		}
+	}
+}
+
+class ConversationContainer: NSObject {
+	var days = [MessageContainer]()
+	var count: Int {
+		return days.count
+	}
+	
+	func count(forDay day: Int) -> Int {
+		return days[day].count
+	}
+	
+	func add(message: ChatMessage) -> IndexPath {
+		if days.count == 0 {
+			days.append(MessageContainer(withMessage: message))
+			return IndexPath(row: 0, section: 0)
+		}
+
+		for i in 0...days.count {
+			if i == days.count {
+				days.append(MessageContainer(withMessage: message))
+				return IndexPath(row: 0, section: i)
+			}
+			let (result, index) = days[i].include(message: message)
+			print("Result = \(result)")
+			if result == .orderedSame {
+				return IndexPath(row: index, section: i)
+			} else if result == .orderedAscending {
+				continue
+			} else {
+				days.insert(MessageContainer(withMessage: message), at: i)
+				return IndexPath(row: 0, section: i)
+			}
+		}
+		return IndexPath()
+	}
+	
+	func clear() {
+		days.removeAll()
+	}
+	
+	func message(forIndexPath indexPath: IndexPath) -> ChatMessage {
+		return days[indexPath.section].messages[indexPath.row]
+	}
+}
+
 class ChatCell: UITableViewCell {
 	@IBOutlet weak var container: UIView!
 	@IBOutlet weak var messageText: UILabel!
@@ -19,19 +111,14 @@ class ChatCell: UITableViewCell {
 			if let message = message {
 				let messageString = message.message ?? ""
 				
-				let now = message.timestamp.date
+				let now = message.date
 				let dateFormatter = DateFormatter()
 				dateFormatter.dateStyle = .medium
 				dateFormatter.doesRelativeDateFormatting = true
 				
 				let timeFormatter = DateFormatter()
 				timeFormatter.timeStyle = .short
-				
-				var dateText = timeFormatter.string(from: now)
-				if now.timeIntervalSinceNow < -24*3600 {
-					dateText = dateFormatter.string(from: now) + ", " + dateText
-				}
-				dateLabel.text = dateText
+				dateLabel.text = timeFormatter.string(from: now)
 				
 				messageText.text = messageString
 			}
@@ -91,9 +178,12 @@ class ConversationViewController: UIViewController {
 		didSet {
 			if let number = contact?.number {
 				conversation = ChatDataManager.shared.conversation(withFriendID: number).0
-				messages.removeAll()
+				messages.clear()
 				if let array = conversation?.messages?.array as? [ChatMessage] {
-					messages.append(contentsOf: array)
+					for message in array {
+						let indexPath = messages.add(message: message)
+						print("Message: \(message.message!) : \(indexPath)")
+					}
 				}
 			}
 		}
@@ -118,10 +208,12 @@ class ConversationViewController: UIViewController {
 	
 	var messagesQueryReference: DatabaseQuery!
 	var database: DatabaseReference?
-	var messages = [ChatMessage]()
+	var messages = ConversationContainer()
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
+		
+		tableView.register(UINib(nibName: "ChatDayHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "header")
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(_:)), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(_:)), name: Notification.Name.UIKeyboardDidChangeFrame, object: nil)
@@ -131,9 +223,18 @@ class ConversationViewController: UIViewController {
 		NotificationCenter.default.removeObserver(self)
 	}
 	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		print("Will Appear")
+	
+		let lastRect = tableView.rectForRow(at: lastIndexPath)
+		print("Rect = \(lastRect)")
+	}
+	
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-		
+		print("Did Appear")
+
 		if database == nil {
 			if let chatID = chatID {
 				database = Database.database().reference().child("chats/" + chatID + "/messages")
@@ -152,8 +253,7 @@ class ConversationViewController: UIViewController {
 						
 						if isNew {
 							self.conversation?.addToMessages(chatMessage)
-							self.messages.append(chatMessage)
-							let indexPath = IndexPath(row: self.messages.count-1, section: 0)
+							let indexPath = self.messages.add(message: chatMessage)
 							self.tableView.insertRows(at: [indexPath], with: .fade)
 							DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
 								self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
@@ -179,9 +279,15 @@ class ConversationViewController: UIViewController {
 		}
 	}
 	
+	override func viewWillDisappear(_ animated: Bool) {
+		super.viewWillDisappear(animated)
+		print("Will Disappear")
+	}
+	
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
-		
+		print("Did Disappear")
+
 		messagesQueryReference?.removeAllObservers()
 		database = nil
 	}
@@ -228,17 +334,28 @@ class ConversationViewController: UIViewController {
 
 extension ConversationViewController: UITableViewDelegate, UITableViewDataSource {
 	func numberOfSections(in tableView: UITableView) -> Int {
-		return 1
-	}
-	
-	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 		return messages.count
 	}
 	
+	func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+		return messages.count(forDay: section)
+	}
+	
+	func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+		let formatter = DateFormatter()
+		formatter.dateStyle = .short
+		formatter.doesRelativeDateFormatting = true
+		
+		let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: "header") as! ChatDayHeader
+		
+		header.label.text = formatter.string(from: messages.days[section].date)
+		
+		return header
+	}
+	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let row = indexPath.row
 		let cell: ChatCell
-		let message = messages[row]
+		let message = messages.message(forIndexPath: indexPath)
 		
 		if message.userID!.isCurrentUserID {
 			cell = tableView.dequeueReusableCell(withIdentifier: "sentCell") as! ChatCell
@@ -248,6 +365,12 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 		
 		cell.message = message
 		
+		return cell
+	}
+	
+	func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+		let message = messages.message(forIndexPath: indexPath)
+
 		if let conversation = conversation {
 			if conversation.updatedTime < message.timestamp {
 				conversation.updatedTime = message.timestamp
@@ -255,11 +378,9 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 				ChatDataManager.shared.saveContext()
 			}
 		}
-		
-		return cell
 	}
 	
 	var lastIndexPath: IndexPath {
-		return IndexPath(row: tableView(tableView, numberOfRowsInSection: 0)-1, section: 0)
+		return IndexPath(row: tableView(tableView, numberOfRowsInSection: 0)-1, section: numberOfSections(in: tableView)-1)
 	}
 }
