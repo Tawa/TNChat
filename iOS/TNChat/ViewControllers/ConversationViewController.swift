@@ -293,6 +293,7 @@ class ConversationViewController: UIViewController {
 		
 		if !didScrollToEnd, let lastIndexPath = lastIndexPath {
 			didScrollToEnd = true
+			tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: inputViewContainer.frame.height, right: 0)
 			tableView.scrollToRow(at: lastIndexPath, at: .top, animated: false)
 		}
 	}
@@ -521,7 +522,7 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 		let section = numberOfSections(in: tableView)-1
 		if section >= 0 {
 			let row = tableView(tableView, numberOfRowsInSection: section)-1
-			if row > 0 {
+			if row >= 0 {
 				return IndexPath(row: row, section: section)
 			}
 		}
