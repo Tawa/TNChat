@@ -151,8 +151,8 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="am4-kL-HFD">
-                                            <rect key="frame" x="80" y="40" width="287" height="32"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <rect key="frame" x="80" y="40" width="37.5" height="32"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
@@ -162,12 +162,26 @@
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fJU-Yr-kFx">
+                                            <rect key="frame" x="347" y="46" width="20" height="20"/>
+                                            <color key="backgroundColor" red="0.0" green="0.69019607839999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="20" id="FqE-Oe-3af"/>
+                                                <constraint firstAttribute="width" secondItem="fJU-Yr-kFx" secondAttribute="height" multiplier="1:1" id="JNv-fA-DfQ"/>
+                                            </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                    <integer key="value" value="10"/>
+                                                </userDefinedRuntimeAttribute>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstItem="CH7-Dn-pUo" firstAttribute="leading" secondItem="yOh-KK-xAL" secondAttribute="leadingMargin" id="2zw-nu-9Aw"/>
+                                        <constraint firstItem="fJU-Yr-kFx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="am4-kL-HFD" secondAttribute="trailing" constant="16" id="3M2-gT-Cd4"/>
                                         <constraint firstItem="FMm-mp-ONJ" firstAttribute="centerY" secondItem="tlO-Rk-M7K" secondAttribute="centerY" id="Byg-TA-peV"/>
-                                        <constraint firstAttribute="trailingMargin" secondItem="am4-kL-HFD" secondAttribute="trailing" id="Bzk-L5-xlZ"/>
+                                        <constraint firstItem="fJU-Yr-kFx" firstAttribute="trailing" secondItem="yOh-KK-xAL" secondAttribute="trailingMargin" id="NIm-MN-nY6"/>
                                         <constraint firstItem="am4-kL-HFD" firstAttribute="bottom" secondItem="CH7-Dn-pUo" secondAttribute="bottom" id="U2y-TT-F3R"/>
                                         <constraint firstItem="FMm-mp-ONJ" firstAttribute="trailing" secondItem="yOh-KK-xAL" secondAttribute="trailingMargin" id="YBs-77-goG"/>
                                         <constraint firstItem="am4-kL-HFD" firstAttribute="top" secondItem="CH7-Dn-pUo" secondAttribute="centerY" id="bhV-J9-yTb"/>
@@ -178,11 +192,13 @@
                                         <constraint firstItem="FMm-mp-ONJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tlO-Rk-M7K" secondAttribute="trailing" constant="16" id="oY4-l1-jtv"/>
                                         <constraint firstItem="tlO-Rk-M7K" firstAttribute="leading" secondItem="CH7-Dn-pUo" secondAttribute="trailing" constant="8" id="qCX-LE-z7z"/>
                                         <constraint firstItem="tlO-Rk-M7K" firstAttribute="bottom" secondItem="CH7-Dn-pUo" secondAttribute="centerY" id="tO8-E5-fzF"/>
+                                        <constraint firstItem="fJU-Yr-kFx" firstAttribute="centerY" secondItem="am4-kL-HFD" secondAttribute="centerY" id="wfA-1P-d8Y"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="dateLabel" destination="FMm-mp-ONJ" id="ieG-cF-tbm"/>
+                                    <outlet property="indicator" destination="fJU-Yr-kFx" id="t3T-wq-Lbh"/>
                                     <outlet property="lastMessageLabel" destination="am4-kL-HFD" id="8hz-Ui-2hT"/>
                                     <outlet property="nameLabel" destination="tlO-Rk-M7K" id="BjC-gb-dVb"/>
                                     <outlet property="pictureView" destination="CH7-Dn-pUo" id="DRr-g1-1Jl"/>

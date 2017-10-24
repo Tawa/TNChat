@@ -9,136 +9,6 @@
 import UIKit
 import FirebaseDatabase
 
-extension ChatMessage {
-	var date: Date {
-		return timestamp.date
-	}
-}
-
-class MessageContainer: NSObject {
-	var date: Date
-	var messages = [ChatMessage]()
-	var count: Int {
-		return messages.count
-	}
-	
-	init(withDate date: Date) {
-		let calendar = Calendar.current
-		let components = calendar.dateComponents([.year, .month, .day], from: date)
-		self.date = calendar.date(from: components)!
-	}
-	
-	convenience init(withMessage message: ChatMessage) {
-		self.init(withDate: message.date)
-		
-		messages.append(message)
-	}
-	
-	func include(message: ChatMessage) -> (ComparisonResult, Int) {
-		let calendar = Calendar.current
-		if calendar.isDate(date, inSameDayAs: message.date) {
-			var newIndex: Int = 0
-			for i in 0...messages.count {
-				if i == messages.count {
-					newIndex = i
-					break
-				}
-				let oldMessage = messages[i]
-				newIndex = i
-				if oldMessage.timestamp > message.timestamp {
-					break
-				}
-			}
-			messages.insert(message, at: newIndex)
-			return (.orderedSame, newIndex)
-		} else {
-			return (date.compare(message.date), -1)
-		}
-	}
-}
-
-class ConversationContainer: NSObject {
-	var days = [MessageContainer]()
-	var count: Int {
-		return days.count
-	}
-	
-	var first: ChatMessage? {
-		return days.first?.messages.first
-	}
-	var last: ChatMessage? {
-		return days.last?.messages.last
-	}
-	
-	func count(forDay day: Int) -> Int {
-		return days[day].count
-	}
-	
-	func add(message: ChatMessage) -> (IndexPath, Bool) {
-		if days.count == 0 {
-			days.append(MessageContainer(withMessage: message))
-			return (IndexPath(row: 0, section: 0), true)
-		}
-
-		for i in 0...days.count {
-			if i == days.count {
-				days.append(MessageContainer(withMessage: message))
-				return (IndexPath(row: 0, section: i), true)
-			}
-			let (result, index) = days[i].include(message: message)
-			if result == .orderedSame {
-				return (IndexPath(row: index, section: i), false)
-			} else if result == .orderedAscending {
-				continue
-			} else {
-				days.insert(MessageContainer(withMessage: message), at: i)
-				return (IndexPath(row: 0, section: i), true)
-			}
-		}
-		return (IndexPath(), false)
-	}
-	
-	func clear() {
-		days.removeAll()
-	}
-	
-	func message(forIndexPath indexPath: IndexPath) -> ChatMessage {
-		return days[indexPath.section].messages[indexPath.row]
-	}
-}
-
-class ChatCell: UITableViewCell {
-	@IBOutlet weak var container: UIView!
-	@IBOutlet weak var messageText: UILabel!
-	@IBOutlet weak var dateLabel: UILabel!
-	
-	weak var message: ChatMessage? {
-		didSet {
-			if let message = message {
-				let messageString = message.message ?? ""
-				
-				let now = message.date
-				let dateFormatter = DateFormatter()
-				dateFormatter.dateStyle = .medium
-				dateFormatter.doesRelativeDateFormatting = true
-				
-				let timeFormatter = DateFormatter()
-				timeFormatter.timeStyle = .short
-				dateLabel.text = timeFormatter.string(from: now)
-				
-				messageText.text = messageString
-			}
-		}
-	}
-	
-	override func awakeFromNib() {
-		super.awakeFromNib()
-		
-		container.layer.cornerRadius = 8
-		messageText.layer.masksToBounds = false
-	}
-}
-
 protocol InputAccessoryViewDelegate: NSObjectProtocol {
 	func inputAccessoryView(textDidChange text: String)
 }
@@ -167,7 +37,7 @@ class InputAccessoryView: UIView {
 
 extension InputAccessoryView: UITextViewDelegate, UIScrollViewDelegate {
 	func textViewDidChange(_ textView: UITextView) {
-		sendButton.isEnabled = textView.text.count > 0
+		sendButton.isEnabled = textView.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).count > 0
 		
 		let size = textView.sizeThatFits(CGSize(width: textView.frame.width, height: 100))
 		let constraintHeight = min(100, max(32, ceil(size.height)))

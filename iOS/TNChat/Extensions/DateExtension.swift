@@ -14,3 +14,8 @@ extension Int64 {
 	}
 }
 
+extension ChatMessage {
+	var date: Date {
+		return timestamp.date
+	}
+}

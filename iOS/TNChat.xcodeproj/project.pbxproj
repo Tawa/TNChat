@@ -15,8 +15,10 @@
 		38860DA61F9CA1D80001BC5D /* ChatDayHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38860DA51F9CA1D80001BC5D /* ChatDayHeader.xib */; };
 		38860DAD1F9D36970001BC5D /* ConversationContactView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38860DAC1F9D36970001BC5D /* ConversationContactView.swift */; };
 		38860DAF1F9D36A20001BC5D /* ConversationContactView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38860DAE1F9D36A20001BC5D /* ConversationContactView.xib */; };
-		38860DB21F9F11DB0001BC5D /* PickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38860DB01F9F11DB0001BC5D /* PickerTableViewCell.swift */; };
-		38860DB31F9F11DB0001BC5D /* PickerTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38860DB11F9F11DB0001BC5D /* PickerTableViewCell.xib */; };
+		388E28761F9FD14B00BE39B4 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388E28751F9FD14B00BE39B4 /* ConversationCell.swift */; };
+		388E28781F9FD29100BE39B4 /* ChatCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388E28771F9FD29100BE39B4 /* ChatCell.swift */; };
+		388E287A1F9FD2B100BE39B4 /* ConversationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388E28791F9FD2B100BE39B4 /* ConversationContainer.swift */; };
+		388E287C1F9FD2CB00BE39B4 /* MessageContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388E287B1F9FD2CB00BE39B4 /* MessageContainer.swift */; };
 		3893E7CF1F93B88C00B7A339 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7CE1F93B88C00B7A339 /* AppDelegate.swift */; };
 		3893E7D61F93B88C00B7A339 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3893E7D41F93B88C00B7A339 /* Main.storyboard */; };
 		3893E7D81F93B88C00B7A339 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3893E7D71F93B88C00B7A339 /* Assets.xcassets */; };
@@ -53,8 +55,10 @@
 		38860DA51F9CA1D80001BC5D /* ChatDayHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatDayHeader.xib; sourceTree = "<group>"; };
 		38860DAC1F9D36970001BC5D /* ConversationContactView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationContactView.swift; sourceTree = "<group>"; };
 		38860DAE1F9D36A20001BC5D /* ConversationContactView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConversationContactView.xib; sourceTree = "<group>"; };
-		38860DB01F9F11DB0001BC5D /* PickerTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerTableViewCell.swift; sourceTree = "<group>"; };
-		38860DB11F9F11DB0001BC5D /* PickerTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PickerTableViewCell.xib; sourceTree = "<group>"; };
+		388E28751F9FD14B00BE39B4 /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
+		388E28771F9FD29100BE39B4 /* ChatCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCell.swift; sourceTree = "<group>"; };
+		388E28791F9FD2B100BE39B4 /* ConversationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationContainer.swift; sourceTree = "<group>"; };
+		388E287B1F9FD2CB00BE39B4 /* MessageContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageContainer.swift; sourceTree = "<group>"; };
 		3893E7CB1F93B88C00B7A339 /* TNChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TNChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3893E7CE1F93B88C00B7A339 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3893E7D51F93B88C00B7A339 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -103,6 +107,15 @@
 				F9F4C11A3D43F6B115816ED9 /* Pods-TNChat.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		388E28741F9FD13300BE39B4 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				388E28751F9FD14B00BE39B4 /* ConversationCell.swift */,
+				388E28771F9FD29100BE39B4 /* ChatCell.swift */,
+			);
+			path = TableViewCells;
 			sourceTree = "<group>";
 		};
 		3893E7C21F93B88C00B7A339 = {
@@ -165,13 +178,12 @@
 		3893E7EC1F93C74400B7A339 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				388E28741F9FD13300BE39B4 /* TableViewCells */,
 				3893E7ED1F93C74F00B7A339 /* Buttons */,
 				38860DA31F9C9FAA0001BC5D /* ChatDayHeader.swift */,
 				38860DA51F9CA1D80001BC5D /* ChatDayHeader.xib */,
 				38860DAC1F9D36970001BC5D /* ConversationContactView.swift */,
 				38860DAE1F9D36A20001BC5D /* ConversationContactView.xib */,
-				38860DB01F9F11DB0001BC5D /* PickerTableViewCell.swift */,
-				38860DB11F9F11DB0001BC5D /* PickerTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -212,6 +224,8 @@
 				389A55CB1F93D9B6007289E1 /* ContactsDataModel.xcdatamodeld */,
 				382F0E3C1F9AAAB1005B3F7E /* ChatDataModel.xcdatamodeld */,
 				3893E7FB1F93C90400B7A339 /* Constants.swift */,
+				388E28791F9FD2B100BE39B4 /* ConversationContainer.swift */,
+				388E287B1F9FD2CB00BE39B4 /* MessageContainer.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -310,7 +324,6 @@
 				3893E7DB1F93B88C00B7A339 /* LaunchScreen.storyboard in Resources */,
 				3893E7D81F93B88C00B7A339 /* Assets.xcassets in Resources */,
 				38860DAF1F9D36A20001BC5D /* ConversationContactView.xib in Resources */,
-				38860DB31F9F11DB0001BC5D /* PickerTableViewCell.xib in Resources */,
 				3893E7D61F93B88C00B7A339 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -391,6 +404,7 @@
 				3893E7F71F93C85F00B7A339 /* ViewExtension.swift in Sources */,
 				38860DAD1F9D36970001BC5D /* ConversationContactView.swift in Sources */,
 				3867449C1F9B4C9A00C0445B /* DateExtension.swift in Sources */,
+				388E28781F9FD29100BE39B4 /* ChatCell.swift in Sources */,
 				389A55D51F93E7BB007289E1 /* ContactsViewController.swift in Sources */,
 				382F0E3B1F9AA869005B3F7E /* ConversationsManager.swift in Sources */,
 				389A55D71F93F16A007289E1 /* StringExtension.swift in Sources */,
@@ -401,7 +415,7 @@
 				389A55C91F93CF05007289E1 /* ChatsViewController.swift in Sources */,
 				3893E7EF1F93C75D00B7A339 /* LoadingButton.swift in Sources */,
 				382F0E401F9B2091005B3F7E /* ChatDataManager.swift in Sources */,
-				38860DB21F9F11DB0001BC5D /* PickerTableViewCell.swift in Sources */,
+				388E287A1F9FD2B100BE39B4 /* ConversationContainer.swift in Sources */,
 				3893E7CF1F93B88C00B7A339 /* AppDelegate.swift in Sources */,
 				3893E7F91F93C8D800B7A339 /* TabBarViewController.swift in Sources */,
 				3893E7E91F93C50D00B7A339 /* ColorExtension.swift in Sources */,
@@ -409,7 +423,9 @@
 				3893E7F51F93C7BA00B7A339 /* CodeVerificationViewController.swift in Sources */,
 				389A55CD1F93D9B6007289E1 /* ContactsDataModel.xcdatamodeld in Sources */,
 				3893E7FC1F93C90400B7A339 /* Constants.swift in Sources */,
+				388E28761F9FD14B00BE39B4 /* ConversationCell.swift in Sources */,
 				389A55D91F93F6D8007289E1 /* CountryCodeManager.swift in Sources */,
+				388E287C1F9FD2CB00BE39B4 /* MessageContainer.swift in Sources */,
 				389A55D11F93DA0A007289E1 /* ContactsManager.swift in Sources */,
 				389A55C71F93CEF0007289E1 /* SettingsViewController.swift in Sources */,
 			);
