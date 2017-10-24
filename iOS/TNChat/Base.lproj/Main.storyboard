@@ -343,7 +343,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                     <subviews>
                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6D6-Ac-KqZ">
-                            <rect key="frame" x="16" y="8" width="291" height="48"/>
+                            <rect key="frame" x="16" y="8" width="295" height="48"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="48" id="N93-Ui-BC0"/>
@@ -358,14 +358,13 @@
                             </userDefinedRuntimeAttributes>
                         </textView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4Ew-fr-Hxw">
-                            <rect key="frame" x="307" y="15" width="68" height="49"/>
+                            <rect key="frame" x="311" y="15" width="64" height="49"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="49" id="8E3-kP-dVP"/>
                             </constraints>
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
-                            <state key="normal" title="Send">
-                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                            </state>
+                            <state key="normal" image="sendIcon"/>
                             <connections>
                                 <action selector="sendAction:" destination="D6w-0x-Yus" eventType="touchUpInside" id="CvB-3o-26b"/>
                             </connections>
@@ -472,5 +471,8 @@
             <point key="canvasLocation" x="969" y="367"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="sendIcon" width="32" height="32"/>
+    </resources>
     <color key="tintColor" red="0.0" green="0.69019607843137254" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>

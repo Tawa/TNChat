@@ -47,6 +47,8 @@ class ChatsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
+		
+		
 		ConversationsManager.shared.delegate = self
     }
 	
