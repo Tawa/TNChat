@@ -15,6 +15,7 @@ enum NotificationName: String {
 	
 	case signedIn = "NotificationNameLoggedIn"
 	case signedOut = "NotificationNameLoggedOut"
+	case openChat = "NotificaitonNameOpenChat"
 }
 
 struct SegueIdentifiers {
@@ -22,4 +23,5 @@ struct SegueIdentifiers {
 	static let showVerification = "showVerification"
 	static let showContactsList = "showContactsList"
 	static let showConversation = "showConversation"
+	static let showConversationNoAnimations = "showConversationNoAnimations"
 }

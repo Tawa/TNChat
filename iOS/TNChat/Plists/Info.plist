@@ -31,6 +31,10 @@
 	<true/>
 	<key>NSContactsUsageDescription</key>
 	<string>TNChat needs your contacts list in order to identify your friends who use it!</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

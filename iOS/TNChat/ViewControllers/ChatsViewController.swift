@@ -17,7 +17,7 @@ class ChatsViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 		
-		
+		NotificationCenter.default.addObserver(self, selector: #selector(openChat(_:)), name: NotificationName.openChat.notification, object: nil)
 		
 		ConversationsManager.shared.delegate = self
     }
@@ -27,6 +27,21 @@ class ChatsViewController: UITableViewController {
 		
 		ConversationsManager.shared.reloadData()
 		tableView.reloadData()
+	}
+	
+	@objc func openChat(_ notification: Notification) {
+		if let contact = notification.object as? Contact {
+			if let presented = presentedViewController {
+				presented.dismiss(animated: false)
+			}
+			if ConversationsManager.shared.currentChatID == contact.number {
+				return
+			}
+			if navigationController!.viewControllers.count > 1 {
+				navigationController!.popToRootViewController(animated: false)
+			}
+			performSegue(withIdentifier: SegueIdentifiers.showConversationNoAnimations, sender: contact)
+		}
 	}
 
     // MARK: - Table view data source
@@ -52,23 +67,28 @@ class ChatsViewController: UITableViewController {
 	}
 	
 	override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-		if segue.identifier == SegueIdentifiers.showContactsList {
-			if  let nav = segue.destination as? UINavigationController,
-				let vc = nav.viewControllers.first as? ContactsViewController {
-				vc.completion = { contact in
-					self.performSegue(withIdentifier: SegueIdentifiers.showConversation, sender: contact)
+		if let identifier = segue.identifier {
+			switch identifier {
+			case SegueIdentifiers.showContactsList:
+				if  let nav = segue.destination as? UINavigationController,
+					let vc = nav.viewControllers.first as? ContactsViewController {
+					vc.completion = { contact in
+						self.performSegue(withIdentifier: SegueIdentifiers.showConversation, sender: contact)
+					}
 				}
-			}
-		} else if segue.identifier == SegueIdentifiers.showConversation {
-			if let vc = segue.destination as? ConversationViewController {
-				if let contact = sender as? Contact {
-					vc.contact = contact
-				} else if let cell = sender as? UITableViewCell,
-					let indexPath = tableView.indexPath(for: cell),
-					let friendID = conversations[indexPath.row].friendID {
-					let contact = ContactsManager.shared.getContact(withPhoneNumber: friendID)
-					vc.contact = contact
+			case SegueIdentifiers.showConversation, SegueIdentifiers.showConversationNoAnimations:
+				if let vc = segue.destination as? ConversationViewController {
+					if let contact = sender as? Contact {
+						vc.contact = contact
+					} else if let cell = sender as? UITableViewCell,
+						let indexPath = tableView.indexPath(for: cell),
+						let friendID = conversations[indexPath.row].friendID {
+						let contact = ContactsManager.shared.getContact(withPhoneNumber: friendID)
+						vc.contact = contact
+					}
 				}
+			default:
+				break
 			}
 		}
 	}

@@ -286,12 +286,16 @@ class ConversationViewController: UIViewController {
 		super.viewDidAppear(animated)
 		
 		addObservers()
+		
+		ConversationsManager.shared.currentChatID = contact?.number
 	}
 	
 	override func viewDidDisappear(_ animated: Bool) {
 		super.viewDidDisappear(animated)
 		
 		removeObservers()
+
+		ConversationsManager.shared.currentChatID = nil
 	}
 	
 	@objc func keyboardDidChangeFrame(_ notification: Notification) {

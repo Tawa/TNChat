@@ -19,6 +19,14 @@ class ConversationsManager: NSObject {
 	var database: DatabaseReference?
 	var conversations = [ChatConversation]()
 	
+	var currentChatID: String? = nil {
+		didSet {
+			if let chatID = currentChatID {
+				AppDelegate.current.removeAllNotifications(forSenderID: chatID)
+			}
+		}
+	}
+	
 	var delegate: ConversationsManagerDelegate?
 	
 	override init() {

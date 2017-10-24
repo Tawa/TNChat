@@ -21,29 +21,22 @@ exports.sendPushNotification = functions.database.ref('chats/{chatID}/messages/{
 		topic = user2;
 	}
 
-	admin.database().ref("names/"+message.userID).once('value').then(function(nameSnap) {
-		var title = "You have a new message";
-		if (nameSnap.exists()) {
-			title = nameSnap.val();
+	const payload = {
+		data: {
+			body: message.message,
+			sender: message.userID
 		}
-		const payload = {
-			notification: {
-				title: title,
-				body: message.message,
-				sender: message.userID
-			}
-		};
+	};
 
-		const options = {
-		    content_available: true
-		};
+	const options = {
+	    content_available: true
+	};
 
-		admin.messaging().sendToTopic(topic, payload, options)
-			.then(function(response) {
-			console.log("Message sent: ", response);
-		})
-		.catch(function(error) {
-			console.log("Error sending message: ", error);
-		});
+	admin.messaging().sendToTopic(topic, payload, options)
+		.then(function(response) {
+		console.log("Message sent: ", response);
+	})
+	.catch(function(error) {
+		console.log("Error sending message: ", error);
 	});
 });

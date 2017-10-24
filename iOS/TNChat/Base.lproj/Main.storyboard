@@ -218,6 +218,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="D6w-0x-Yus" kind="show" identifier="showConversationNoAnimations" animates="NO" id="G6m-4E-tHu"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6W0-ZT-44S" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -490,5 +493,8 @@
     <resources>
         <image name="sendIcon" width="32" height="32"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="G6m-4E-tHu"/>
+    </inferredMetricsTieBreakers>
     <color key="tintColor" red="0.0" green="0.69019607843137254" blue="1" alpha="1" colorSpace="calibratedRGB"/>
 </document>
