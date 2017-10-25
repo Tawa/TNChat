@@ -9,9 +9,12 @@
 import UIKit
 import FirebaseDatabase
 
+protocol ConversationObserverDelegate {
+}
+
 protocol ConversationsManagerDelegate {
-	func updatedConversation(forUserId userID: String)
-	func addedConversation(forUserId userID: String)
+	func conversationsManager(addedForUserId userID: String)
+	func conversationsManager(updatedForUserId userID: String, oldIndex index: Int)
 }
 
 class ConversationsManager: NSObject {
@@ -62,12 +65,14 @@ class ConversationsManager: NSObject {
 					
 					ChatDataManager.shared.saveContext()
 					
-					self.reloadData()
 					
 					if isNew {
-						self.delegate?.addedConversation(forUserId: friendID)
+						self.reloadData()
+						self.delegate?.conversationsManager(addedForUserId: friendID)
 					} else {
-						self.delegate?.updatedConversation(forUserId: friendID)
+						let oldIndex = self.conversations.index(of: conversation)
+						self.reloadData()
+						self.delegate?.conversationsManager(updatedForUserId: friendID, oldIndex: oldIndex ?? -1)
 					}
 				}
 			}

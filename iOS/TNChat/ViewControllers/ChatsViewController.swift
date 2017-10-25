@@ -95,11 +95,14 @@ class ChatsViewController: UITableViewController {
 }
 
 extension ChatsViewController: ConversationsManagerDelegate {
-	func updatedConversation(forUserId userID: String) {
-		tableView.reloadData()
+	func conversationsManager(addedForUserId userID: String) {
+		let firstRow = IndexPath(row: 0, section: 0)
+		tableView.insertRows(at: [firstRow], with: .top)
 	}
-	
-	func addedConversation(forUserId userID: String) {
-		tableView.reloadData()
+	func conversationsManager(updatedForUserId userID: String, oldIndex index: Int) {
+		let firstRow = IndexPath(row: 0, section: 0)
+		let row = IndexPath(row: index, section: 0)
+		tableView.moveRow(at: row, to: firstRow)
+		tableView.reloadRows(at: [firstRow], with: .none)
 	}
 }
