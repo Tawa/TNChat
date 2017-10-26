@@ -51,7 +51,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 	}
 	
 	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-		if let sender = userInfo["sender"] as? String, sender != ConversationsManager.shared.currentChatID {
+		if let sender = userInfo["sender"] as? String, sender != ConversationsManager.shared.currentfriendID {
 			let body: String = (userInfo["body"] as? String)!
 			let contact = ContactsManager.shared.getContact(withPhoneNumber: sender)
 			

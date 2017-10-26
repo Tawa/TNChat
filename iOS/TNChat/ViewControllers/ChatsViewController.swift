@@ -34,7 +34,7 @@ class ChatsViewController: UITableViewController {
 			if let presented = presentedViewController {
 				presented.dismiss(animated: false)
 			}
-			if ConversationsManager.shared.currentChatID == contact.number {
+			if ConversationsManager.shared.currentfriendID == contact.number {
 				return
 			}
 			if navigationController!.viewControllers.count > 1 {
