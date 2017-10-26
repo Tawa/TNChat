@@ -164,6 +164,7 @@ class ConversationViewController: UIViewController {
 		if !didScrollToEnd, let lastIndexPath = lastIndexPath {
 			didScrollToEnd = true
 			tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: inputViewContainer.frame.height, right: 0)
+			tableView.scrollIndicatorInsets = tableView.contentInset
 			tableView.scrollToRow(at: lastIndexPath, at: .top, animated: false)
 		}
 	}
@@ -229,6 +230,14 @@ class ConversationViewController: UIViewController {
 						let (chatMessage, isNew) = ChatDataManager.shared.chatMessage(forUserID: userID, date: timestamp, message: message, key: key)
 						
 						if isNew {
+							var shouldScroll = false
+							
+							if let indexPath = self.tableView.indexPathForRow(at: CGPoint(x: UIScreen.main.bounds.width * 0.5, y: self.tableView.frame.height - self.tableView.contentInset.bottom + self.tableView.contentOffset.y - 1)),
+								let lastIndexPath = self.lastIndexPath,
+								lastIndexPath == indexPath {
+								shouldScroll = true
+							}
+							
 							self.conversation?.addToMessages(chatMessage)
 							let (indexPath, isNewSection) = self.messages.add(message: chatMessage)
 							if isNewSection {
@@ -236,9 +245,13 @@ class ConversationViewController: UIViewController {
 							} else {
 								self.tableView.insertRows(at: [indexPath], with: .fade)
 							}
-							DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-								self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
-							})
+							if shouldScroll {
+								DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
+									self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
+								})
+							} else {
+								print("Received Message")
+							}
 							ChatDataManager.shared.saveContext()
 						}
 					}
@@ -312,9 +325,10 @@ class ConversationViewController: UIViewController {
 		
 		let oldOffset = tableView.contentOffset.y
 		
-		self.tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottom, right: 0)
-		let finalHeight = self.tableView.frame.height - self.tableView.contentInset.bottom
-		let contentHeight = self.tableView.contentSize.height
+		tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottom, right: 0)
+		tableView.scrollIndicatorInsets = tableView.contentInset
+		let finalHeight = tableView.frame.height - tableView.contentInset.bottom
+		let contentHeight = tableView.contentSize.height
 		let deltaHeight = contentHeight - finalHeight
 		var contentOffset: CGFloat? = nil
 		if oldBottom < bottom {
