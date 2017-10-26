@@ -256,7 +256,7 @@ class ConversationViewController: UIViewController {
 						}
 					}
 				})
-				databaseReference?.observe(.childChanged, with: { (data) in
+				messagesQueryReference?.observe(.childChanged, with: { (data) in
 					let key = (self.friendID ?? "")+data.key
 					if let data = data.value as? [String: Any],
 						let message = data["message"] as? String,
