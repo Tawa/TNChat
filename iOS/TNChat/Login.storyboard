@@ -5,7 +5,7 @@
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -40,16 +40,7 @@
                                 <color key="textColor" red="0.9882352941176471" green="0.46666666666666667" blue="0.32549019607843138" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N8I-YS-5Qa" customClass="LoadingButton" customModule="TNChat" customModuleProvider="target">
-                                <rect key="frame" x="266" y="165" width="38" height="30"/>
-                                <state key="normal" title="Login">
-                                    <color key="titleColor" red="0.40000000000000002" green="0.84313725490196079" blue="0.81960784313725488" alpha="1" colorSpace="calibratedRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="loginAction:" destination="89g-O1-tLT" eventType="touchUpInside" id="yZM-Fd-Jnj"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="+1" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Uh-AZ-etz">
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Phone Number" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="0Uh-AZ-etz">
                                 <rect key="frame" x="16" y="117" width="288" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="32" id="9Zw-XA-3gs"/>
@@ -58,15 +49,37 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" keyboardType="phonePad"/>
                             </textField>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="u2E-7c-i2A">
+                                <rect key="frame" x="0.0" y="157" width="320" height="216"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="216" id="73u-cZ-Ldf"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="89g-O1-tLT" id="pFm-Cw-c7K"/>
+                                    <outlet property="delegate" destination="89g-O1-tLT" id="9b3-TR-JPs"/>
+                                </connections>
+                            </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="N8I-YS-5Qa" customClass="LoadingButton" customModule="TNChat" customModuleProvider="target">
+                                <rect key="frame" x="266" y="381" width="38" height="30"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleColor" red="0.40000000000000002" green="0.84313725490196079" blue="0.81960784313725488" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginAction:" destination="89g-O1-tLT" eventType="touchUpInside" id="yZM-Fd-Jnj"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960784313721" green="0.93725490196078431" blue="0.91764705882352937" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="u2E-7c-i2A" firstAttribute="top" secondItem="0Uh-AZ-etz" secondAttribute="bottom" constant="8" id="8OK-Kj-67a"/>
                             <constraint firstItem="0Uh-AZ-etz" firstAttribute="top" secondItem="kUs-dG-duB" secondAttribute="bottom" constant="16" id="HMc-4h-ljl"/>
+                            <constraint firstItem="u2E-7c-i2A" firstAttribute="trailing" secondItem="uUA-75-v2x" secondAttribute="trailing" id="RgI-6P-jEr"/>
                             <constraint firstItem="kUs-dG-duB" firstAttribute="leading" secondItem="uUA-75-v2x" secondAttribute="leading" constant="16" id="TVw-Sc-FUo"/>
                             <constraint firstItem="kUs-dG-duB" firstAttribute="top" secondItem="uUA-75-v2x" secondAttribute="top" constant="16" id="chm-eV-eXM"/>
                             <constraint firstItem="uUA-75-v2x" firstAttribute="trailing" secondItem="0Uh-AZ-etz" secondAttribute="trailing" constant="16" id="dsi-R5-tR0"/>
                             <constraint firstItem="uUA-75-v2x" firstAttribute="trailing" secondItem="kUs-dG-duB" secondAttribute="trailing" constant="16" id="eSl-37-PiI"/>
-                            <constraint firstItem="N8I-YS-5Qa" firstAttribute="top" secondItem="0Uh-AZ-etz" secondAttribute="bottom" constant="16" id="hn0-W0-b9S"/>
+                            <constraint firstItem="u2E-7c-i2A" firstAttribute="leading" secondItem="uUA-75-v2x" secondAttribute="leading" id="g2d-Om-qjQ"/>
+                            <constraint firstItem="N8I-YS-5Qa" firstAttribute="top" secondItem="u2E-7c-i2A" secondAttribute="bottom" constant="8" id="iPz-16-a3A"/>
                             <constraint firstItem="uUA-75-v2x" firstAttribute="trailing" secondItem="N8I-YS-5Qa" secondAttribute="trailing" constant="16" id="kgn-Bf-B5B"/>
                             <constraint firstItem="0Uh-AZ-etz" firstAttribute="leading" secondItem="uUA-75-v2x" secondAttribute="leading" constant="16" id="pCw-6X-SMR"/>
                         </constraints>
@@ -74,11 +87,26 @@
                     </view>
                     <navigationItem key="navigationItem" id="czZ-UR-HII"/>
                     <connections>
+                        <outlet property="countryCodeButton" destination="25a-Ge-Zno" id="OuE-ee-XxW"/>
+                        <outlet property="countryCodePicker" destination="u2E-7c-i2A" id="a2k-Jd-5N0"/>
+                        <outlet property="countryCodePickerHeight" destination="73u-cZ-Ldf" id="u4J-VH-6TD"/>
                         <outlet property="phoneNumberTextField" destination="0Uh-AZ-etz" id="gdA-fh-Ysd"/>
                         <segue destination="tjX-So-58l" kind="show" identifier="showVerification" id="Ika-AP-Eko"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AEy-4T-2iq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="25a-Ge-Zno">
+                    <rect key="frame" x="0.0" y="0.0" width="93" height="30"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="0.73631232980000005" blue="0.62242406610000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <inset key="contentEdgeInsets" minX="8" minY="0.0" maxX="8" maxY="0.0"/>
+                    <state key="normal" title="+1">
+                        <color key="titleColor" red="0.0" green="0.69019607839999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="countryCodeAction:" destination="89g-O1-tLT" eventType="touchUpInside" id="BjL-BK-wlV"/>
+                    </connections>
+                </button>
             </objects>
             <point key="canvasLocation" x="585" y="-278"/>
         </scene>

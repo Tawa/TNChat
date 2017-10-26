@@ -10,6 +10,9 @@ import UIKit
 import FirebaseDatabase
 
 protocol ConversationObserverDelegate {
+	var contact: Contact { get set }
+	func conversationObserver(addedNewMessage message: ChatMessage)
+	func conversationObserver(updatedMessage message: ChatMessage)
 }
 
 protocol ConversationsManagerDelegate {
@@ -31,6 +34,7 @@ class ConversationsManager: NSObject {
 	}
 	
 	var delegate: ConversationsManagerDelegate?
+	var conversationObserver: ConversationObserverDelegate?
 	
 	override init() {
 		super.init()
