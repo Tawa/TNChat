@@ -27,7 +27,7 @@ class ContactsViewController: UITableViewController {
 			return
 		}
 		isReloading = true
-		ContactsManager.shared.loadContacts { [weak self] (success) in
+		ContactsManager.shared.syncContacts { [weak self] (success) in
 			self?.isReloading = false
 			if success {
 				ContactsManager.shared.fetchContactsOnline({ (success) in
@@ -39,6 +39,7 @@ class ContactsViewController: UITableViewController {
 					}
 				})
 			} else {
+				
 			}
 		}
 	}

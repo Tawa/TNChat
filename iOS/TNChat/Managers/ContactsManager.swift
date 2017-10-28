@@ -150,6 +150,18 @@ class ContactsManager: NSObject {
 				}
 			})
 		}
-		
+	}
+	
+	func syncContacts(_ completion: @escaping(_ success: Bool) -> Void) {
+		ContactsManager.shared.loadContacts { (success) in
+			if success {
+				ContactsManager.shared.fetchContactsOnline({ (success) in
+					completion(success)
+				})
+			} else {
+				completion(false)
+			}
+		}
+
 	}
 }

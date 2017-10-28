@@ -23,8 +23,10 @@ exports.sendPushNotification = functions.database.ref('chats/{chatID}/messages/{
 
 	const payload = {
 		data: {
-			body: message.message,
-			sender: message.userID
+			key: event.params.messageID,
+			timestamp: ""+message.timestamp,
+			message: message.message,
+			userID: message.userID
 		}
 	};
 

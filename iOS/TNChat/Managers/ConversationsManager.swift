@@ -134,6 +134,7 @@ class ConversationsManager: NSObject {
 								let timestamp = Int64(timestamp)
 								conversation.cacheTime = timestamp
 								chatMessage.timestamp = timestamp
+								observer.conversationObserver(updatedMessage: chatMessage)
 								ChatDataManager.shared.saveContext()
 							}
 						})
@@ -174,6 +175,8 @@ class ConversationsManager: NSObject {
 		NotificationCenter.default.addObserver(self, selector: #selector(removeObservers), name: NotificationName.signedOut.notification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(removeObservers), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
 		
+		NotificationCenter.default.addObserver(self, selector: #selector(refreshApplicationBadgeCount), name: Notification.Name.UIApplicationDidEnterBackground, object: nil)
+		
 		if CurrentUserManager.shared.userID != nil {
 			addObservers()
 		}
@@ -185,7 +188,17 @@ class ConversationsManager: NSObject {
 		                           "timestamp":ServerValue.timestamp()]
 		databaseReference?.child("messages").childByAutoId().setValue(data)
 	}
-	
+
+	@objc func refreshApplicationBadgeCount() {
+		var totalCount = 0
+		for conversation in conversations {
+			if !conversation.isUpToDate {
+				totalCount += ChatDataManager.shared.newMessagesCount(forConversation: conversation)
+			}
+		}
+		UIApplication.shared.applicationIconBadgeNumber = totalCount
+	}
+
 	func updateConversation(forFriendID friendID: String) {
 		guard let userID = CurrentUserManager.shared.userID, friendID != currentfriendID else { return }
 		if friendID != currentfriendID {
@@ -224,6 +237,7 @@ class ConversationsManager: NSObject {
 						}
 					}
 				}
+				self.refreshApplicationBadgeCount()
 			})
 		}
 	}

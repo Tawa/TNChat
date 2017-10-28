@@ -20,6 +20,8 @@ class ChatsViewController: UITableViewController {
 		NotificationCenter.default.addObserver(self, selector: #selector(openChat(_:)), name: NotificationName.openChat.notification, object: nil)
 		
 		ConversationsManager.shared.delegate = self
+		
+		NotificationCenter.default.addObserver(self, selector: #selector(getContacts), name: NotificationName.signedIn.notification, object: nil)
     }
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -27,6 +29,12 @@ class ChatsViewController: UITableViewController {
 		
 		ConversationsManager.shared.reloadData()
 		tableView.reloadData()
+	}
+	
+	@objc func getContacts() {
+		ContactsManager.shared.syncContacts { (_) in
+			self.tableView.reloadData()
+		}
 	}
 	
 	@objc func openChat(_ notification: Notification) {

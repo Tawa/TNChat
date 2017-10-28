@@ -20,6 +20,8 @@ class TabBarViewController: UITabBarController {
 		
 		if Auth.auth().currentUser == nil || CurrentUserManager.shared.userID == nil {
 			performSegue(withIdentifier: SegueIdentifiers.showLogin, sender: self)
+		} else {
+			NotificationCenter.default.post(name: NotificationName.signedIn.notification, object: nil)
 		}
 	}
 }

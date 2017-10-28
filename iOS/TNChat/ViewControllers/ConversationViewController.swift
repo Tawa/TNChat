@@ -257,7 +257,11 @@ extension ConversationViewController: ConversationObserverDelegate {
 	}
 	
 	func conversationObserver(updatedMessage message: ChatMessage) {
-		
+		if conversation.updatedTime < message.timestamp {
+			conversation.updatedTime = message.timestamp
+
+			ChatDataManager.shared.saveContext()
+		}
 	}
 	
 	func conversationObserver(friendIsOnline online: Bool, isTyping typing: Bool) {
@@ -311,6 +315,8 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 		
 		if conversation.updatedTime < message.timestamp {
 			conversation.updatedTime = message.timestamp
+			
+			ConversationsManager.shared.refreshApplicationBadgeCount()
 			
 			ChatDataManager.shared.saveContext()
 		}

@@ -35,7 +35,7 @@ class ChatCell: UITableViewCell {
 	override func awakeFromNib() {
 		super.awakeFromNib()
 		
-		container.layer.cornerRadius = 8
+		container.layer.cornerRadius = 18
 		messageText.layer.masksToBounds = false
 	}
 }
