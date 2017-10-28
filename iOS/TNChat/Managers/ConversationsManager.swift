@@ -214,6 +214,9 @@ class ConversationsManager: NSObject {
 									conversation.cacheTime = chatMessage.timestamp
 								}
 								conversation.addToMessages(chatMessage)
+								let oldIndex = self.conversations.index(of: conversation)
+								self.reloadData()
+								self.delegate?.conversationsManager(updatedForUserId: friendID, oldIndex: oldIndex ?? -1)
 								if isNew {
 									ChatDataManager.shared.saveContext()
 								}

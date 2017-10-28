@@ -49,6 +49,23 @@ class ChatDataManager: NSObject {
 		}
 	}
 	
+	func newMessagesCount(forConversation conversation: ChatConversation) -> Int {
+		let context = self.context
+		
+		let request: NSFetchRequest<ChatMessage> = ChatMessage.fetchRequest()
+		request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates:[
+			NSPredicate(format: "timestamp > %ld", conversation.updatedTime),
+			NSPredicate(format: "conversation == %@", conversation)
+			])
+		
+		do {
+			return try context.count(for: request)
+		} catch {
+		}
+		
+		return 0
+	}
+	
 	func conversation(withFriendID friendID: String) -> (ChatConversation, Bool) {
 		let context = self.context
 		

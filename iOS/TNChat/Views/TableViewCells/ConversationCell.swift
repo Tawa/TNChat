@@ -19,7 +19,7 @@ class ConversationCell: UITableViewCell {
 	@IBOutlet weak var nameLabel: UILabel!
 	@IBOutlet weak var dateLabel: UILabel!
 	@IBOutlet weak var lastMessageLabel: UILabel!
-	@IBOutlet weak var indicator: UIView!
+	@IBOutlet weak var indicator: UILabel!
 	
 	weak var conversation: ChatConversation? {
 		didSet {
@@ -35,6 +35,8 @@ class ConversationCell: UITableViewCell {
 				dateLabel.text = formatter.string(from: date)
 				
 				indicator.isHidden = conversation.isUpToDate
+				indicator.text = "\(ChatDataManager.shared.newMessagesCount(forConversation: conversation))"
+				
 			}
 		}
 	}

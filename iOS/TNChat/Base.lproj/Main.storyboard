@@ -162,43 +162,47 @@
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fJU-Yr-kFx">
-                                            <rect key="frame" x="347" y="46" width="20" height="20"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t69-gy-LQ4">
+                                            <rect key="frame" x="347" y="46.5" width="20" height="20"/>
                                             <color key="backgroundColor" red="0.0" green="0.69019607839999997" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <constraints>
-                                                <constraint firstAttribute="height" constant="20" id="FqE-Oe-3af"/>
-                                                <constraint firstAttribute="width" secondItem="fJU-Yr-kFx" secondAttribute="height" multiplier="1:1" id="JNv-fA-DfQ"/>
+                                                <constraint firstAttribute="height" constant="20" id="cds-CK-Qww"/>
+                                                <constraint firstAttribute="width" relation="greaterThanOrEqual" secondItem="t69-gy-LQ4" secondAttribute="height" multiplier="1:1" id="gDt-xf-opz"/>
                                             </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <nil key="highlightedColor"/>
                                             <userDefinedRuntimeAttributes>
                                                 <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                     <integer key="value" value="10"/>
                                                 </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
                                             </userDefinedRuntimeAttributes>
-                                        </view>
+                                        </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
                                         <constraint firstItem="CH7-Dn-pUo" firstAttribute="leading" secondItem="yOh-KK-xAL" secondAttribute="leadingMargin" id="2zw-nu-9Aw"/>
-                                        <constraint firstItem="fJU-Yr-kFx" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="am4-kL-HFD" secondAttribute="trailing" constant="16" id="3M2-gT-Cd4"/>
+                                        <constraint firstItem="t69-gy-LQ4" firstAttribute="trailing" secondItem="yOh-KK-xAL" secondAttribute="trailingMargin" id="8Ac-e7-Wuf"/>
                                         <constraint firstItem="FMm-mp-ONJ" firstAttribute="centerY" secondItem="tlO-Rk-M7K" secondAttribute="centerY" id="Byg-TA-peV"/>
-                                        <constraint firstItem="fJU-Yr-kFx" firstAttribute="trailing" secondItem="yOh-KK-xAL" secondAttribute="trailingMargin" id="NIm-MN-nY6"/>
                                         <constraint firstItem="am4-kL-HFD" firstAttribute="bottom" secondItem="CH7-Dn-pUo" secondAttribute="bottom" id="U2y-TT-F3R"/>
                                         <constraint firstItem="FMm-mp-ONJ" firstAttribute="trailing" secondItem="yOh-KK-xAL" secondAttribute="trailingMargin" id="YBs-77-goG"/>
                                         <constraint firstItem="am4-kL-HFD" firstAttribute="top" secondItem="CH7-Dn-pUo" secondAttribute="centerY" id="bhV-J9-yTb"/>
+                                        <constraint firstItem="t69-gy-LQ4" firstAttribute="centerY" secondItem="am4-kL-HFD" secondAttribute="centerY" id="cI5-wq-OnL"/>
                                         <constraint firstAttribute="bottom" secondItem="CH7-Dn-pUo" secondAttribute="bottom" constant="8" id="iUi-XD-4Qj"/>
+                                        <constraint firstItem="t69-gy-LQ4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="am4-kL-HFD" secondAttribute="trailing" constant="8" id="igc-2j-rjk"/>
                                         <constraint firstItem="CH7-Dn-pUo" firstAttribute="top" secondItem="yOh-KK-xAL" secondAttribute="top" constant="8" id="m3J-Ak-TN7"/>
                                         <constraint firstItem="am4-kL-HFD" firstAttribute="leading" secondItem="CH7-Dn-pUo" secondAttribute="trailing" constant="8" id="ms7-WC-HnL"/>
                                         <constraint firstItem="tlO-Rk-M7K" firstAttribute="top" secondItem="CH7-Dn-pUo" secondAttribute="top" id="oBx-fP-IDq"/>
                                         <constraint firstItem="FMm-mp-ONJ" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tlO-Rk-M7K" secondAttribute="trailing" constant="16" id="oY4-l1-jtv"/>
                                         <constraint firstItem="tlO-Rk-M7K" firstAttribute="leading" secondItem="CH7-Dn-pUo" secondAttribute="trailing" constant="8" id="qCX-LE-z7z"/>
                                         <constraint firstItem="tlO-Rk-M7K" firstAttribute="bottom" secondItem="CH7-Dn-pUo" secondAttribute="centerY" id="tO8-E5-fzF"/>
-                                        <constraint firstItem="fJU-Yr-kFx" firstAttribute="centerY" secondItem="am4-kL-HFD" secondAttribute="centerY" id="wfA-1P-d8Y"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <connections>
                                     <outlet property="dateLabel" destination="FMm-mp-ONJ" id="ieG-cF-tbm"/>
-                                    <outlet property="indicator" destination="fJU-Yr-kFx" id="t3T-wq-Lbh"/>
+                                    <outlet property="indicator" destination="t69-gy-LQ4" id="VzG-l5-2k4"/>
                                     <outlet property="lastMessageLabel" destination="am4-kL-HFD" id="8hz-Ui-2hT"/>
                                     <outlet property="nameLabel" destination="tlO-Rk-M7K" id="BjC-gb-dVb"/>
                                     <outlet property="pictureView" destination="CH7-Dn-pUo" id="DRr-g1-1Jl"/>
