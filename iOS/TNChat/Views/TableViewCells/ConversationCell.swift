@@ -25,7 +25,7 @@ class ConversationCell: UITableViewCell {
 		didSet {
 			if let conversation = conversation, let friendID = conversation.friendID {
 				let contact = ContactsManager.shared.getContact(withPhoneNumber: friendID)
-				nameLabel.text = contact.name ?? contact.number!
+				nameLabel.text = contact.name ?? ("+"+contact.number!)
 				lastMessageLabel.text = conversation.message
 				let date = conversation.conversationTime.date
 				let formatter = DateFormatter()

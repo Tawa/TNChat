@@ -117,6 +117,7 @@ class ConversationsManager: NSObject {
 								let timestamp = data["timestamp"] as? Int {
 								let (chatMessage, isNew) = ChatDataManager.shared.chatMessage(forUserID: userID, date: timestamp, message: message, key: key)
 								
+								conversation.cacheTime = Int64(timestamp)
 								if isNew {
 									observer.conversationObserver(addedNewMessage: chatMessage)
 									ChatDataManager.shared.saveContext()
@@ -131,7 +132,7 @@ class ConversationsManager: NSObject {
 								let timestamp = data["timestamp"] as? Int {
 								let (chatMessage, _) = ChatDataManager.shared.chatMessage(forUserID: userID, date: timestamp, message: message, key: key)
 								let timestamp = Int64(timestamp)
-								conversation.updatedTime = timestamp
+								conversation.cacheTime = timestamp
 								chatMessage.timestamp = timestamp
 								ChatDataManager.shared.saveContext()
 							}
@@ -185,6 +186,45 @@ class ConversationsManager: NSObject {
 		databaseReference?.child("messages").childByAutoId().setValue(data)
 	}
 	
+	func updateConversation(forFriendID friendID: String) {
+		guard let userID = CurrentUserManager.shared.userID, friendID != currentfriendID else { return }
+		if friendID != currentfriendID {
+			let (conversation, _) = ChatDataManager.shared.conversation(withFriendID: friendID)
+			let start = conversation.cacheTime
+			let chatID = String(forUserID: friendID, andUserId: userID)
+			let database = Database.database().reference().child("chats/" + chatID)
+			let query: DatabaseQuery
+			if start > 0 {
+				query = database.child("messages").queryOrdered(byChild: "timestamp").queryStarting(atValue: start, childKey: "timestamp")
+			} else {
+				query = database.child("messages").queryOrdered(byChild: "timestamp")
+			}
+			query.observeSingleEvent(of: .value, with: { (snapshot) in
+				if snapshot.exists() {
+					if let messages = snapshot.value as? [String: Any] {
+						for data in messages {
+							let key = friendID+data.key
+							if let data = data.value as? [String: Any],
+								let message = data["message"] as? String,
+								let userID = data["userID"] as? String,
+								let timestamp = data["timestamp"] as? Int {
+								let (chatMessage, isNew) = ChatDataManager.shared.chatMessage(forUserID: userID, date: timestamp, message: message, key: key)
+								
+								if conversation.cacheTime < chatMessage.timestamp {
+									conversation.cacheTime = chatMessage.timestamp
+								}
+								conversation.addToMessages(chatMessage)
+								if isNew {
+									ChatDataManager.shared.saveContext()
+								}
+							}
+						}
+					}
+				}
+			})
+		}
+	}
+	
 	@objc func addObservers() {
 		if let userID = CurrentUserManager.shared.userID {
 			let chatBlock = { (data: DataSnapshot) in
@@ -201,6 +241,8 @@ class ConversationsManager: NSObject {
 						conversation.conversationTime = Int64(timestamp)
 						conversation.message = text
 					}
+					
+					self.updateConversation(forFriendID: friendID)
 					
 					ChatDataManager.shared.saveContext()
 					

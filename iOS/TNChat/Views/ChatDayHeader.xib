@@ -17,10 +17,10 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8WI-RP-8jZ">
-                    <rect key="frame" x="145.5" y="4" width="84" height="22"/>
+                    <rect key="frame" x="145.5" y="6" width="84" height="18"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yesterday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="R6t-ZH-XUK">
-                            <rect key="frame" x="8" y="0.0" width="68" height="22"/>
+                            <rect key="frame" x="8" y="0.0" width="68" height="18"/>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -45,11 +45,9 @@
                     </userDefinedRuntimeAttributes>
                 </view>
             </subviews>
-            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="8WI-RP-8jZ" firstAttribute="top" secondItem="vUN-kp-3ea" secondAttribute="top" constant="4" id="Pa6-cO-3f1"/>
                 <constraint firstItem="8WI-RP-8jZ" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="ZlF-8S-yJZ"/>
-                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="8WI-RP-8jZ" secondAttribute="bottom" constant="4" id="sEq-YM-9fM"/>
+                <constraint firstItem="8WI-RP-8jZ" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="uaf-Tz-v2H"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>

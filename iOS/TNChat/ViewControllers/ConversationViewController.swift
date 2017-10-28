@@ -105,8 +105,7 @@ class ConversationViewController: UIViewController {
 		navigationItem.backBarButtonItem?.title = ""
 		
 		tableView.register(UINib(nibName: "ChatDayHeader", bundle: Bundle.main), forHeaderFooterViewReuseIdentifier: "header")
-		tableView.estimatedSectionHeaderHeight = 44
-		tableView.sectionHeaderHeight = UITableViewAutomaticDimension
+		tableView.sectionHeaderHeight = 30
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(_:)), name: Notification.Name.UIKeyboardWillChangeFrame, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidChangeFrame(_:)), name: Notification.Name.UIKeyboardDidChangeFrame, object: nil)
@@ -124,16 +123,21 @@ class ConversationViewController: UIViewController {
 	
 	@objc func loadMore() {
 		if let first = messages.first {
-			let chatMessages = ChatDataManager.shared.chatMessages(forConversationWithFriendID: friendID, beforeTimestamp: first.timestamp)
-			for message in chatMessages {
-				let (indexPath, isNewSection) = self.messages.add(message: message)
-				if isNewSection {
-					self.tableView.insertSections([indexPath.section], with: .fade)
-				} else {
-					self.tableView.insertRows(at: [indexPath], with: .fade)
+			DispatchQueue.global(qos: .background).async {
+				let chatMessages = ChatDataManager.shared.chatMessages(forConversationWithFriendID: self.friendID, beforeTimestamp: first.timestamp)
+				
+				DispatchQueue.main.async {
+					for message in chatMessages {
+						let (indexPath, isNewSection) = self.messages.add(message: message)
+						if isNewSection {
+							self.tableView.insertSections([indexPath.section], with: .fade)
+						} else {
+							self.tableView.insertRows(at: [indexPath], with: .fade)
+						}
+					}
+					self.refresh.endRefreshing()
 				}
 			}
-			refresh.endRefreshing()
 		} else {
 			refresh.endRefreshing()
 		}

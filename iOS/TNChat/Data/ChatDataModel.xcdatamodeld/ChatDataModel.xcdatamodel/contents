@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="13241" systemVersion="" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="ChatConversation" representedClassName="ChatConversation" syncable="YES" codeGenerationType="class">
+        <attribute name="cacheTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="conversationTime" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
         <attribute name="friendID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="message" optional="YES" attributeType="String" syncable="YES"/>
@@ -16,7 +17,7 @@
         <relationship name="conversation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ChatConversation" inverseName="messages" inverseEntity="ChatConversation" syncable="YES"/>
     </entity>
     <elements>
-        <element name="ChatConversation" positionX="-63" positionY="-18" width="128" height="135"/>
+        <element name="ChatConversation" positionX="-63" positionY="-18" width="128" height="150"/>
         <element name="ChatMessage" positionX="-54" positionY="45" width="128" height="120"/>
     </elements>
 </model>
