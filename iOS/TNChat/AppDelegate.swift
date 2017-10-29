@@ -31,6 +31,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		Auth.auth().setAPNSToken(deviceToken, type: .prod)
 		Auth.auth().setAPNSToken(deviceToken, type: .sandbox)
 	}
+	
+	func applicationWillResignActive(_ application: UIApplication) {
+		ContactsManager.shared.saveContext()
+	}
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {

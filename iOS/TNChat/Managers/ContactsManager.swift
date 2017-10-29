@@ -107,12 +107,13 @@ class ContactsManager: NSObject {
 							if let phoneNumber = phone.value.stringValue.internationalizeNumber {
 								let newContact = self.getContact(withPhoneNumber: phoneNumber)
 								let name = (contact.givenName + " " + contact.familyName).trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-								newContact.name = name
+								if newContact.name != name {
+									newContact.name = name
+								}
 								self.contacts.append(newContact)
 							}
 						}
 					})
-					self.saveContext()
 					completion(true)
 				} catch {
 					completion(false)

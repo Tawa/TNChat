@@ -29,7 +29,7 @@ class CountryCodeManager: NSObject {
 
 	
 	
-	static var current: String {
+	static var current: String = {
 		let networkInfo = CTTelephonyNetworkInfo()
 		if let carrier = networkInfo.subscriberCellularProvider,
 			let countryRegionCode = carrier.isoCountryCode {
@@ -37,5 +37,5 @@ class CountryCodeManager: NSObject {
 			return "+\(String(describing: countryDialingCode))"
 		}
 		return "+1"
-	}
+	}()
 }
