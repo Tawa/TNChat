@@ -10,6 +10,7 @@ import UIKit
 
 class ChatCell: UITableViewCell {
 	@IBOutlet weak var container: UIView!
+	@IBOutlet weak var containerBackground: UIView!
 	@IBOutlet weak var messageText: UILabel!
 	@IBOutlet weak var dateLabel: UILabel!
 	
@@ -28,6 +29,13 @@ class ChatCell: UITableViewCell {
 				dateLabel.text = timeFormatter.string(from: now)
 				
 				messageText.text = messageString
+				if messageString.count <= 3 && messageString.containsOnlyEmoji {
+					messageText.font = UIFont.systemFont(ofSize: 51)
+					containerBackground.isHidden = true
+				} else {
+					messageText.font = UIFont.systemFont(ofSize: 17)
+					containerBackground.isHidden = false
+				}
 			}
 		}
 	}
@@ -35,7 +43,7 @@ class ChatCell: UITableViewCell {
 	override func awakeFromNib() {
 		super.awakeFromNib()
 		
-		container.layer.cornerRadius = 18
+		containerBackground.layer.cornerRadius = 18
 		messageText.layer.masksToBounds = false
 	}
 }
