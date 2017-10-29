@@ -95,6 +95,8 @@ class ConversationViewController: UIViewController {
 	var contactView: ConversationContactView!
 	var newMessagesSeparator: NewMessagesSeparator?
 	var newMessagesTimestamp: Int64 = 0
+	
+	var datePanValue: CGFloat = 0
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -247,6 +249,35 @@ class ConversationViewController: UIViewController {
 			tableView.scrollToRow(at: lastIndexPath, at: .none, animated: true)
 		}
 	}
+	
+	@IBAction func chatPan(_ sender: UIPanGestureRecognizer) {
+		
+		switch sender.state {
+		case .changed:
+			let translation = -sender.translation(in: tableView).x
+			datePanValue = min(48, max(0, translation))
+			panCells(datePanValue)
+		default:
+			datePanValue = 0
+			panCells(0)
+		}
+	}
+	
+	func panCells(_ x: CGFloat) {
+		if x > 0 {
+			for cell in tableView.visibleCells {
+				if let cell = cell as? ChatCell {
+					cell.chatCellPan(to: x)
+				}
+			}
+		} else {
+			for cell in tableView.visibleCells {
+				if let cell = cell as? ChatCell {
+					cell.chatCellPanReset()
+				}
+			}
+		}
+	}
 }
 
 extension ConversationViewController: ConversationObserverDelegate {
@@ -351,6 +382,8 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 			
 			cell.message = message
 			
+			cell.chatCellPan(to: datePanValue)
+			
 			return cell
 		} else if let data = data as? NewMessagesSeparator {
 			let count = data.count
@@ -410,5 +443,19 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 extension ConversationViewController: InputAccessoryViewDelegate {
 	func inputAccessoryView(textDidChange text: String) {
 		ConversationsManager.shared.isTyping = text.count > 0
+	}
+}
+
+extension ConversationViewController: UIGestureRecognizerDelegate {
+	func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
+		if let pan = gestureRecognizer as? UIPanGestureRecognizer {
+			let translation = pan.translation(in: tableView)
+			return abs(translation.x) > abs(translation.y)
+		}
+		return true
+	}
+	
+	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+		return true
 	}
 }

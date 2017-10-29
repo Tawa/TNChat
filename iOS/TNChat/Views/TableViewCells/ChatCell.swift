@@ -14,6 +14,9 @@ class ChatCell: UITableViewCell {
 	@IBOutlet weak var messageText: UILabel!
 	@IBOutlet weak var dateLabel: UILabel!
 	
+	@IBOutlet weak var dateTrailingConstraint: NSLayoutConstraint!
+	@IBOutlet weak var containerTrailingConstraint: NSLayoutConstraint?
+	
 	weak var message: ChatMessage? {
 		didSet {
 			if let message = message {
@@ -46,4 +49,18 @@ class ChatCell: UITableViewCell {
 		containerBackground.layer.cornerRadius = 18
 		messageText.layer.masksToBounds = false
 	}
+	
+	func chatCellPan(to x: CGFloat) {
+		dateTrailingConstraint.constant = x
+		containerTrailingConstraint?.constant = x + 16
+	}
+	
+	func chatCellPanReset() {
+		UIView.animate(withDuration: 0.3) {
+			self.dateTrailingConstraint.constant = 0
+			self.containerTrailingConstraint?.constant = 16
+			self.layoutIfNeeded()
+		}
+	}
 }
+

@@ -26,7 +26,6 @@
 		3893E7E61F93C3D300B7A339 /* Login.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3893E7E51F93C3D300B7A339 /* Login.storyboard */; };
 		3893E7E91F93C50D00B7A339 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7E81F93C50D00B7A339 /* ColorExtension.swift */; };
 		3893E7EA1F93C5B500B7A339 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3893E7E31F93BFAB00B7A339 /* GoogleService-Info.plist */; };
-		3893E7EB1F93C5B500B7A339 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3893E7E41F93BFAB00B7A339 /* Info.plist */; };
 		3893E7EF1F93C75D00B7A339 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7EE1F93C75D00B7A339 /* LoadingButton.swift */; };
 		3893E7F31F93C7AE00B7A339 /* PhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7F21F93C7AE00B7A339 /* PhoneNumberViewController.swift */; };
 		3893E7F51F93C7BA00B7A339 /* CodeVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7F41F93C7BA00B7A339 /* CodeVerificationViewController.swift */; };
@@ -43,6 +42,7 @@
 		389A55D91F93F6D8007289E1 /* CountryCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55D81F93F6D7007289E1 /* CountryCodeManager.swift */; };
 		38B15D7E1FA639BD0070ED5C /* NewMessagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B15D7C1FA639BD0070ED5C /* NewMessagesCell.swift */; };
 		38B15D7F1FA639BD0070ED5C /* NewMessagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38B15D7D1FA639BD0070ED5C /* NewMessagesCell.xib */; };
+		38B15D801FA659BF0070ED5C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3893E7E41F93BFAB00B7A339 /* Info.plist */; };
 		38E065611FA467AD007939CC /* ChatMessageCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E065601FA467AD007939CC /* ChatMessageCellData.swift */; };
 		38EE522B1F955B330069106B /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EE522A1F955B330069106B /* ConversationViewController.swift */; };
 		C28BFE9A70A7C8598AB607F4 /* Pods_TNChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10935A59AB3D9E4B9ECF50F3 /* Pods_TNChat.framework */; };
@@ -329,9 +329,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38B15D801FA659BF0070ED5C /* Info.plist in Resources */,
 				3893E7EA1F93C5B500B7A339 /* GoogleService-Info.plist in Resources */,
 				38860DA61F9CA1D80001BC5D /* ChatDayHeader.xib in Resources */,
-				3893E7EB1F93C5B500B7A339 /* Info.plist in Resources */,
 				3893E7E61F93C3D300B7A339 /* Login.storyboard in Resources */,
 				3893E7DB1F93B88C00B7A339 /* LaunchScreen.storyboard in Resources */,
 				3893E7D81F93B88C00B7A339 /* Assets.xcassets in Resources */,
