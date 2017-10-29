@@ -24,11 +24,6 @@ class CountryCodeManager: NSObject {
 		}
 		countryNames.sort { $0.name < $1.name }
 		
-		for i in 0..<countryNames.count {
-			let country = countryNames[i]
-			print("\(prefixCodes[country.code] ?? "Unavailable"): \(country.name)")
-		}
-		
 		return countryNames
 	}()
 

@@ -108,9 +108,10 @@ extension ChatsViewController: ConversationsManagerDelegate {
 		tableView.insertRows(at: [firstRow], with: .top)
 	}
 	func conversationsManager(updatedForUserId userID: String, oldIndex index: Int) {
-		let firstRow = IndexPath(row: 0, section: 0)
-		let row = IndexPath(row: index, section: 0)
-		tableView.moveRow(at: row, to: firstRow)
-		tableView.reloadRows(at: [firstRow], with: .none)
+//		let firstRow = IndexPath(row: 0, section: 0)
+//		let row = IndexPath(row: index, section: 0)
+//		tableView.moveRow(at: row, to: firstRow)
+//		tableView.reloadRows(at: [firstRow], with: .none)
+		tableView.reloadData()
 	}
 }

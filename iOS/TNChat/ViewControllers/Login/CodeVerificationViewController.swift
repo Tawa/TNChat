@@ -28,12 +28,10 @@ class CodeVerificationViewController: UIViewController {
 				let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
 				alert.addAction(UIAlertAction(title: "Ok", style: .default))
 				self.present(alert, animated: true)
-			} else {
-				if let user = Auth.auth().currentUser,
-					let number = user.phoneNumber {
-					CurrentUserManager.shared.userID = String(number.dropFirst())
-					Database.database().reference().child("users/"+number.dropFirst()).setValue(true)
-				}
+			} else if let user = Auth.auth().currentUser,
+				let number = user.phoneNumber {
+				CurrentUserManager.shared.userID = String(number.dropFirst())
+				Database.database().reference().child("users/"+number.dropFirst()).setValue(true)
 				NotificationCenter.default.post(name: NotificationName.signedIn.notification, object: nil)
 				self.dismiss(animated: true)
 			}

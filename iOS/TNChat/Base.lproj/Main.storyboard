@@ -346,18 +346,29 @@
                                     <outlet property="delegate" destination="D6w-0x-Yus" id="aAm-eN-oAE"/>
                                 </connections>
                             </tableView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eTo-1I-f5K">
+                                <rect key="frame" x="171" y="603" width="32" height="32"/>
+                                <state key="normal" image="scrolldown"/>
+                                <connections>
+                                    <action selector="scrollDownAction:" destination="D6w-0x-Yus" eventType="touchUpInside" id="heL-9n-jhR"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.94901960780000005" green="0.93725490199999995" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="p77-ft-GIV" firstAttribute="top" secondItem="azA-e4-VdY" secondAttribute="top" id="9fG-mu-c5M"/>
                             <constraint firstItem="azA-e4-VdY" firstAttribute="trailing" secondItem="p77-ft-GIV" secondAttribute="trailing" id="T7d-Ne-Yus"/>
                             <constraint firstItem="azA-e4-VdY" firstAttribute="bottom" secondItem="p77-ft-GIV" secondAttribute="bottom" id="Ufw-ys-HTN"/>
+                            <constraint firstItem="azA-e4-VdY" firstAttribute="bottom" secondItem="eTo-1I-f5K" secondAttribute="bottom" constant="32" id="ZyE-fF-HIH"/>
                             <constraint firstItem="p77-ft-GIV" firstAttribute="leading" secondItem="azA-e4-VdY" secondAttribute="leading" id="kZI-4Q-VV6"/>
+                            <constraint firstItem="eTo-1I-f5K" firstAttribute="centerX" secondItem="azA-e4-VdY" secondAttribute="centerX" id="kqt-LY-eKk"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="azA-e4-VdY"/>
                     </view>
                     <connections>
                         <outlet property="inputViewContainer" destination="WF7-6Z-igl" id="u7U-34-YLi"/>
+                        <outlet property="scrollDownBottomConstraint" destination="ZyE-fF-HIH" id="cgy-Wg-AOF"/>
+                        <outlet property="scrollDownButton" destination="eTo-1I-f5K" id="r5G-NU-esN"/>
                         <outlet property="tableView" destination="p77-ft-GIV" id="jLU-ZY-Dr0"/>
                     </connections>
                 </viewController>
@@ -387,7 +398,7 @@
                             </constraints>
                             <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <inset key="contentEdgeInsets" minX="16" minY="0.0" maxX="16" maxY="0.0"/>
-                            <state key="normal" image="sendIcon"/>
+                            <state key="normal" image="sendicon"/>
                             <connections>
                                 <action selector="sendAction:" destination="D6w-0x-Yus" eventType="touchUpInside" id="CvB-3o-26b"/>
                             </connections>
@@ -520,7 +531,8 @@
     </scenes>
     <resources>
         <image name="chats" width="33" height="33"/>
-        <image name="sendIcon" width="32" height="32"/>
+        <image name="scrolldown" width="32" height="32"/>
+        <image name="sendicon" width="32" height="32"/>
         <image name="settings" width="27" height="27"/>
     </resources>
     <inferredMetricsTieBreakers>

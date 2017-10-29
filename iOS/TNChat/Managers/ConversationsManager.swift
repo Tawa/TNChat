@@ -109,13 +109,17 @@ class ConversationsManager: NSObject {
 						} else {
 							messagesQueryReference = databaseReference?.child("messages").queryOrdered(byChild: "timestamp")
 						}
-						messagesQueryReference?.observe(.childAdded, with: { (data) in
-							let key = friendID+data.key
-							if let data = data.value as? [String: Any],
+						messagesQueryReference?.observe(.childAdded, with: { (snapshot) in
+							let key = friendID+snapshot.key
+							if let data = snapshot.value as? [String: Any],
 								let message = data["message"] as? String,
 								let userID = data["userID"] as? String,
 								let timestamp = data["timestamp"] as? Int {
 								let (chatMessage, isNew) = ChatDataManager.shared.chatMessage(forUserID: userID, date: timestamp, message: message, key: key)
+								
+								if userID == friendID {
+									snapshot.ref.removeValue()
+								}
 								
 								conversation.cacheTime = Int64(timestamp)
 								if isNew {
@@ -215,9 +219,9 @@ class ConversationsManager: NSObject {
 			query.observeSingleEvent(of: .value, with: { (snapshot) in
 				if snapshot.exists() {
 					if let messages = snapshot.value as? [String: Any] {
-						for data in messages {
-							let key = friendID+data.key
-							if let data = data.value as? [String: Any],
+						for messageData in messages {
+							let key = friendID+messageData.key
+							if let data = messageData.value as? [String: Any],
 								let message = data["message"] as? String,
 								let userID = data["userID"] as? String,
 								let timestamp = data["timestamp"] as? Int {
@@ -232,6 +236,10 @@ class ConversationsManager: NSObject {
 								self.delegate?.conversationsManager(updatedForUserId: friendID, oldIndex: oldIndex ?? -1)
 								if isNew {
 									ChatDataManager.shared.saveContext()
+								}
+								
+								if userID == friendID {
+									snapshot.ref.child(messageData.key).removeValue()
 								}
 							}
 						}

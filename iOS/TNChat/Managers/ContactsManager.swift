@@ -36,7 +36,6 @@ class ContactsManager: NSObject {
 			do {
 				try context.save()
 			} catch {
-				fatalError("Unresolved error \(error), \(error.localizedDescription)")
 			}
 		} else {
 		}
@@ -58,8 +57,8 @@ class ContactsManager: NSObject {
 		
 		if contact == nil {
 			contact = Contact(context: context)
-			contact?.number = number
 		}
+		contact?.number = number
 		
 		return contact!
 	}
@@ -130,6 +129,7 @@ class ContactsManager: NSObject {
 		let currentUserId = CurrentUserManager.shared.userID ?? ""
 		
 		for contact in contacts {
+			guard contact.number != nil, contact.name != nil else { continue }
 			let number = contact.number!
 			unprocessed[number] = contact
 			Database.database().reference().child("users/"+number).observeSingleEvent(of: .value, with: { (snapshot) in

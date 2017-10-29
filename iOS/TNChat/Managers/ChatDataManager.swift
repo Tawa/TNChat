@@ -44,7 +44,6 @@ class ChatDataManager: NSObject {
 			do {
 				try context.save()
 			} catch {
-				fatalError("Unresolved error \(error), \(error.localizedDescription)")
 			}
 		}
 	}

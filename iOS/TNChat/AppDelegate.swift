@@ -73,15 +73,15 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 	
 	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 		if let friendID = userInfo["userID"] as? String, friendID != ConversationsManager.shared.currentfriendID {
-			let key: String = (userInfo["key"] as? String)!
+//			let key: String = (userInfo["key"] as? String)!
 			let message: String = (userInfo["message"] as? String)!
-			let timestamp: Int = Int(userInfo["timestamp"] as! String)!
+//			let timestamp: Int = Int(userInfo["timestamp"] as! String)!
 			
-			let (conversation, _) = ChatDataManager.shared.conversation(withFriendID: friendID)
-			let (chatMessage, _) = ChatDataManager.shared.chatMessage(forUserID: friendID, date: timestamp, message: message, key: friendID+key)
-			conversation.addToMessages(chatMessage)
-			
-			ChatDataManager.shared.saveContext()
+//			let (conversation, _) = ChatDataManager.shared.conversation(withFriendID: friendID)
+//			let (chatMessage, _) = ChatDataManager.shared.chatMessage(forUserID: friendID, date: timestamp, message: message, key: friendID+key)
+//			conversation.addToMessages(chatMessage)
+//
+//			ChatDataManager.shared.saveContext()
 			
 			application.applicationIconBadgeNumber += 1
 			

@@ -78,6 +78,8 @@ class ConversationViewController: UIViewController {
 	
 	var didScrollToEnd = false
 	
+	@IBOutlet weak var scrollDownButton: UIButton!
+	@IBOutlet weak var scrollDownBottomConstraint: NSLayoutConstraint!
 	@IBOutlet weak var tableView: UITableView!
 	@IBOutlet var inputViewContainer: InputAccessoryView!
 	
@@ -150,7 +152,7 @@ class ConversationViewController: UIViewController {
 			didScrollToEnd = true
 			tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: inputViewContainer.frame.height, right: 0)
 			tableView.scrollIndicatorInsets = tableView.contentInset
-			tableView.scrollToRow(at: lastIndexPath, at: .top, animated: false)
+			tableView.scrollToRow(at: lastIndexPath, at: .none, animated: false)
 		}
 	}
 	
@@ -189,6 +191,7 @@ class ConversationViewController: UIViewController {
 		let oldOffset = tableView.contentOffset.y
 		
 		tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: bottom, right: 0)
+		self.scrollDownBottomConstraint.constant = bottom + 8
 		tableView.scrollIndicatorInsets = tableView.contentInset
 		let finalHeight = tableView.frame.height - tableView.contentInset.bottom
 		let contentHeight = tableView.contentSize.height
@@ -215,6 +218,12 @@ class ConversationViewController: UIViewController {
 		ConversationsManager.shared.send(message: inputViewContainer.textView.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
 		inputViewContainer.textView.text = ""
 		inputViewContainer.textViewDidChange(inputViewContainer.textView)
+	}
+	
+	@IBAction func scrollDownAction(_ sender: Any) {
+		if let lastIndexPath = lastIndexPath {
+			tableView.scrollToRow(at: lastIndexPath, at: .none, animated: true)
+		}
 	}
 }
 
@@ -252,7 +261,6 @@ extension ConversationViewController: ConversationObserverDelegate {
 				self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
 			})
 		} else {
-			print("Received Message")
 		}
 	}
 	
@@ -311,6 +319,14 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 		return cell
 	}
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+		if indexPath == lastIndexPath && !scrollDownButton.isHidden {
+			UIView.animate(withDuration: 0.1, animations: {
+				self.scrollDownButton.alpha = 0
+			}, completion: { (_) in
+				self.scrollDownButton.isHidden = true
+			})
+		}
+
 		let message = messages.message(forIndexPath: indexPath)
 		
 		if conversation.updatedTime < message.timestamp {
@@ -319,6 +335,17 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 			ConversationsManager.shared.refreshApplicationBadgeCount()
 			
 			ChatDataManager.shared.saveContext()
+		}
+	}
+	
+	func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+		if indexPath == lastIndexPath && scrollDownButton.isHidden {
+			scrollDownBottomConstraint.constant = tableView.contentInset.bottom + 8
+			scrollDownButton.isHidden = false
+			scrollDownButton.alpha = 0
+			UIView.animate(withDuration: 0.3, animations: {
+				self.scrollDownButton.alpha = 1
+			})
 		}
 	}
 	
