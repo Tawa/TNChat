@@ -57,8 +57,8 @@ class ContactsManager: NSObject {
 		
 		if contact == nil {
 			contact = Contact(context: context)
+			contact?.number = number
 		}
-		contact?.number = number
 		
 		return contact!
 	}

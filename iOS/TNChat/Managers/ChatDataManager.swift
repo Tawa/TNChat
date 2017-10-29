@@ -48,12 +48,12 @@ class ChatDataManager: NSObject {
 		}
 	}
 	
-	func newMessagesCount(forConversation conversation: ChatConversation) -> Int {
+	func newMessagesCount(forConversation conversation: ChatConversation, afterTimestamp timestamp: Int64) -> Int {
 		let context = self.context
 		
 		let request: NSFetchRequest<ChatMessage> = ChatMessage.fetchRequest()
 		request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates:[
-			NSPredicate(format: "timestamp > %ld", conversation.updatedTime),
+			NSPredicate(format: "timestamp > %ld", timestamp),
 			NSPredicate(format: "conversation == %@", conversation)
 			])
 		
@@ -65,6 +65,10 @@ class ChatDataManager: NSObject {
 		return 0
 	}
 	
+	func newMessagesCount(forConversation conversation: ChatConversation) -> Int {
+		return newMessagesCount(forConversation: conversation, afterTimestamp: conversation.updatedTime)
+	}
+
 	func conversation(withFriendID friendID: String) -> (ChatConversation, Bool) {
 		let context = self.context
 		

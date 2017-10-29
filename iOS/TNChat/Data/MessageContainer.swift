@@ -10,7 +10,7 @@ import UIKit
 
 class MessageContainer: NSObject {
 	var date: Date
-	var messages = [ChatMessage]()
+	var messages = [ChatMessageCellData]()
 	var count: Int {
 		return messages.count
 	}
@@ -27,25 +27,38 @@ class MessageContainer: NSObject {
 		messages.append(message)
 	}
 	
-	func include(message: ChatMessage) -> (ComparisonResult, Int) {
+	convenience init(withSeparator separator: NewMessagesSeparator) {
+		self.init(withDate: separator.timestamp.date)
+		
+		messages.append(separator)
+	}
+	
+	convenience init(withData data: ChatMessageCellData) {
+		self.init(withDate: data.timestamp.date)
+		
+		messages.append(data)
+	}
+	
+	func include(message: ChatMessageCellData) -> (ComparisonResult, Int) {
 		let calendar = Calendar.current
-		if calendar.isDate(date, inSameDayAs: message.date) {
+		if calendar.isDate(date, inSameDayAs: message.timestamp.date) {
 			var newIndex: Int = 0
 			for i in 0...messages.count {
 				if i == messages.count {
 					newIndex = i
 					break
 				}
-				let oldMessage = messages[i]
-				newIndex = i
-				if oldMessage.timestamp > message.timestamp {
-					break
+				if let oldMessage = messages[i] as? ChatMessage {
+					newIndex = i
+					if oldMessage.timestamp > message.timestamp {
+						break
+					}
 				}
 			}
 			messages.insert(message, at: newIndex)
 			return (.orderedSame, newIndex)
 		} else {
-			return (date.compare(message.date), -1)
+			return (date.compare(message.timestamp.date), -1)
 		}
 	}
 }

@@ -93,6 +93,8 @@ class ConversationViewController: UIViewController {
 	var messages = ConversationContainer()
 	let refresh = UIRefreshControl()
 	var contactView: ConversationContactView!
+	var newMessagesSeparator: NewMessagesSeparator?
+	var newMessagesTimestamp: Int64 = 0
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -117,6 +119,14 @@ class ConversationViewController: UIViewController {
 		
 		refresh.addTarget(self, action: #selector(loadMore), for: .valueChanged)
 		tableView.addSubview(refresh)
+		
+		if conversation.cacheTime > conversation.updatedTime {
+			tableView.register(UINib(nibName: "NewMessagesCell", bundle: Bundle.main), forCellReuseIdentifier: "newMessagesCell")
+			
+			newMessagesTimestamp = conversation.updatedTime
+			newMessagesSeparator = NewMessagesSeparator(conversation.updatedTime, ChatDataManager.shared.newMessagesCount(forConversation: conversation))
+			let _ = messages.add(message: newMessagesSeparator!)
+		}
 	}
 	
 	deinit {
@@ -215,6 +225,18 @@ class ConversationViewController: UIViewController {
 	}
 	
 	@IBAction func sendAction(_ sender: Any) {
+		if let _ = newMessagesSeparator {
+			for day in messages.days {
+				if let row = day.messages.index(where: { (data) -> Bool in
+					return data is NewMessagesSeparator
+				}) {
+					let section = messages.days.index(of: day)!
+					day.messages.remove(at: row)
+					tableView.deleteRows(at: [IndexPath(row: row, section: section)], with: .fade)
+				}
+			}
+		}
+		
 		ConversationsManager.shared.send(message: inputViewContainer.textView.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines))
 		inputViewContainer.textView.text = ""
 		inputViewContainer.textViewDidChange(inputViewContainer.textView)
@@ -262,6 +284,18 @@ extension ConversationViewController: ConversationObserverDelegate {
 			})
 		} else {
 		}
+		
+		if let newMessagesSeparator = newMessagesSeparator {
+			newMessagesSeparator.count = ChatDataManager.shared.newMessagesCount(forConversation: conversation, afterTimestamp: newMessagesTimestamp)
+			for day in messages.days {
+				if let row = day.messages.index(where: { (data) -> Bool in
+					return data is NewMessagesSeparator
+				}) {
+					let section = messages.days.index(of: day)!
+					tableView.reloadRows(at: [IndexPath(row: row, section: section)], with: .none)
+				}
+			}
+		}
 	}
 	
 	func conversationObserver(updatedMessage message: ChatMessage) {
@@ -305,18 +339,30 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 	}
 	
 	func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let cell: ChatCell
-		let message = messages.message(forIndexPath: indexPath)
-		
-		if message.userID!.isCurrentUserID {
-			cell = tableView.dequeueReusableCell(withIdentifier: "sentCell") as! ChatCell
-		} else {
-			cell = tableView.dequeueReusableCell(withIdentifier: "receivedCell") as! ChatCell
+		let data = messages.message(forIndexPath: indexPath)
+		if let message = data as? ChatMessage {
+			let cell: ChatCell
+			
+			if message.userID!.isCurrentUserID {
+				cell = tableView.dequeueReusableCell(withIdentifier: "sentCell") as! ChatCell
+			} else {
+				cell = tableView.dequeueReusableCell(withIdentifier: "receivedCell") as! ChatCell
+			}
+			
+			cell.message = message
+			
+			return cell
+		} else if let data = data as? NewMessagesSeparator {
+			let count = data.count
+			
+			let cell = tableView.dequeueReusableCell(withIdentifier: "newMessagesCell") as! NewMessagesCell
+			
+			cell.label.text = "\(count) New Messages"
+			
+			return cell
 		}
 		
-		cell.message = message
-		
-		return cell
+		return UITableViewCell()
 	}
 	func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 		if indexPath == lastIndexPath && !scrollDownButton.isHidden {

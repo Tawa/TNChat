@@ -15,6 +15,7 @@ enum ChatMessageCellType {
 
 protocol ChatMessageCellData {
 	var type: ChatMessageCellType { get }
+	var timestamp: Int64 { get set }
 }
 
 extension ChatMessage: ChatMessageCellData {
@@ -24,7 +25,15 @@ extension ChatMessage: ChatMessageCellData {
 }
 
 class NewMessagesSeparator: ChatMessageCellData {
+	var timestamp: Int64
+	var count: Int
+	
 	var type: ChatMessageCellType {
 		return .newMessages
+	}
+	
+	init(_ timestamp: Int64, _ count: Int) {
+		self.timestamp = timestamp
+		self.count = count
 	}
 }

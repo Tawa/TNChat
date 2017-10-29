@@ -41,6 +41,8 @@
 		389A55D51F93E7BB007289E1 /* ContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55D41F93E7BB007289E1 /* ContactsViewController.swift */; };
 		389A55D71F93F16A007289E1 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55D61F93F16A007289E1 /* StringExtension.swift */; };
 		389A55D91F93F6D8007289E1 /* CountryCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55D81F93F6D7007289E1 /* CountryCodeManager.swift */; };
+		38B15D7E1FA639BD0070ED5C /* NewMessagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B15D7C1FA639BD0070ED5C /* NewMessagesCell.swift */; };
+		38B15D7F1FA639BD0070ED5C /* NewMessagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38B15D7D1FA639BD0070ED5C /* NewMessagesCell.xib */; };
 		38E065611FA467AD007939CC /* ChatMessageCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E065601FA467AD007939CC /* ChatMessageCellData.swift */; };
 		38EE522B1F955B330069106B /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EE522A1F955B330069106B /* ConversationViewController.swift */; };
 		C28BFE9A70A7C8598AB607F4 /* Pods_TNChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10935A59AB3D9E4B9ECF50F3 /* Pods_TNChat.framework */; };
@@ -84,6 +86,8 @@
 		389A55D41F93E7BB007289E1 /* ContactsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsViewController.swift; sourceTree = "<group>"; };
 		389A55D61F93F16A007289E1 /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		389A55D81F93F6D7007289E1 /* CountryCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodeManager.swift; sourceTree = "<group>"; };
+		38B15D7C1FA639BD0070ED5C /* NewMessagesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessagesCell.swift; sourceTree = "<group>"; };
+		38B15D7D1FA639BD0070ED5C /* NewMessagesCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewMessagesCell.xib; sourceTree = "<group>"; };
 		38E065601FA467AD007939CC /* ChatMessageCellData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessageCellData.swift; sourceTree = "<group>"; };
 		38EE522A1F955B330069106B /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		80D1193768274921627D133F /* Pods-TNChat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TNChat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TNChat/Pods-TNChat.debug.xcconfig"; sourceTree = "<group>"; };
@@ -116,6 +120,8 @@
 			children = (
 				388E28751F9FD14B00BE39B4 /* ConversationCell.swift */,
 				388E28771F9FD29100BE39B4 /* ChatCell.swift */,
+				38B15D7C1FA639BD0070ED5C /* NewMessagesCell.swift */,
+				38B15D7D1FA639BD0070ED5C /* NewMessagesCell.xib */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -331,6 +337,7 @@
 				3893E7D81F93B88C00B7A339 /* Assets.xcassets in Resources */,
 				38860DAF1F9D36A20001BC5D /* ConversationContactView.xib in Resources */,
 				3893E7D61F93B88C00B7A339 /* Main.storyboard in Resources */,
+				38B15D7F1FA639BD0070ED5C /* NewMessagesCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -418,6 +425,7 @@
 				382F0E3E1F9AAAB1005B3F7E /* ChatDataModel.xcdatamodeld in Sources */,
 				389A55D31F93DA93007289E1 /* CurrentUserManager.swift in Sources */,
 				3893E7F31F93C7AE00B7A339 /* PhoneNumberViewController.swift in Sources */,
+				38B15D7E1FA639BD0070ED5C /* NewMessagesCell.swift in Sources */,
 				389A55C91F93CF05007289E1 /* ChatsViewController.swift in Sources */,
 				3893E7EF1F93C75D00B7A339 /* LoadingButton.swift in Sources */,
 				382F0E401F9B2091005B3F7E /* ChatDataManager.swift in Sources */,
