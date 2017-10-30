@@ -246,7 +246,7 @@ class ConversationViewController: UIViewController {
 	
 	@IBAction func scrollDownAction(_ sender: Any) {
 		if let lastIndexPath = lastIndexPath {
-			tableView.scrollToRow(at: lastIndexPath, at: .none, animated: true)
+			tableView.scrollToRow(at: lastIndexPath, at: .top, animated: true)
 		}
 	}
 	
@@ -311,7 +311,7 @@ extension ConversationViewController: ConversationObserverDelegate {
 		}
 		if shouldScroll {
 			DispatchQueue.main.asyncAfter(deadline: .now() + 0.1, execute: {
-				self.tableView.scrollToRow(at: indexPath, at: .none, animated: true)
+				self.tableView.scrollToRow(at: indexPath, at: .top, animated: true)
 			})
 		} else {
 		}

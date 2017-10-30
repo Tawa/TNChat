@@ -16,6 +16,8 @@ class ContactsManager: NSObject {
 	var contacts = [Contact]()
 	var onlineContacts = [Contact]()
 	
+	var syncing = false
+	
 	lazy var container: NSPersistentContainer = {
 		let container = NSPersistentContainer(name: "ContactsDataModel")
 		container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -81,19 +83,6 @@ class ContactsManager: NSObject {
 		
 	}
 	
-	func contactsCount() -> String {
-		let context = self.context
-		
-		let request: NSFetchRequest<Contact> = Contact.fetchRequest()
-		do {
-			let results = try context.fetch(request)
-			return "\(results.count)"
-		} catch {
-		}
-		
-		return "0"
-	}
-	
 	func loadContacts(_ completion: @escaping (_ success: Bool) -> Void) {
 		store.requestAccess(for: .contacts) { (success, error) in
 			if success {
@@ -154,12 +143,18 @@ class ContactsManager: NSObject {
 	}
 	
 	func syncContacts(_ completion: @escaping(_ success: Bool) -> Void) {
+		if syncing {
+			return
+		}
+		syncing = true
 		ContactsManager.shared.loadContacts { (success) in
 			if success {
 				ContactsManager.shared.fetchContactsOnline({ (success) in
+					self.syncing = false
 					completion(success)
 				})
 			} else {
+				self.syncing = false
 				completion(false)
 			}
 		}

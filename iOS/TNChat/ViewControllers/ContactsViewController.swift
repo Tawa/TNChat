@@ -30,16 +30,10 @@ class ContactsViewController: UITableViewController {
 		ContactsManager.shared.syncContacts { [weak self] (success) in
 			self?.isReloading = false
 			if success {
-				ContactsManager.shared.fetchContactsOnline({ (success) in
-					if success {
-						self?.contacts.removeAll()
-						self?.contacts.append(contentsOf: ContactsManager.shared.onlineContacts)
-						self?.tableView.reloadData()
-					} else {
-					}
-				})
+				self?.contacts.removeAll()
+				self?.contacts.append(contentsOf: ContactsManager.shared.onlineContacts)
+				self?.tableView.reloadData()
 			} else {
-				
 			}
 		}
 	}
