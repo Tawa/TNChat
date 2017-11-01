@@ -9,8 +9,8 @@
 import UIKit
 
 extension ChatConversation {
-	var isUpToDate: Bool {
-		return conversationTime <= updatedTime
+	var newMessagesCount: Int {
+		return ChatDataManager.shared.newMessagesCount(forConversation: self)
 	}
 }
 
@@ -34,9 +34,11 @@ class ConversationCell: UITableViewCell {
 				formatter.doesRelativeDateFormatting = true
 				dateLabel.text = formatter.string(from: date)
 				
-				indicator.isHidden = conversation.isUpToDate
-				indicator.text = "\(ChatDataManager.shared.newMessagesCount(forConversation: conversation))"
-				
+				let count = conversation.newMessagesCount
+				indicator.isHidden = count == 0
+				if count > 0 {
+					indicator.text = "\(count)"
+				}
 			}
 		}
 	}

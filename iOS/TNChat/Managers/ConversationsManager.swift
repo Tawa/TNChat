@@ -17,11 +17,6 @@ protocol ConversationObserverDelegate {
 	func conversationObserver(friendIsOnline online: Bool, isTyping typing: Bool)
 }
 
-protocol ConversationsManagerDelegate {
-	func conversationsManager(addedForUserId userID: String)
-	func conversationsManager(updatedForUserId userID: String, oldIndex index: Int)
-}
-
 class ConversationsManager: NSObject {
 	static let shared = ConversationsManager()
 	var database: DatabaseReference?
@@ -58,7 +53,6 @@ class ConversationsManager: NSObject {
 	var isFriendOnline: Bool = false
 	var isFriendTyping: Bool = false
 	
-	var delegate: ConversationsManagerDelegate?
 	var conversationObserver: ConversationObserverDelegate? {
 		didSet {
 			if let observer = conversationObserver {
@@ -117,9 +111,9 @@ class ConversationsManager: NSObject {
 								let timestamp = data["timestamp"] as? Int {
 								let (chatMessage, isNew) = ChatDataManager.shared.chatMessage(forUserID: userID, date: timestamp, message: message, key: key)
 								
-								if userID == friendID {
-									snapshot.ref.removeValue()
-								}
+//								if userID == friendID {
+//									snapshot.ref.removeValue()
+//								}
 								
 								conversation.cacheTime = Int64(timestamp)
 								if isNew {
@@ -196,9 +190,7 @@ class ConversationsManager: NSObject {
 	@objc func refreshApplicationBadgeCount() {
 		var totalCount = 0
 		for conversation in conversations {
-			if !conversation.isUpToDate {
-				totalCount += ChatDataManager.shared.newMessagesCount(forConversation: conversation)
-			}
+			totalCount += conversation.newMessagesCount
 		}
 		UIApplication.shared.applicationIconBadgeNumber = totalCount
 	}
@@ -206,7 +198,7 @@ class ConversationsManager: NSObject {
 	func updateConversation(forFriendID friendID: String) {
 		guard let userID = CurrentUserManager.shared.userID, friendID != currentfriendID else { return }
 		if friendID != currentfriendID {
-			let (conversation, _) = ChatDataManager.shared.conversation(withFriendID: friendID)
+			let conversation = ChatDataManager.shared.conversation(withFriendID: friendID)
 			let start = conversation.cacheTime
 			let chatID = String(forUserID: friendID, andUserId: userID)
 			let database = Database.database().reference().child("chats/" + chatID)
@@ -225,22 +217,17 @@ class ConversationsManager: NSObject {
 								let message = data["message"] as? String,
 								let userID = data["userID"] as? String,
 								let timestamp = data["timestamp"] as? Int {
-								let (chatMessage, isNew) = ChatDataManager.shared.chatMessage(forUserID: userID, date: timestamp, message: message, key: key)
+								let (chatMessage, _) = ChatDataManager.shared.chatMessage(forUserID: userID, date: timestamp, message: message, key: key)
 								
 								if conversation.cacheTime < chatMessage.timestamp {
 									conversation.cacheTime = chatMessage.timestamp
 								}
 								conversation.addToMessages(chatMessage)
-								let oldIndex = self.conversations.index(of: conversation)
-								self.reloadData()
-								self.delegate?.conversationsManager(updatedForUserId: friendID, oldIndex: oldIndex ?? -1)
-								if isNew {
-									ChatDataManager.shared.saveContext()
-								}
+								ChatDataManager.shared.saveContext()
 								
-								if userID == friendID {
-									snapshot.ref.child(messageData.key).removeValue()
-								}
+//								if userID == friendID {
+//									snapshot.ref.child(messageData.key).removeValue()
+//								}
 							}
 						}
 					}
@@ -257,7 +244,7 @@ class ConversationsManager: NSObject {
 					let message = messageData["message"] as? [String: Any] {
 					let friendID = data.key
 					
-					let (conversation, isNew) = ChatDataManager.shared.conversation(withFriendID: friendID)
+					let conversation = ChatDataManager.shared.conversation(withFriendID: friendID)
 					
 					let text = message["message"] as? String
 					let timestamp = Int64(message["timestamp"] as! Int)
@@ -270,16 +257,6 @@ class ConversationsManager: NSObject {
 					self.updateConversation(forFriendID: friendID)
 					
 					ChatDataManager.shared.saveContext()
-					
-					
-					if isNew {
-						self.reloadData()
-						self.delegate?.conversationsManager(addedForUserId: friendID)
-					} else {
-						let oldIndex = self.conversations.index(of: conversation)
-						self.reloadData()
-						self.delegate?.conversationsManager(updatedForUserId: friendID, oldIndex: oldIndex ?? -1)
-					}
 				}
 			}
 			
@@ -291,12 +268,5 @@ class ConversationsManager: NSObject {
 
 	@objc func removeObservers() {
 		database?.removeAllObservers()
-	}
-
-	func reloadData() {
-		conversations = ChatDataManager.shared.conversations
-		conversations.sort { (chat1, chat2) -> Bool in
-			return chat1.conversationTime > chat2.conversationTime
-		}
 	}
 }

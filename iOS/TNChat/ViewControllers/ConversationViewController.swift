@@ -60,7 +60,7 @@ class ConversationViewController: UIViewController {
 	var contact: Contact! {
 		didSet {
 			if let number = contact.number {
-				conversation = ChatDataManager.shared.conversation(withFriendID: number).0
+				conversation = ChatDataManager.shared.conversation(withFriendID: number)
 				let chatMessages = ChatDataManager.shared.chatMessages(forConversationWithFriendID: number)
 				messages.clear()
 				for message in chatMessages {
@@ -122,11 +122,12 @@ class ConversationViewController: UIViewController {
 		refresh.addTarget(self, action: #selector(loadMore), for: .valueChanged)
 		tableView.addSubview(refresh)
 		
-		if conversation.cacheTime > conversation.updatedTime {
+		let newMessagesCount = conversation.newMessagesCount
+		if newMessagesCount > 0 {
 			tableView.register(UINib(nibName: "NewMessagesCell", bundle: Bundle.main), forCellReuseIdentifier: "newMessagesCell")
 			
 			newMessagesTimestamp = conversation.updatedTime
-			newMessagesSeparator = NewMessagesSeparator(conversation.updatedTime, ChatDataManager.shared.newMessagesCount(forConversation: conversation))
+			newMessagesSeparator = NewMessagesSeparator(conversation.updatedTime, newMessagesCount)
 			let _ = messages.add(message: newMessagesSeparator!)
 		}
 	}

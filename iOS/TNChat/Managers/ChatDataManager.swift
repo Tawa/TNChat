@@ -18,6 +18,7 @@ class ChatDataManager: NSObject {
 		do {
 			let request: NSFetchRequest<ChatConversation> = ChatConversation.fetchRequest()
 			request.predicate = NSPredicate(format: "userID == %@", CurrentUserManager.shared.userID ?? "")
+			request.sortDescriptors = [NSSortDescriptor(key: "conversationTime", ascending: false)]
 			return try context.fetch(request)
 		} catch {
 			return [ChatConversation]()
@@ -69,13 +70,12 @@ class ChatDataManager: NSObject {
 		return newMessagesCount(forConversation: conversation, afterTimestamp: conversation.updatedTime)
 	}
 
-	func conversation(withFriendID friendID: String) -> (ChatConversation, Bool) {
+	func conversation(withFriendID friendID: String) -> ChatConversation {
 		let context = self.context
 		
 		let request: NSFetchRequest<ChatConversation> = ChatConversation.fetchRequest()
 		request.predicate = NSPredicate(format: "friendID == %@", friendID)
 		var conversation: ChatConversation?
-		var isNew = false
 		do {
 			conversation = try context.fetch(request).first
 		} catch {
@@ -85,15 +85,14 @@ class ChatDataManager: NSObject {
 			conversation = ChatConversation(context: context)
 			conversation?.friendID = friendID
 			conversation?.userID = CurrentUserManager.shared.userID
-			isNew = true
 		}
 		
-		return (conversation!, isNew)
+		return conversation!
 	}
 	
 	func chatMessages(forConversationWithFriendID friendID: String, beforeTimestamp timestamp: Int64? = nil) -> [ChatMessage] {
 		let context = self.context
-		let (conversation, _) = self.conversation(withFriendID: friendID)
+		let conversation = self.conversation(withFriendID: friendID)
 		let request: NSFetchRequest<ChatMessage> = ChatMessage.fetchRequest()
 		request.fetchLimit = 20
 		request.sortDescriptors = [

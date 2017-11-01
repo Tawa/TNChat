@@ -7,29 +7,19 @@
 //
 
 import UIKit
+import CoreData
 
 class ChatsViewController: UITableViewController {
 	
-	var conversations: [ChatConversation] {
-		return ConversationsManager.shared.conversations
-	}
-
     override func viewDidLoad() {
         super.viewDidLoad()
 		
 		NotificationCenter.default.addObserver(self, selector: #selector(openChat(_:)), name: NotificationName.openChat.notification, object: nil)
 		
-		ConversationsManager.shared.delegate = self
-		
 		NotificationCenter.default.addObserver(self, selector: #selector(getContacts), name: NotificationName.signedIn.notification, object: nil)
-    }
-	
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
 		
-		ConversationsManager.shared.reloadData()
-		tableView.reloadData()
-	}
+		NotificationCenter.default.addObserver(self, selector: #selector(resetFetchedController), name: NotificationName.signedOut.notification, object: nil)
+    }
 	
 	@objc func getContacts() {
 		ContactsManager.shared.syncContacts { (_) in
@@ -55,21 +45,18 @@ class ChatsViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 1
+		return fetchedResultsController?.sections?.count ?? 0
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return conversations.count
+		let sectionInfo = fetchedResultsController!.sections![section]
+		return sectionInfo.numberOfObjects
     }
 	
 	override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-		let row = indexPath.row
-		
 		let cell = tableView.dequeueReusableCell(withIdentifier: "conversationCell") as! ConversationCell
 		
-		cell.conversation = conversations[row]
+		cell.conversation = fetchedResultsController!.object(at: indexPath)
 		
 		return cell
 	}
@@ -90,7 +77,7 @@ class ChatsViewController: UITableViewController {
 						vc.contact = contact
 					} else if let cell = sender as? UITableViewCell,
 						let indexPath = tableView.indexPath(for: cell),
-						let friendID = conversations[indexPath.row].friendID {
+						let friendID = fetchedResultsController?.object(at: indexPath).friendID {
 						let contact = ContactsManager.shared.getContact(withPhoneNumber: friendID)
 						vc.contact = contact
 					}
@@ -100,18 +87,75 @@ class ChatsViewController: UITableViewController {
 			}
 		}
 	}
+	
+	private var _fetchedResultsController: NSFetchedResultsController<ChatConversation>? = nil
+	var fetchedResultsController: NSFetchedResultsController<ChatConversation>? {
+		if _fetchedResultsController != nil {
+			return _fetchedResultsController!
+		}
+		
+		guard let userID = CurrentUserManager.shared.userID else { return nil }
+		
+		let fetchRequest: NSFetchRequest<ChatConversation> = ChatConversation.fetchRequest()
+		fetchRequest.predicate = NSPredicate(format: "userID == %@", userID)
+
+		let sortDescriptor = NSSortDescriptor(key: "conversationTime", ascending: false)
+		
+		fetchRequest.sortDescriptors = [sortDescriptor]
+		
+		let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: ChatDataManager.shared.context, sectionNameKeyPath: nil, cacheName: "Conversations")
+		aFetchedResultsController.delegate = self
+		_fetchedResultsController = aFetchedResultsController
+		
+		do {
+			try _fetchedResultsController!.performFetch()
+		} catch {
+			let nserror = error as NSError
+			fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+		}
+		
+		return _fetchedResultsController!
+	}
+	@objc func resetFetchedController() {
+		_fetchedResultsController = nil
+		tableView.reloadData()
+	}
 }
 
-extension ChatsViewController: ConversationsManagerDelegate {
-	func conversationsManager(addedForUserId userID: String) {
-		let firstRow = IndexPath(row: 0, section: 0)
-		tableView.insertRows(at: [firstRow], with: .top)
+extension ChatsViewController: NSFetchedResultsControllerDelegate {
+	func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+		tableView.beginUpdates()
 	}
-	func conversationsManager(updatedForUserId userID: String, oldIndex index: Int) {
-//		let firstRow = IndexPath(row: 0, section: 0)
-//		let row = IndexPath(row: index, section: 0)
-//		tableView.moveRow(at: row, to: firstRow)
-//		tableView.reloadRows(at: [firstRow], with: .none)
-		tableView.reloadData()
+	
+	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
+		switch type {
+		case .insert:
+			tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
+		case .delete:
+			tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
+		default:
+			break
+		}
+	}
+	
+	func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+		switch type {
+		case .insert:
+			tableView.insertRows(at: [newIndexPath!], with: .fade)
+		case .delete:
+			tableView.deleteRows(at: [indexPath!], with: .fade)
+		case .update:
+			tableView.reloadRows(at: [indexPath!], with: .fade)
+		case .move:
+			if let cell = tableView.cellForRow(at: indexPath!) as? ConversationCell,
+				let conversation = anObject as? ChatConversation {
+				cell.conversation = conversation
+			}
+			tableView.moveRow(at: indexPath!, to: newIndexPath!)
+		}
+	}
+	
+	func controllerDidChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
+		tableView.endUpdates()
 	}
 }
