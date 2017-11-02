@@ -29,7 +29,6 @@
 		3893E7EF1F93C75D00B7A339 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7EE1F93C75D00B7A339 /* LoadingButton.swift */; };
 		3893E7F31F93C7AE00B7A339 /* PhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7F21F93C7AE00B7A339 /* PhoneNumberViewController.swift */; };
 		3893E7F51F93C7BA00B7A339 /* CodeVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7F41F93C7BA00B7A339 /* CodeVerificationViewController.swift */; };
-		3893E7F71F93C85F00B7A339 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7F61F93C85F00B7A339 /* ViewExtension.swift */; };
 		3893E7F91F93C8D800B7A339 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7F81F93C8D800B7A339 /* TabBarViewController.swift */; };
 		3893E7FC1F93C90400B7A339 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3893E7FB1F93C90400B7A339 /* Constants.swift */; };
 		389A55C71F93CEF0007289E1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55C61F93CEF0007289E1 /* SettingsViewController.swift */; };
@@ -74,7 +73,6 @@
 		3893E7EE1F93C75D00B7A339 /* LoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
 		3893E7F21F93C7AE00B7A339 /* PhoneNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneNumberViewController.swift; sourceTree = "<group>"; };
 		3893E7F41F93C7BA00B7A339 /* CodeVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeVerificationViewController.swift; sourceTree = "<group>"; };
-		3893E7F61F93C85F00B7A339 /* ViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
 		3893E7F81F93C8D800B7A339 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		3893E7FB1F93C90400B7A339 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		389A55C61F93CEF0007289E1 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -176,7 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				3893E7E81F93C50D00B7A339 /* ColorExtension.swift */,
-				3893E7F61F93C85F00B7A339 /* ViewExtension.swift */,
 				389A55D61F93F16A007289E1 /* StringExtension.swift */,
 				3867449B1F9B4C9A00C0445B /* DateExtension.swift */,
 			);
@@ -414,7 +411,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3893E7F71F93C85F00B7A339 /* ViewExtension.swift in Sources */,
 				38860DAD1F9D36970001BC5D /* ConversationContactView.swift in Sources */,
 				3867449C1F9B4C9A00C0445B /* DateExtension.swift in Sources */,
 				388E28781F9FD29100BE39B4 /* ChatCell.swift in Sources */,

@@ -8,6 +8,7 @@
 
 import UIKit
 
+// This view is what displays in the UINavigationItem for the conversations.
 class ConversationContactView: UIView {
 
 	@IBOutlet weak var pictureView: UIImageView!

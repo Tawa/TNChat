@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import UserNotifications
 
+// The settings view controller for now only contains a logout button and a notifications toggle.
 class SettingsViewController: UITableViewController {
 	let notificationsIndexPath = IndexPath(row: 0, section: 0)
 	let signOutIndexPath = IndexPath(row: 0, section: 1)

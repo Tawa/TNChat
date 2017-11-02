@@ -17,24 +17,34 @@ protocol ConversationObserverDelegate {
 	func conversationObserver(friendIsOnline online: Bool, isTyping typing: Bool)
 }
 
+// This class manages the conversations.
+// It helps observe the conversations list, see which ones have new messages, downloads them, and caches the new messages.
+// This function also helps with realtime chat. The protocol above has the methods to which the delegate should follow in order to be up to date with new messages, online and typing statuses.
 class ConversationsManager: NSObject {
 	static let shared = ConversationsManager()
 	var database: DatabaseReference?
 	var conversations = [ChatConversation]()
 	
+	// This variable stores which conversation is currently open.
+	// This is also used to handle push notifications.
 	var currentfriendID: String? = nil {
 		didSet {
 			if let chatID = currentfriendID {
+				// When you open a conversation, remove all the current notifications from the notification center.
 				AppDelegate.current.removeAllNotifications(forSenderID: chatID)
 			}
 		}
 	}
+	
+	// This variable builds the current chatID in case it's possible.
 	var chatID: String? {
 		if let friendID = currentfriendID, let userID = CurrentUserManager.shared.userID {
 			return String(forUserID: friendID, andUserId: userID)
 		}
 		return nil
 	}
+	
+	// This variable helps set and remove the status of typing from the Firebase's conversation's path.
 	var isTyping: Bool = false {
 		didSet {
 			if let userID = CurrentUserManager.shared.userID {
@@ -46,6 +56,7 @@ class ConversationsManager: NSObject {
 			}
 		}
 	}
+	
 	var messagesQueryReference: DatabaseQuery!
 	var databaseReference: DatabaseReference?
 	var onlineReference: DatabaseReference?
@@ -53,6 +64,8 @@ class ConversationsManager: NSObject {
 	var isFriendOnline: Bool = false
 	var isFriendTyping: Bool = false
 	
+	// When setting the value of this delegate, setup the observers for the Firebase's path to the messages, and the rest of the data like online and typing.
+	// In case the delegate is nil, this means that the user exited the current conversation, or the app went to the background, and observers must stop.
 	var conversationObserver: ConversationObserverDelegate? {
 		didSet {
 			if let observer = conversationObserver {
@@ -180,6 +193,7 @@ class ConversationsManager: NSObject {
 		}
 	}
 	
+	// This function is used to send messages to the current conversation.
 	func send(message: String) {
 		let data: [String: Any] = ["message":message,
 		                           "userID":CurrentUserManager.shared.userID!,
@@ -187,6 +201,7 @@ class ConversationsManager: NSObject {
 		databaseReference?.child("messages").childByAutoId().setValue(data)
 	}
 
+	// This function is used to count the total amount of new messages and sets the application badge to that value.
 	@objc func refreshApplicationBadgeCount() {
 		var totalCount = 0
 		for conversation in conversations {
@@ -195,6 +210,7 @@ class ConversationsManager: NSObject {
 		UIApplication.shared.applicationIconBadgeNumber = totalCount
 	}
 
+	// This function fetches all the new messages in a conversation and caches them.
 	func updateConversation(forFriendID friendID: String) {
 		guard let userID = CurrentUserManager.shared.userID, friendID != currentfriendID else { return }
 		if friendID != currentfriendID {
@@ -237,6 +253,7 @@ class ConversationsManager: NSObject {
 		}
 	}
 	
+	// This function adds the observer to the userData, which contains all the conversations with their latest info.
 	@objc func addObservers() {
 		if let userID = CurrentUserManager.shared.userID {
 			let chatBlock = { (data: DataSnapshot) in
@@ -266,6 +283,7 @@ class ConversationsManager: NSObject {
 		}
 	}
 
+	// This function removes the observer from the userData.
 	@objc func removeObservers() {
 		database?.removeAllObservers()
 	}

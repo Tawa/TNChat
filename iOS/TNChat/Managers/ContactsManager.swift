@@ -11,6 +11,9 @@ import CoreData
 import Contacts
 import FirebaseDatabase
 
+// This class manages user's contacts.
+// It asks for the permissions, fetches the contacts list, and checks which ones are signed up to the application.
+// ContactsManager uses CoreData to cache contacts.
 class ContactsManager: NSObject {
 	static let shared = ContactsManager()
 	var contacts = [Contact]()
@@ -45,6 +48,7 @@ class ContactsManager: NSObject {
 	
 	let store = CNContactStore()
 
+	// This function fetches the contact object with the current phone number, in case it doesn't exist, it creates a new one.
 	func getContact(withPhoneNumber number: String) -> Contact {
 		let context = self.context
 		
@@ -65,6 +69,7 @@ class ContactsManager: NSObject {
 		return contact!
 	}
 	
+	// This function gets the cached contacts who are signed up to the app on Firebase.
 	func getOnlineContacts() -> [Contact] {
 		let context = self.context
 		
@@ -83,6 +88,7 @@ class ContactsManager: NSObject {
 		
 	}
 	
+	// This method asks for contacts permission, and fetches them.
 	func loadContacts(_ completion: @escaping (_ success: Bool) -> Void) {
 		store.requestAccess(for: .contacts) { (success, error) in
 			if success {
@@ -111,6 +117,7 @@ class ContactsManager: NSObject {
 		}
 	}
 	
+	// This contacts loops over all the contacts and checks which ones are signed up to the application in Firebase.
 	func fetchContactsOnline(_ completion: @escaping(_ success: Bool) -> Void) {
 		var found = [String: Contact]()
 		var notFound = [String: Contact]()
@@ -142,6 +149,7 @@ class ContactsManager: NSObject {
 		}
 	}
 	
+	// This function does all the necessary code to fetch the contacts from the phone's directory, and check which ones are signed up to the application in Firebase.
 	func syncContacts(_ completion: @escaping(_ success: Bool) -> Void) {
 		if syncing {
 			return

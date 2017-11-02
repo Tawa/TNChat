@@ -28,8 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	}
 	
 	func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-		Auth.auth().setAPNSToken(deviceToken, type: .prod)
-		Auth.auth().setAPNSToken(deviceToken, type: .sandbox)
+		Auth.auth().setAPNSToken(deviceToken, type: .unknown)
 	}
 	
 	func applicationWillResignActive(_ application: UIApplication) {
@@ -39,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
 	
+	// This is a flag for push notifications. Can be toggled in the application settings tab.
 	var isNotificationsOn: Bool {
 		set {
 			UserDefaults.standard.set(newValue, forKey: "NotificationsStatus")
@@ -75,6 +75,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		}
 	}
 	
+	
+	// After receiving the silent notification. This method checks if the user enabled push notifications before scheduling a local notification with the right content.
+	// The silent push notifications received contains the phone number of the sender, which we use to get the name of the sender from our contacts list cache, and then schedule a local notification that will be shown instantly.
 	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 		if let friendID = userInfo["userID"] as? String, friendID != ConversationsManager.shared.currentfriendID {
 //			let key: String = (userInfo["key"] as? String)!
@@ -96,7 +99,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 				content.title = contact.name ?? ("+"+friendID)
 				content.body = message
 				content.userInfo = ["userID":friendID]
-				content.sound = UNNotificationSound(named: "default")
+				content.sound = UNNotificationSound.default()
 				content.badge = NSNumber(integerLiteral: application.applicationIconBadgeNumber + 1)
 				
 				let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.001, repeats: false)
@@ -109,6 +112,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		completionHandler(.noData)
 	}
 	
+	// When the user taps on the notification from his phone's notification center, this method posts a Notification with the right contact object. This notification is received by the ChatsListViewController which in its turn opens the right conversation.
 	func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
 		
 		if let sender = response.notification.request.content.userInfo["userID"] as? String {
@@ -119,6 +123,9 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 		completionHandler()
 	}
 	
+	// This method clears all notifications from the user's phone's notification center.
+	// This method is used to clear the notification coming from the same sender when the user opens their chat.
+	// This method is also used to clear all notifications when the user logs out of the app.
 	func removeAllNotifications(forSenderID senderID: String? = nil) {
 		let center = UNUserNotificationCenter.current()
 		if let senderID = senderID {

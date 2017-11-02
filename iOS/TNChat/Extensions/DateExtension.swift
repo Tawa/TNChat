@@ -9,6 +9,7 @@
 import Foundation
 
 extension Int64 {
+	// This helps convert Firebase's timestamps to Date objects
 	var date: Date {
 		return Date(timeIntervalSince1970: Double(self) * 0.001)
 	}

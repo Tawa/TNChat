@@ -8,9 +8,10 @@
 
 import UIKit
 
+// This class groups messages for each day.
 class MessageContainer: NSObject {
-	var date: Date
-	var messages = [ChatMessageCellData]()
+	var date: Date								// Day date of the group section
+	var messages = [ChatMessageCellData]()		// Array of Chat cells data.
 	var count: Int {
 		return messages.count
 	}
@@ -39,6 +40,8 @@ class MessageContainer: NSObject {
 		messages.append(data)
 	}
 	
+	// This function checks if the message parameter should be included in the container's day.
+	// In case it should be included, it ads it and returns the new index.
 	func include(message: ChatMessageCellData) -> (ComparisonResult, Int) {
 		let calendar = Calendar.current
 		if calendar.isDate(date, inSameDayAs: message.timestamp.date) {

@@ -8,6 +8,7 @@
 
 import UIKit
 
+// This view controller lets the user start new conversations with friends who have already signed up to the app.
 class ContactsViewController: UITableViewController {
 	
 	var contacts = ContactsManager.shared.getOnlineContacts()

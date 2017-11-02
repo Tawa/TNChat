@@ -8,6 +8,11 @@
 
 import UIKit
 
+/*
+	This is the view controller where the most interesting action happens.
+	It contains the InputAccessoryView class, the ConversationViewController, and all their extensions!
+*/
+
 protocol InputAccessoryViewDelegate: NSObjectProtocol {
 	func inputAccessoryView(textDidChange text: String)
 }
@@ -158,23 +163,23 @@ class ConversationViewController: UIViewController {
 		}
 	}
 	
-	override func viewDidLayoutSubviews() {
-		super.viewDidLayoutSubviews()
-		
-		if !didScrollToEnd, let lastIndexPath = lastIndexPath {
-			didScrollToEnd = true
-			tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: inputViewContainer.frame.height, right: 0)
-			tableView.scrollIndicatorInsets = tableView.contentInset
-			tableView.scrollToRow(at: lastIndexPath, at: .none, animated: false)
-		}
-	}
-	
 	@objc func addObservers() {
 		ConversationsManager.shared.conversationObserver = self
 	}
 	
 	@objc func removeObservers() {
 		ConversationsManager.shared.conversationObserver = nil
+	}
+	
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+
+		if !didScrollToEnd, let lastIndexPath = lastIndexPath {
+			didScrollToEnd = true
+			tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: inputViewContainer.frame.height, right: 0)
+			tableView.scrollIndicatorInsets = tableView.contentInset
+			tableView.scrollToRow(at: lastIndexPath, at: .none, animated: false)
+		}
 	}
 	
 	override func viewDidAppear(_ animated: Bool) {
@@ -384,6 +389,35 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 			cell.message = message
 			
 			cell.chatCellPan(to: datePanValue)
+			
+			if #available(iOS 11, *) {
+				var cornerMasks: CACornerMask = [.layerMinXMinYCorner, .layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMaxXMaxYCorner]
+				
+				if message.userID!.isCurrentUserID {
+					cornerMasks.remove(.layerMaxXMaxYCorner)
+				} else {
+					cornerMasks.remove(.layerMinXMaxYCorner)
+				}
+				
+				if indexPath.row > 0 {
+					let previousIndexPath = IndexPath(row: indexPath.row-1, section: indexPath.section)
+					if let previousData = messages.message(forIndexPath: previousIndexPath) as? ChatMessage {
+						if previousData.userID == message.userID {
+							if let previousMessage = previousData.message {
+								if previousMessage.count > 3 || !previousMessage.containsOnlyEmoji {
+									if message.userID!.isCurrentUserID {
+										cornerMasks.remove(.layerMaxXMinYCorner)
+									} else {
+										cornerMasks.remove(.layerMinXMinYCorner)
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				cell.containerBackground.layer.maskedCorners = cornerMasks
+			}
 			
 			return cell
 		} else if let data = data as? NewMessagesSeparator {

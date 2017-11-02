@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 
+// The chats view controller is the list of current conversations for the user.
+// It uses an NSFetchedResultsController to populate and update the UI.
 class ChatsViewController: UITableViewController {
 	
     override func viewDidLoad() {

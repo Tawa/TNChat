@@ -8,9 +8,10 @@
 
 import UIKit
 
+// UITableViewCell data types
 enum ChatMessageCellType {
-	case message
-	case newMessages
+	case message			// Message cell
+	case newMessages		// New Messages separator.
 }
 
 protocol ChatMessageCellData {

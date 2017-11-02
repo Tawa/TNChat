@@ -9,6 +9,7 @@
 import UIKit
 import FirebaseAuth
 
+// This view controller lets the user input their phone number, and choose their country code.
 class PhoneNumberViewController: UIViewController {
 
 	@IBOutlet weak var phoneNumberTextField: UITextField!

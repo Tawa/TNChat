@@ -10,6 +10,7 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 
+// This view controller is used to verify the phone number login with Firebase.
 class CodeVerificationViewController: UIViewController {
 	
 	@IBOutlet weak var verificationCodeTextField: UITextField!

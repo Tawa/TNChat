@@ -9,11 +9,11 @@
 import UIKit
 import CoreData
 
+// This class helps manage Chat Data cache. It fetches conversations, chat messages, creates new objects, and more.
 class ChatDataManager: NSObject {
 	static let shared = ChatDataManager()
 	
-	var currentChatUserID: String?	// Chat User ID of the current visible chat conversation. This is used to handle push notification in case the app is open.
-	
+	// This variable returns the cached conversations for the current user.
 	var conversations: [ChatConversation] {
 		do {
 			let request: NSFetchRequest<ChatConversation> = ChatConversation.fetchRequest()
@@ -49,6 +49,7 @@ class ChatDataManager: NSObject {
 		}
 	}
 	
+	// This function returns the number of new messages in a conversation after a certain timestamp.
 	func newMessagesCount(forConversation conversation: ChatConversation, afterTimestamp timestamp: Int64) -> Int {
 		let context = self.context
 		
@@ -66,6 +67,7 @@ class ChatDataManager: NSObject {
 		return 0
 	}
 	
+	// This function returns the number of new messages in a conversation which the user haven't read yet.
 	func newMessagesCount(forConversation conversation: ChatConversation) -> Int {
 		return newMessagesCount(forConversation: conversation, afterTimestamp: conversation.updatedTime)
 	}
@@ -90,6 +92,7 @@ class ChatDataManager: NSObject {
 		return conversation!
 	}
 	
+	// This method returns the 20 latest messages of a conversation.
 	func chatMessages(forConversationWithFriendID friendID: String, beforeTimestamp timestamp: Int64? = nil) -> [ChatMessage] {
 		let context = self.context
 		let conversation = self.conversation(withFriendID: friendID)
@@ -120,6 +123,7 @@ class ChatDataManager: NSObject {
 		return messages
 	}
 	
+	// This function fetches a specific chat message, and creates it in case it does not exist.
 	func chatMessage(forUserID userID: String, date: Int, message: String, key: String) -> (ChatMessage, Bool) {
 		let context = self.context
 		
