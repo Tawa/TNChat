@@ -22,8 +22,18 @@ The Cloud Function is also used to send silent push notifications to the client,
 
 ## Summary
 In this project, you can learn the following:
-1. Firebase Realtime-Database & Cloud Functions.
-2. Firebase SMS Authentication.
-3. Silent Notifications and Scheduling Local Notifications on iOS.
-4. CoreData's NSFetchedResultsController and other features.
-5. Building a Chat UI for iOS.
+- [X] Firebase Realtime-Database & Cloud Functions.
+- [X] Firebase SMS Authentication.
+- [X] Silent Notifications and Scheduling Local Notifications on iOS.
+- [X] CoreData's NSFetchedResultsController and other features.
+- [X] Building a Chat UI for iOS.
+
+## TODO
+- [ ] Add `Delivered` and `Read` indicator.
+- [ ] Add the ability to delete messages, and conversations.
+- [ ] Add the ability to forward messages.
+- [ ] Add group conversations.
+- [ ] Turn the Chat UI into a **Cocoapod**!
+
+## License
+TNChat is released under the MIT license. See LICENSE for details.
