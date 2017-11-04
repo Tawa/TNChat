@@ -80,15 +80,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 	// The silent push notifications received contains the phone number of the sender, which we use to get the name of the sender from our contacts list cache, and then schedule a local notification that will be shown instantly.
 	func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 		if let friendID = userInfo["userID"] as? String, friendID != ConversationsManager.shared.currentfriendID {
-//			let key: String = (userInfo["key"] as? String)!
 			let message: String = (userInfo["message"] as? String)!
-//			let timestamp: Int = Int(userInfo["timestamp"] as! String)!
-			
-//			let (conversation, _) = ChatDataManager.shared.conversation(withFriendID: friendID)
-//			let (chatMessage, _) = ChatDataManager.shared.chatMessage(forUserID: friendID, date: timestamp, message: message, key: friendID+key)
-//			conversation.addToMessages(chatMessage)
-//
-//			ChatDataManager.shared.saveContext()
 			
 			application.applicationIconBadgeNumber += 1
 			
@@ -110,6 +102,11 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
 			}
 		}
 		completionHandler(.noData)
+	}
+	
+	// When receiving a notification and the app is in the foreground, calling completionHandler with [.alert, .badge, .sound] will display the app even if the app is open.
+	func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+		completionHandler([.alert, .badge, .sound])
 	}
 	
 	// When the user taps on the notification from his phone's notification center, this method posts a Notification with the right contact object. This notification is received by the ChatsListViewController which in its turn opens the right conversation.
