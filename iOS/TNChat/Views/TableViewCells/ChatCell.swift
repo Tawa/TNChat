@@ -16,7 +16,8 @@ class ChatCell: UITableViewCell {
 	
 	@IBOutlet weak var dateTrailingConstraint: NSLayoutConstraint!
 	@IBOutlet weak var containerTrailingConstraint: NSLayoutConstraint?
-	
+	@IBOutlet weak var containerLeadingConstraint: NSLayoutConstraint?
+
 	weak var message: ChatMessage? {
 		didSet {
 			if let message = message {
@@ -28,7 +29,7 @@ class ChatCell: UITableViewCell {
 				dateFormatter.doesRelativeDateFormatting = true
 				
 				let timeFormatter = DateFormatter()
-				timeFormatter.timeStyle = .short
+				timeFormatter.timeStyle = .medium
 				dateLabel.text = timeFormatter.string(from: now)
 				
 				messageText.text = messageString
@@ -53,12 +54,14 @@ class ChatCell: UITableViewCell {
 	func chatCellPan(to x: CGFloat) {
 		dateTrailingConstraint.constant = x
 		containerTrailingConstraint?.constant = x + 16
+		containerLeadingConstraint?.constant = 64 - x
 	}
 	
 	func chatCellPanReset() {
 		UIView.animate(withDuration: 0.3) {
 			self.dateTrailingConstraint.constant = 0
 			self.containerTrailingConstraint?.constant = 16
+			self.containerLeadingConstraint?.constant = 64
 			self.layoutIfNeeded()
 		}
 	}

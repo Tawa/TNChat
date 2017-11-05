@@ -29,7 +29,7 @@ In this project, you can learn the following:
 - [X] Building a Chat UI for iOS.
 
 ## TODO
-- [ ] Add `Delivered` and `Read` indicator.
+- [X] Add `Delivered` and `Read` indicator.
 - [ ] Add the ability to delete messages, and conversations.
 - [ ] Add the ability to forward messages.
 - [ ] Add the ability to send voice messages.

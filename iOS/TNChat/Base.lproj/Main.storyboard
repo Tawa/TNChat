@@ -276,9 +276,9 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uat-y6-316">
-                                                    <rect key="frame" x="375" y="78.5" width="48" height="12"/>
+                                                    <rect key="frame" x="375" y="78.5" width="64" height="12"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="48" id="5Cb-N8-oZ7"/>
+                                                        <constraint firstAttribute="width" constant="64" id="5Cb-N8-oZ7"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -337,9 +337,9 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X4c-jn-esE">
-                                                    <rect key="frame" x="375" y="79" width="48" height="12"/>
+                                                    <rect key="frame" x="375" y="79" width="64" height="12"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="48" id="iwr-ch-hy4"/>
+                                                        <constraint firstAttribute="width" constant="64" id="iwr-ch-hy4"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                                                     <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -363,6 +363,7 @@
                                         <connections>
                                             <outlet property="container" destination="0fJ-e9-OMA" id="U5F-Wg-nPg"/>
                                             <outlet property="containerBackground" destination="cGD-7P-mVg" id="Mmr-F7-Ua1"/>
+                                            <outlet property="containerLeadingConstraint" destination="bx4-8I-cdh" id="zTt-Ol-o2v"/>
                                             <outlet property="containerTrailingConstraint" destination="Aiu-u8-4EX" id="V7Q-T5-jJd"/>
                                             <outlet property="dateLabel" destination="X4c-jn-esE" id="CFE-Og-Rof"/>
                                             <outlet property="dateTrailingConstraint" destination="kLp-wf-CBR" id="VWl-ql-yMm"/>

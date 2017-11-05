@@ -15,6 +15,8 @@ protocol ConversationObserverDelegate {
 	func conversationObserver(addedNewMessage message: ChatMessage)
 	func conversationObserver(updatedMessage message: ChatMessage)
 	func conversationObserver(friendIsOnline online: Bool, isTyping typing: Bool)
+	func conversationObserver(deliveredMessage timestamp: Int64)
+	func conversationObserver(readMessage timestamp: Int64)
 }
 
 // This class manages the conversations.
@@ -61,6 +63,8 @@ class ConversationsManager: NSObject {
 	var databaseReference: DatabaseReference?
 	var onlineReference: DatabaseReference?
 	var typingReference: DatabaseReference?
+	var deliveredReference: DatabaseReference?
+	var readReference: DatabaseReference?
 	var isFriendOnline: Bool = false
 	var isFriendTyping: Bool = false
 	
@@ -110,6 +114,24 @@ class ConversationsManager: NSObject {
 						typingReference?.observe(.childAdded, with: isTypingClosure)
 						typingReference?.observe(.childRemoved, with: isNotTypingClosure)
 						
+						deliveredReference = databaseReference?.child("delivered").child(friendID)
+						let deliveredClosure = { (data: DataSnapshot) in
+							if let timestamp = data.value as? Int64 {
+								conversation.deliveredTime = timestamp
+								observer.conversationObserver(deliveredMessage: timestamp)
+							}
+						}
+						deliveredReference?.observe(.value, with: deliveredClosure)
+						
+						readReference = databaseReference?.child("read").child(friendID)
+						let readClosure = { (data: DataSnapshot) in
+							if let timestamp = data.value as? Int64 {
+								conversation.readTime = timestamp
+								observer.conversationObserver(readMessage: timestamp)
+							}
+						}
+						readReference?.observe(.value, with: readClosure)
+
 						let start = conversation.updatedTime
 						if start > 0 {
 							messagesQueryReference = databaseReference?.child("messages").queryOrdered(byChild: "timestamp").queryStarting(atValue: start, childKey: "timestamp")
@@ -127,6 +149,10 @@ class ConversationsManager: NSObject {
 //								if userID == friendID {
 //									snapshot.ref.removeValue()
 //								}
+								
+								if Int64(timestamp) > conversation.cacheTime, userID == friendID, let currentUser = CurrentUserManager.shared.userID {
+									self.databaseReference?.child("delivered").child(currentUser).setValue(timestamp)
+								}
 								
 								conversation.cacheTime = Int64(timestamp)
 								if isNew {
@@ -167,11 +193,15 @@ class ConversationsManager: NSObject {
 				
 				onlineReference?.removeAllObservers()
 				typingReference?.removeAllObservers()
+				deliveredReference?.removeAllObservers()
+				readReference?.removeAllObservers()
 				
 				messagesQueryReference = nil
 				databaseReference = nil
 				onlineReference = nil
 				typingReference = nil
+				deliveredReference = nil
+				readReference = nil
 				currentfriendID = nil
 			}
 		}
@@ -200,6 +230,10 @@ class ConversationsManager: NSObject {
 		                           "timestamp":ServerValue.timestamp()]
 		databaseReference?.child("messages").childByAutoId().setValue(data)
 	}
+	
+	func updateCurrentRead(to timestamp: Int64) {
+		databaseReference?.child("read").child(CurrentUserManager.shared.userID!).setValue(timestamp)
+	}
 
 	// This function is used to count the total amount of new messages and sets the application badge to that value.
 	@objc func refreshApplicationBadgeCount() {
@@ -227,6 +261,8 @@ class ConversationsManager: NSObject {
 			query.observeSingleEvent(of: .value, with: { (snapshot) in
 				if snapshot.exists() {
 					if let messages = snapshot.value as? [String: Any] {
+						var deliveredTime: Int64 = conversation.cacheTime
+						var updateDeliveredTime: Bool = false
 						for messageData in messages {
 							let key = friendID+messageData.key
 							if let data = messageData.value as? [String: Any],
@@ -237,6 +273,11 @@ class ConversationsManager: NSObject {
 								
 								if conversation.cacheTime < chatMessage.timestamp {
 									conversation.cacheTime = chatMessage.timestamp
+									
+									if userID != CurrentUserManager.shared.userID {
+										updateDeliveredTime = true
+										deliveredTime = conversation.cacheTime
+									}
 								}
 								conversation.addToMessages(chatMessage)
 								ChatDataManager.shared.saveContext()
@@ -245,6 +286,9 @@ class ConversationsManager: NSObject {
 //									snapshot.ref.child(messageData.key).removeValue()
 //								}
 							}
+						}
+						if updateDeliveredTime, let userID = CurrentUserManager.shared.userID {
+							database.child("delivered").child(userID).setValue(deliveredTime)
 						}
 					}
 				}

@@ -178,7 +178,7 @@ class ConversationViewController: UIViewController {
 			didScrollToEnd = true
 			tableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: inputViewContainer.frame.height, right: 0)
 			tableView.scrollIndicatorInsets = tableView.contentInset
-			tableView.scrollToRow(at: lastIndexPath, at: .none, animated: false)
+			tableView.scrollToRow(at: lastIndexPath, at: .top, animated: false)
 		}
 	}
 	
@@ -261,7 +261,7 @@ class ConversationViewController: UIViewController {
 		switch sender.state {
 		case .changed:
 			let translation = -sender.translation(in: tableView).x
-			datePanValue = min(48, max(0, translation))
+			datePanValue = min(64, max(0, translation))
 			panCells(datePanValue)
 		default:
 			datePanValue = 0
@@ -352,6 +352,32 @@ extension ConversationViewController: ConversationObserverDelegate {
 			contactView.statusLabel.text = ""
 		}
 	}
+	
+	func refreshMessageStatuses() {
+		for cell in tableView.visibleCells where cell is ChatCell {
+			let cell = cell as! ChatCell
+			if let message = cell.message, message.userID!.isCurrentUserID {
+				if conversation.readTime >= message.timestamp {
+					cell.containerBackground.layer.borderWidth = 1
+					cell.containerBackground.layer.borderColor = UIColor(hex: 0x00ffb0).cgColor
+				} else if conversation.deliveredTime >= message.timestamp {
+					cell.containerBackground.layer.borderWidth = 1
+					cell.containerBackground.layer.borderColor = UIColor(hex: 0x00b0ff).cgColor
+				} else {
+					cell.containerBackground.layer.borderWidth = 0
+					cell.containerBackground.layer.borderColor = UIColor.clear.cgColor
+				}
+			}
+		}
+	}
+	
+	func conversationObserver(deliveredMessage timestamp: Int64) {
+		refreshMessageStatuses()
+	}
+	
+	func conversationObserver(readMessage timestamp: Int64) {
+		refreshMessageStatuses()
+	}
 }
 
 extension ConversationViewController: UITableViewDelegate, UITableViewDataSource {
@@ -382,6 +408,18 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 			
 			if message.userID!.isCurrentUserID {
 				cell = tableView.dequeueReusableCell(withIdentifier: "sentCell") as! ChatCell
+				
+				if conversation.readTime >= message.timestamp {
+					cell.containerBackground.layer.borderWidth = 1
+					cell.containerBackground.layer.borderColor = UIColor(hex: 0x00ffb0).cgColor
+				} else if conversation.deliveredTime >= message.timestamp {
+					cell.containerBackground.layer.borderWidth = 1
+					cell.containerBackground.layer.borderColor = UIColor(hex: 0x00b0ff).cgColor
+				} else {
+					cell.containerBackground.layer.borderWidth = 0
+					cell.containerBackground.layer.borderColor = UIColor.clear.cgColor
+				}
+
 			} else {
 				cell = tableView.dequeueReusableCell(withIdentifier: "receivedCell") as! ChatCell
 			}
@@ -446,6 +484,10 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 		if conversation.updatedTime < message.timestamp {
 			conversation.updatedTime = message.timestamp
 			
+			if let message = message as? ChatMessage, message.userID != CurrentUserManager.shared.userID {
+				ConversationsManager.shared.updateCurrentRead(to: message.timestamp)
+			}
+
 			ConversationsManager.shared.refreshApplicationBadgeCount()
 			
 			ChatDataManager.shared.saveContext()
