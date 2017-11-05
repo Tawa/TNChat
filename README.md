@@ -32,7 +32,8 @@ In this project, you can learn the following:
 - [ ] Add `Delivered` and `Read` indicator.
 - [ ] Add the ability to delete messages, and conversations.
 - [ ] Add the ability to forward messages.
-- [ ] Add group conversations.
+- [ ] Add the ability to send voice messages.
+- [ ] Add profile pictures and statuses.
 - [ ] Turn the Chat UI into a **Cocoapod**!
 
 ## License
