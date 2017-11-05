@@ -231,8 +231,11 @@ class ConversationsManager: NSObject {
 		databaseReference?.child("messages").childByAutoId().setValue(data)
 	}
 	
-	func updateCurrentRead(to timestamp: Int64) {
-		databaseReference?.child("read").child(CurrentUserManager.shared.userID!).setValue(timestamp)
+	func updateCurrentRead(forFriendID friendID: String, to timestamp: Int64) {
+		if let userID = CurrentUserManager.shared.userID {
+			let chatID = String(forUserID: friendID, andUserId: userID)
+			Database.database().reference().child("chats/" + chatID).child("read").child(userID).setValue(timestamp)
+		}
 	}
 
 	// This function is used to count the total amount of new messages and sets the application badge to that value.

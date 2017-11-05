@@ -99,7 +99,11 @@ class ChatsViewController: UITableViewController {
 		guard let userID = CurrentUserManager.shared.userID else { return nil }
 		
 		let fetchRequest: NSFetchRequest<ChatConversation> = ChatConversation.fetchRequest()
-		fetchRequest.predicate = NSPredicate(format: "userID == %@", userID)
+		fetchRequest.predicate = NSCompoundPredicate(andPredicateWithSubpredicates:
+			[
+				NSPredicate(format: "userID == %@", userID),
+				NSPredicate(format: "messages.@count > 0")
+			])
 
 		let sortDescriptor = NSSortDescriptor(key: "conversationTime", ascending: false)
 		

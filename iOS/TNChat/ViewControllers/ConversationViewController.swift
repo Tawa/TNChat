@@ -485,7 +485,7 @@ extension ConversationViewController: UITableViewDelegate, UITableViewDataSource
 			conversation.updatedTime = message.timestamp
 			
 			if let message = message as? ChatMessage, message.userID != CurrentUserManager.shared.userID {
-				ConversationsManager.shared.updateCurrentRead(to: message.timestamp)
+				ConversationsManager.shared.updateCurrentRead(forFriendID: friendID, to: message.timestamp)
 			}
 
 			ConversationsManager.shared.refreshApplicationBadgeCount()
