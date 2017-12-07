@@ -38,11 +38,7 @@ class ContactsManager: NSObject {
 	func saveContext() {
 		let context = container.viewContext
 		if context.hasChanges {
-			do {
-				try context.save()
-			} catch {
-			}
-		} else {
+			try? context.save()
 		}
 	}
 	
@@ -55,13 +51,9 @@ class ContactsManager: NSObject {
 		let request: NSFetchRequest<Contact> = Contact.fetchRequest()
 		request.predicate = NSPredicate(format: "number == %@", number)
 		var contact: Contact?
-		do {
-			let results = try context.fetch(request)
-			contact = results.first
-		} catch {
-		}
-		
-		if contact == nil {
+		if let existingContact: Contact? = try? context.fetch(request).first {
+			contact = existingContact
+		} else {
 			contact = Contact(context: context)
 			contact?.number = number
 		}
@@ -77,11 +69,8 @@ class ContactsManager: NSObject {
 		let isUserPredicate = NSPredicate(format: "isUser == true")
 		let numberPredicate = NSPredicate(format: "number != %@", CurrentUserManager.shared.userID ?? "")
 		request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [isUserPredicate, numberPredicate])
-		do {
-			let results = try context.fetch(request)
+		if let results: [Contact] = try? context.fetch(request) {
 			return results
-		} catch {
-			
 		}
 		
 		return []

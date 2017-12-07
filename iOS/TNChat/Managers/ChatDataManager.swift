@@ -42,10 +42,7 @@ class ChatDataManager: NSObject {
 	func saveContext() {
 		let context = container.viewContext
 		if context.hasChanges {
-			do {
-				try context.save()
-			} catch {
-			}
+			try? context.save()
 		}
 	}
 	
@@ -59,12 +56,7 @@ class ChatDataManager: NSObject {
 			NSPredicate(format: "conversation == %@", conversation)
 			])
 		
-		do {
-			return try context.count(for: request)
-		} catch {
-		}
-		
-		return 0
+		return (try? context.count(for: request)) ?? 0
 	}
 	
 	// This function returns the number of new messages in a conversation which the user haven't read yet.
@@ -78,12 +70,9 @@ class ChatDataManager: NSObject {
 		let request: NSFetchRequest<ChatConversation> = ChatConversation.fetchRequest()
 		request.predicate = NSPredicate(format: "friendID == %@", friendID)
 		var conversation: ChatConversation?
-		do {
-			conversation = try context.fetch(request).first
-		} catch {
-		}
-		
-		if conversation == nil {
+		if let existingConversation: ChatConversation? = try? context.fetch(request).first {
+			conversation = existingConversation
+		} else {
 			conversation = ChatConversation(context: context)
 			conversation?.friendID = friendID
 			conversation?.userID = CurrentUserManager.shared.userID
@@ -114,10 +103,8 @@ class ChatDataManager: NSObject {
 		
 		var messages = [ChatMessage]()
 		
-		do {
-			let array = try context.fetch(request)
+		if let array: [ChatMessage] = try? context.fetch(request) {
 			messages.append(contentsOf: array)
-		} catch {
 		}
 		
 		return messages
@@ -131,12 +118,10 @@ class ChatDataManager: NSObject {
 		request.predicate = NSPredicate(format: "id == %@", key)
 		var chat: ChatMessage?
 		var isNew = false
-		do {
-			chat = try context.fetch(request).first
-		} catch {
-		}
 		
-		if chat == nil {
+		if let existingChat: ChatMessage? = try? context.fetch(request).first {
+			chat = existingChat
+		} else {
 			chat = ChatMessage(context: context)
 			chat?.userID = userID
 			chat?.timestamp = Int64(date)
