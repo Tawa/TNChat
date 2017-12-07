@@ -9,7 +9,7 @@
 import UIKit
 
 // This class groups messages for each day.
-class MessageContainer: NSObject {
+class MessageContainer {
 	var date: Date								// Day date of the group section
 	var messages = [ChatMessageCellData]()		// Array of Chat cells data.
 	var count: Int {

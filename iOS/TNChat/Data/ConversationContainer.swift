@@ -10,7 +10,7 @@ import UIKit
 
 /// This class groups messages for each conversation in a way that they're easily represented in the Chat UITableView.
 /// Helps separate them into days. It also contains the "New Messages" UITableViewCell data.
-class ConversationContainer: NSObject {
+class ConversationContainer {
 	var days = [MessageContainer]()
 	var count: Int {
 		return days.count

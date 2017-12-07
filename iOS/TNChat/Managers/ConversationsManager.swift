@@ -22,7 +22,7 @@ protocol ConversationObserverDelegate {
 // This class manages the conversations.
 // It helps observe the conversations list, see which ones have new messages, downloads them, and caches the new messages.
 // This function also helps with realtime chat. The protocol above has the methods to which the delegate should follow in order to be up to date with new messages, online and typing statuses.
-class ConversationsManager: NSObject {
+class ConversationsManager {
 	static let shared = ConversationsManager()
 	var database: DatabaseReference?
 	var conversations = [ChatConversation]()
@@ -207,9 +207,7 @@ class ConversationsManager: NSObject {
 		}
 	}
 	
-	override init() {
-		super.init()
-		
+	init() {
 		NotificationCenter.default.addObserver(self, selector: #selector(addObservers), name: NotificationName.signedIn.notification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(addObservers), name: Notification.Name.UIApplicationWillEnterForeground, object: nil)
 		

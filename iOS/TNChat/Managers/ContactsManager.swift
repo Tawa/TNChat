@@ -14,7 +14,7 @@ import FirebaseDatabase
 // This class manages user's contacts.
 // It asks for the permissions, fetches the contacts list, and checks which ones are signed up to the application.
 // ContactsManager uses CoreData to cache contacts.
-class ContactsManager: NSObject {
+class ContactsManager {
 	static let shared = ContactsManager()
 	var contacts = [Contact]()
 	var onlineContacts = [Contact]()

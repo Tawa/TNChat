@@ -238,7 +238,7 @@ class ConversationViewController: UIViewController {
 				if let row = day.messages.index(where: { (data) -> Bool in
 					return data is NewMessagesSeparator
 				}) {
-					let section = messages.days.index(of: day)!
+					let section = messages.days.index(where: {$0 === day})!
 					day.messages.remove(at: row)
 					tableView.deleteRows(at: [IndexPath(row: row, section: section)], with: .fade)
 				}
@@ -328,7 +328,7 @@ extension ConversationViewController: ConversationObserverDelegate {
 				if let row = day.messages.index(where: { (data) -> Bool in
 					return data is NewMessagesSeparator
 				}) {
-					let section = messages.days.index(of: day)!
+					let section = messages.days.index(where: {$0 === day})!
 					tableView.reloadRows(at: [IndexPath(row: row, section: section)], with: .none)
 				}
 			}

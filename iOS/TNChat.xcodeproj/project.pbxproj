@@ -41,7 +41,6 @@
 		389A55D91F93F6D8007289E1 /* CountryCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 389A55D81F93F6D7007289E1 /* CountryCodeManager.swift */; };
 		38B15D7E1FA639BD0070ED5C /* NewMessagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38B15D7C1FA639BD0070ED5C /* NewMessagesCell.swift */; };
 		38B15D7F1FA639BD0070ED5C /* NewMessagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 38B15D7D1FA639BD0070ED5C /* NewMessagesCell.xib */; };
-		38B15D801FA659BF0070ED5C /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3893E7E41F93BFAB00B7A339 /* Info.plist */; };
 		38E065611FA467AD007939CC /* ChatMessageCellData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38E065601FA467AD007939CC /* ChatMessageCellData.swift */; };
 		38EE522B1F955B330069106B /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38EE522A1F955B330069106B /* ConversationViewController.swift */; };
 		C28BFE9A70A7C8598AB607F4 /* Pods_TNChat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10935A59AB3D9E4B9ECF50F3 /* Pods_TNChat.framework */; };
@@ -286,7 +285,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Tawa Nicolas";
 				TargetAttributes = {
 					3893E7CA1F93B88C00B7A339 = {
@@ -326,7 +325,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38B15D801FA659BF0070ED5C /* Info.plist in Resources */,
 				3893E7EA1F93C5B500B7A339 /* GoogleService-Info.plist in Resources */,
 				38860DA61F9CA1D80001BC5D /* ChatDayHeader.xib in Resources */,
 				3893E7E61F93C3D300B7A339 /* Login.storyboard in Resources */,

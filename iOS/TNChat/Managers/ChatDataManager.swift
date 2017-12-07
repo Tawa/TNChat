@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 // This class helps manage Chat Data cache. It fetches conversations, chat messages, creates new objects, and more.
-class ChatDataManager: NSObject {
+class ChatDataManager {
 	static let shared = ChatDataManager()
 	
 	// This variable returns the cached conversations for the current user.

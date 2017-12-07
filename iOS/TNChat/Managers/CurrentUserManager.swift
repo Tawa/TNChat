@@ -11,7 +11,7 @@ import FirebaseMessaging
 
 // This class helps save the ID of the current user, and subscribe/unsubscribe from the Push Notification topic from Firebase.
 // The topic is used to receive notifications when a friend sends a message to the user.
-class CurrentUserManager: NSObject {
+class CurrentUserManager {
 	static let shared = CurrentUserManager()
 	
 	var userID: String? {
