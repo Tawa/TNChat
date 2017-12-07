@@ -70,7 +70,7 @@ class ChatDataManager {
 		let request: NSFetchRequest<ChatConversation> = ChatConversation.fetchRequest()
 		request.predicate = NSPredicate(format: "friendID == %@", friendID)
 		var conversation: ChatConversation?
-		if let existingConversation: ChatConversation? = try? context.fetch(request).first {
+		if let existingConversation: ChatConversation = (try? context.fetch(request))?.first {
 			conversation = existingConversation
 		} else {
 			conversation = ChatConversation(context: context)
@@ -119,7 +119,7 @@ class ChatDataManager {
 		var chat: ChatMessage?
 		var isNew = false
 		
-		if let existingChat: ChatMessage? = try? context.fetch(request).first {
+		if let existingChat: ChatMessage = (try? context.fetch(request))?.first {
 			chat = existingChat
 		} else {
 			chat = ChatMessage(context: context)

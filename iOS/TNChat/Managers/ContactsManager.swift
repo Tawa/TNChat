@@ -51,7 +51,7 @@ class ContactsManager {
 		let request: NSFetchRequest<Contact> = Contact.fetchRequest()
 		request.predicate = NSPredicate(format: "number == %@", number)
 		var contact: Contact?
-		if let existingContact: Contact? = try? context.fetch(request).first {
+		if let existingContact: Contact = (try? context.fetch(request))?.first {
 			contact = existingContact
 		} else {
 			contact = Contact(context: context)
